@@ -1,0 +1,29 @@
+<div class="action_header">
+  <p class="text_16 blt_text">
+    {{'add_approver' | translator}}
+  </p>
+  <mat-icon class="close-button" (click)="closeDialog([])">{{'close'| translator}}</mat-icon>
+</div>
+<ng-scrollbar thumbClass="scroll_001">
+  <form [formGroup]="approverLevelsForm" class="add-levels-list">
+    <table class="table">
+      <tbody>
+        <tr formArrayName="approverLevels"
+          *ngFor="let approver of approverLevelsForm.get('approverLevels')['controls']; let i = index;">
+          <ng-container [formGroupName]="i">
+            <td class="check-box">
+              <mat-checkbox formControlName="makeActive"></mat-checkbox>
+            </td>
+            <td class="level-name">
+              {{approver.controls.LevelName_EN.value}}
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div class="button-section">
+      <button class="btn_002" (click)="closeDialog([])">{{'cancel'| translator}}</button>
+      <button class="btn_002" (click)="addLevels()">{{'add'| translator}}</button>
+    </div>
+  </form>
+</ng-scrollbar>

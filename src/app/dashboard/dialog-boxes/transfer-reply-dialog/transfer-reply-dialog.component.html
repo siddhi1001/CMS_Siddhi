@@ -1,0 +1,34 @@
+<div class="transfer-reply-holder">
+    <div class="action_header">
+        <p class="text_16 blt_text">{{'reply'|translator}}</p>
+    </div>
+    <div class="message-section">
+      <table class="transferReply">
+        <thead>
+          <td>{{'department'|translator}}</td>
+          <td>{{'to'|translator}}</td>
+          <td>{{'comments'|translator}}</td>
+        </thead>
+        <tbody *ngFor="let transUser of this.data.transferUser">
+          <td *ngFor="let transUserData of transUser.myRows">{{transUserData.DepartmentName_EN}}</td>
+          <td *ngFor="let transUserData of transUser.myRows">{{transUserData.Name_EN}}</td>
+          <td>
+            <div class="input_item_wrp text_area">
+              <mat-form-field>
+                  <textarea 
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="2" 
+                    matInput [(ngModel)]="name" 
+                    [(ngModel)]="comment"></textarea>
+              </mat-form-field>
+            </div>
+          </td>
+        </tbody>
+      </table>
+    </div>
+    <div class="button-section">
+      <button  id="no-button" class = "btn_004" [mat-dialog-close]="false" [disabled]="disButton">{{'cancel'|translator}}</button>
+      <button  id="yes-button" class = "btn_004" (click)="sendReply()"  [disabled]="disButton">{{'reply'|translator}}</button>
+    </div>
+  </div> 
+  

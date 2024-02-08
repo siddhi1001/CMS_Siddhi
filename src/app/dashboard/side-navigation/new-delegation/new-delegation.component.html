@@ -1,0 +1,50 @@
+<div class="sm_popup_wrapper" style="height: auto;">
+  <p class="text_23">{{'new_delegations' | translator}}</p>
+  <form [formGroup]="delegationForm" >
+    <div formArrayName="delegation_list">
+      <div class="proxy_fld_wrapper" *ngFor="let item of delegationLists.controls; let pointIndex=index" [formGroupName]="pointIndex">
+        <mat-form-field class="proxy_fld">
+          <input  type="text" [placeholder]="'proxy_user_delegatee' | translator" formControlName="Delegatee" aria-label="Number" matInput [matAutocomplete]="DelegationFormControlEmpNameAuto">
+          <mat-autocomplete #DelegationFormControlEmpNameAuto="matAutocomplete" [displayWith]="displayFieldValue">
+            <mat-option *ngFor="let empName of (filteredDelNames[pointIndex] | async)" [value]="empName" autoActiveFirstOption>
+                {{ empName?.Val_En }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <label class="active_container">{{'active' | translator}}
+            <input type="radio" value="Active" name="Active" formControlName="Active" (click)="MakeDelegateeActive(pointIndex)" [checked]="pointIndex === 0 ? true : false">
+          <span class="checkmark"></span>
+        </label>
+        <button class="remove_btn_002 mat-button" (click)="deleteDelegateeRow(pointIndex)" *ngIf="rowsCount > 1">
+          <img alt="" src="{{basehref}}assets/images/icons/remove_icon_001.svg">
+        </button>
+      </div>
+    </div>
+    <button class="show_preview_btn"  (click)="addDelegatee()" *ngIf="rowsCount < 5">
+      <img alt="" src="{{basehref}}assets/images/icons/plus_green_btn.svg">
+      <span>{{'add_delegatee' | translator}}</span>
+    </button>
+    <div class="new_delegation_date_wrp">
+        <mat-form-field class="col_6 odd">
+            <input matInput autocomplete="off" (focus)="startDate.open()" [matDatepicker]="startDate" [placeholder]="'start_date' | translator" formControlName="startDate" required>
+            <mat-datepicker #startDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col_6 evn">
+            <input matInput autocomplete="off" [placeholder]="'start_time' | translator"  formControlName="startTime" required  [owlDateTimeTrigger]="startTime" [owlDateTime]="startTime" [(ngModel)] = "cStartTime">
+            <owl-date-time [pickerType]="'timer'" #startTime [stepMinute] = "30" [startAt] = "cStartTime" (afterPickerOpen)="setTimeDisabled()"></owl-date-time>
+        </mat-form-field>
+        <mat-form-field class="col_6 odd">
+            <input matInput autocomplete="off" (focus)="endDate.open()" [matDatepicker]="endDate" [placeholder]="'end_date' | translator" formControlName="endDate" required>
+            <mat-datepicker #endDate></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="col_6 evn">
+            <input matInput autocomplete="off" [placeholder]="'end_time' | translator" formControlName="endTime" required [owlDateTimeTrigger]="endTime" [owlDateTime]="endTime" [(ngModel)] = "cEndTime">
+            <owl-date-time [pickerType]="'timer'" #endTime [stepMinute] = "30" [startAt] = "cEndTime" (afterPickerOpen)="setTimeDisabled()" ></owl-date-time>
+        </mat-form-field>
+    </div>
+    <div class="deleg_btn_wrapper">
+      <button (click)='closeDialog()' class="btn_del_008">{{'cancel' | translator}}</button>
+      <button class="btn_del_009" [disabled]="clicked" (click)="postTransferToRequest()">{{'save' | translator}}</button>
+    </div>
+  </form>
+</div>

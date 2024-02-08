@@ -1,0 +1,84 @@
+.iframeclass {
+  height: 100%;
+  width: 100%;
+  border: none;
+}
+
+.documentViewerDiv {
+  height: 100%;
+}
+
+.buttonHide {
+  display: none;
+}
+
+.documentViewerDiv {
+  height: 100%;
+  padding-top: 30px;
+}
+
+.image-upload>input {
+  display: none;
+}
+
+
+.form_eic_cont_wrapper {
+  display: flex;
+  height: 100%;
+
+  .detail_header {
+    margin-right: 30px;
+  }
+
+  .corsp_ext_btn {
+    top: 0px !important;
+    right: 30px !important;
+  }
+
+  .corres_table_wrapper .table {
+    td {
+      vertical-align: middle;
+      width: 25%;
+      max-width: 30%;
+
+      &:first-child {
+        width: 25%;
+      }
+
+      .input_item_wrp {
+        margin-bottom: 0;
+      }
+    }
+
+    th {
+      vertical-align: top;
+      width: 25%;
+
+      &:first-child {
+        width: 25%;
+      }
+    }
+
+    th.role,
+    td.role {
+      width: 15%;
+    }
+
+    th.department,
+    td.department {
+      width: 35%;
+    }
+
+    .btn_td_wrp {
+      width: 4%;
+      max-width: 40px;
+      min-width: 40px;
+      box-sizing: border-box;
+    }
+
+    .CCtable {
+      width: 32%;
+    }
+  }
+
+}

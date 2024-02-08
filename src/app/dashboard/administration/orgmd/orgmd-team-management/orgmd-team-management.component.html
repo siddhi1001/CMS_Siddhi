@@ -1,0 +1,66 @@
+<div class="main_admin_wrapper">
+  <div #header (resized)="onResized($event)">
+    <div class="header_wapper">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="search_wrapper">
+        <div class="search-header">
+          <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass" (click)="applyMainFilter()">
+          <input type="text" [placeholder]="'search' | translator" #searchString (keyup.enter)="applyMainFilter()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-with-drawer-wrapper" [class.drawer-opened]="detailState === 'in'"
+    [ngStyle]="{'height': 'calc(100vh - ' + headerHeight + 'px)'}">
+    <app-orgmd-teams-chart class="org-chart-block" (openUnitDetailsOutput)=openUnitDetails($event)
+      (openUserDetailsOutput)=openUserDetails($event) (editTeamOutput)=teamAction($event)
+      (deleteTeamOutput)=deleteTeam($event) (employeesActionsOutput)=employeesActions($event)>
+    </app-orgmd-teams-chart>
+    <div class="drawer-animation-holder" [@slideInOut]="detailState">
+      <div class="drawer-wrapper" *ngIf="sideInfoItem; else elseBlock">
+        <div class="drawer-header">
+          <p>{{sideInfoHeader | translator}}</p>
+          <div class="actions-wrapper">
+            <a *ngIf="sideInfoItem.Type==='team'" [matTooltip]="'edit' | translator" class="btn btn_013"
+              (click)="teamAction({node: sideInfoItem, action: 'updateLvl1'})">
+              <img src="{{basehref}}assets/images/icons/edit_01.svg" alt="">
+            </a>
+            <a [matTooltip]="'close' | translator" class="btn btn_013" (click)="detailState='out'">
+              <img src="{{basehref}}assets/images/icons/close_01.svg" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="drawer-main">
+          <h3>{{sideInfoName}}</h3>
+          <ng-container *ngFor="let prop of sideNavItemStructure" [ngSwitch]="prop.name">
+            <ng-container *ngSwitchCase="'personal_email'">
+              <div class="prop-list" *ngFor="let n of numSequence(5),let i=index">
+                <h4>{{'personal_email' | translator}} {{i !== 0 ? i + 1 : ''}}</h4>
+                <p>{{sideInfoItem[prop.value + (i !== 0 ? i + 1 : '')]}}</p>
+              </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'main_role'">
+              <div class="prop-list">
+                <h4>{{prop.name | translator}}</h4>
+                <p>{{sideInfoItem[prop.value]}}</p>
+              </div>
+              <div class="prop-list" *ngFor="let role of userRoles">
+                <h4>{{'role' | translator}}</h4>
+                <p>{{role.Name_EN}}</p>
+              </div>
+            </ng-container>
+            <div class="prop-list" *ngSwitchDefault>
+              <h4>{{prop.name | translator}}</h4>
+              <p>{{sideInfoItem[prop.value]}}</p>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <div class="spinner-wrappar">
+          <mat-spinner></mat-spinner>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

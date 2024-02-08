@@ -1,0 +1,94 @@
+<mat-expansion-panel style="box-shadow:none" class="mat-elevation-z bg_001">
+  <mat-expansion-panel-header (click)="firstLoad()">
+    <div class="icon_wrapper">
+      <div class="icon_typ icon_typ_008">
+        <img src="{{basehref}}assets/images/icons/linked_correspondence.svg" alt="">
+      </div>
+    </div>
+    <p class="title_001">{{'linked_correspondence'| translator}}</p>
+  </mat-expansion-panel-header>
+  <div class="add-corr-holder">
+    <button *ngIf="Modify" class="btn_007 mat-button" (click)="OpenLinkedCorrDialog()">
+      <img src="{{basehref}}assets/images/icons/plus_btn_green.svg" alt="">
+      {{'add_correspondence_connection'| translator}}</button>
+  </div>
+  <div *ngIf="loadSpinner" class="data-spinner">
+    <mat-spinner class="spinner_lc"></mat-spinner>
+  </div>
+  <table *ngIf="!loadSpinner" mat-table [dataSource]="connectedCorrData" multiTemplateDataRows style="width:100%"
+    class="connectedCorrTable">
+    <ng-container *ngFor="let col of CorrTableStructure" [matColumnDef]="col.columnDef">
+      <!-- <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th> -->
+      <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+        <div *ngSwitchCase="'DocType'" class="left-icons-holder">
+          <i (click)="expandedElement = expandedElement === element ? null : element" class="material-icons ">
+            {{expandedElement === element ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+          <span [matTooltip]="element.CorrespondenceIcon.title" class="linked-corr-icon">
+            <img class="inbox_icon_img" [src]="element.CorrespondenceIcon.icon" alt="">
+          </span>
+        </div>
+        <div *ngSwitchCase="'Remove'" class="correspondence-action">
+          <button *ngIf="Modify" class="remove_btn_002" mat-button [matTooltip]="'remove' | translator"
+            (click)="deleteConnectionConfirmDialog(element.ID)">
+            <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+          </button>
+          <!--           <button *ngIf="element.SeeContents" mat-button matTooltip="Open" color="primary" class="icon_btn"
+            (click)="CoverLetterPreview(element.CoverIDLink);return(false);"><img
+              src="{{basehref}}assets/images/icons/external-link_green.svg" alt=""></button> -->
+        </div>
+        <p *ngSwitchCase="'CorrespondenceDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+        <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="CorrTableStructure.length">
+        <div class="element-detail" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+          <div class="detail-parameter">
+            <h4 class="details-header">{{'cover_letter'| translator}}</h4>
+            <table class="cover-table">
+              <tr>
+                <th class="size_45">{{'type'| translator}}</th>
+                <th>{{'name'| translator}}</th>
+                <th></th>
+                <th>{{'modified'| translator}}</th>
+                <th>{{'size'| translator}}</th>
+              </tr>
+              <tr>
+                <td class="size_45">
+                  <div [innerHTML]="element.CoverLetterType"></div>
+                </td>
+                <td><a class="coverLink"
+                    (click)="coverLetterAction('getCoverDocumentURL', element.CoverID)">{{element.CoverLetterName}}</a>
+                </td>
+                <td>
+                  <div class="group_btn" *ngIf="element.SeeContents && element.CoverID">
+                    <!--                     <button matTooltip="Print" class="btn btn_006">
+                    <img src="{{basehref}}assets/images/icons/printer-tool.svg" alt="">
+                    </button> -->
+                    <a [matTooltip]="'download' | translator" class="btn btn_006" href="{{CSUrl}}{{element.DownloadURL}}">
+                      <img src="{{basehref}}assets/images/icons/download-to-storage-drive.svg" alt="">
+                    </a>
+                    <a [matTooltip]="'properties' | translator" class="btn btn_006"
+                      (click)="coverLetterAction('showActionProperties', element.CoverID)">
+                      <img src="{{basehref}}assets/images/icons/info-round-button.svg" alt="">
+                    </a>
+                    <a [matTooltip]="'translate' | translator" class="btn btn_006"
+                      (click)="coverLetterAction('tranlsateDocument', element.CoverID)">
+                      <img src="{{basehref}}assets/images/icons/history.svg" alt="">
+                    </a>
+                  </div>
+                </td>
+                <td>{{element.ModifyDate | date: 'dd/MM/yyyy HH:mm'}}</td>
+                <td>{{element.CoverLetterSize}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+    <!-- <tr mat-header-row *matHeaderRowDef="CorrDisplayedColumns; sticky: true" style=" height:30px"></tr> -->
+    <tr mat-row *matRowDef="let element; columns: CorrDisplayedColumns;" class="element-row"
+      [class.expanded-row]="expandedElement === element" style=" height:30px"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+  </table>
+</mat-expansion-panel>

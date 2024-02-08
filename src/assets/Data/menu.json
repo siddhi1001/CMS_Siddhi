@@ -1,0 +1,72 @@
+[{
+  "actualRows": 6,
+  "filteredRows": 6,
+  "inbounds": [
+    {
+      "ResultName": "MyCorrExtInbound",
+      "col1": 56,
+      "col2": -1,
+      "col3": -1,
+      "col4": 0,
+      "Title":"New",
+      "router":"new-inbounds",
+      "icon":"assets/images/icons/new_message_001.svg"
+    },
+    {
+      "ResultName": "MyCorrExtOutbound",
+      "col1": 50,
+      "col2": 0,
+      "col3": -1,
+      "col4": -1,
+      "Title":"Completed",
+      "router":"inProgress-inbounds",
+      "icon":"assets/images/icons/in_progress_icon_001.svg"
+    },
+    {
+      "ResultName": "MyCorrIntInbound",
+      "col1": 24,
+      "col2": -1,
+      "col3": -1,
+      "col4": 0,
+      "Title":"Archived",
+      "router":"archieved-inbounds",
+      "icon":"assets/images/icons/achieved_icon_001.svg"
+    }
+  ],
+  "outbounds": [
+    {
+      "ResultName": "MyCorrExtInbound",
+      "col1": 65,
+      "col2": -1,
+      "col3": -1,
+      "col4": 0,
+      "Title":"WIP",
+      "router":"new-outbounds",
+      "icon":"assets/images/icons/new_message_001.svg"
+    },
+    {
+      "ResultName": "MyCorrExtOutbound",
+      "col1": 145,
+      "col2": 0,
+      "col3": -1,
+      "col4": -1,
+      "Title":"Signed",
+      "router":"inProgress-outbounds",
+      "icon":"assets/images/icons/in_progress_icon_001.svg"
+    },
+    {
+      "ResultName": "MyCorrIntInbound",
+      "col1": 454,
+      "col2": -1,
+      "col3": -1,
+      "col4": 0,
+      "Title":"Archived",
+      "router":"archieved-outbounds",
+      "icon":"assets/images/icons/achieved_icon_001.svg"
+    }
+  ],
+  "sourceID": 2048709,
+  "success": true,
+  "totalRows": 6,
+  "totalSourceRows": 6
+}]

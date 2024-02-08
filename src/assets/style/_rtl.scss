@@ -1,0 +1,463 @@
+.rtl_bdy {
+    .mCS-dir-rtl > .mCSB_inside > .mCSB_container {
+        margin-left: 0;
+    }
+    .nav_icon_002 .notif_icon {
+        right:50%;
+        left: auto;
+    }
+    .main_area_wrapper {
+        &.with_menu .menu_wrapper {
+            .menu_btn_wrapper {
+                left: 10px;
+                right: auto;
+                transform: rotate(180deg);
+            }
+            .menu_item_wrapper .menu_item {
+                a.color_001 {
+                    padding-right: 40px;
+                    padding-left: 0;
+                }
+                .menu_text_001 {
+                    padding-right: 13px;
+                    padding-left: 0;
+                }
+            }
+            .text_12 {
+                padding-left: 0px;
+                padding-right: 40px;
+            }
+            .mCSB_container{
+                left:-5px !important;
+            }
+        }
+        .main_cnt_area .header_search_wrapper {
+            .header_search {
+                margin-left: 0;
+                margin-right: auto;
+            }
+            .header_text_area {
+                margin-right: 0;
+                .text_26 span {
+                    margin-right: 0;
+                    margin-left: 10px;
+                }
+            }
+        }
+        .cust_row_001_wrapper .col_50_cust {
+            &:first-child {
+                padding-left: 15px;
+                padding-right: 0;
+            }
+            &:last-child {
+                padding-right: 15px;
+                padding-left: 0;
+            }
+            &.col_2_cust_wrp .col_2_cust_50{
+                &:first-child {
+                    padding-left: 15px;
+                    padding-right: 0;
+                }
+                &:last-child {
+                    padding-right: 15px;
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+    .inbox_table_002 .table_wrapper_003 td {
+        &:first-of-type {
+            padding-right: 12px;
+            padding-left: 0;
+        }
+    } 
+    .inbt_icon_wrapper {
+        left: 0;
+        right: auto;
+        padding-top: 2px;
+        &::before {
+            right: -30px;
+            left: auto;
+        }
+        .inbt_icons_wrapper {
+            .dote_btn {
+                padding-bottom: 5px !important;
+            }
+        }
+       
+    }
+    .main_area_wrapper .cust_row_001_wrapper .col_50_cust.col_2_cust_wrp .col_2_cust_50 .legend_wrp .legend_row {
+        margin-left: 30px;
+        margin-right: 0;
+        .Ellipse_4,.Ellipse_5,.Ellipse_3,.Ellipse_1,.Ellipse_2 {
+            margin-left: 10px;
+            margin-right: 0;
+        }
+    }
+    .main_container_area.splt_wrapper {
+        .correspondence_detail .corsp_ext_btn {
+            left: 35px;
+            right: auto;
+            top: 15px;
+        }
+        .corp_dtl_btn_btm_wrapper .corsp_ext_btn {
+            left: 1px;
+            right: auto !important
+        }
+        .correspondence_deatil_prview_wrappper .corsp_ext_btn {
+            right: auto;
+            left: 30px;
+        }
+    }
+    .back_btn {
+        margin-right: 0;
+        margin-left: 10px;
+    }
+    .correspondence_detail {
+        .detail_header .user_name .user_img {
+            padding-right: 0;
+            padding-left: 10px;
+        }
+        .header_btn {
+            margin-right: auto;
+            margin-left: 0;
+            .btn_005:first-child {
+                border-right: 1px solid #d8dadf;
+            }
+            .btn_005:last-child {
+                border-right: 0px solid transparent;
+            }
+        }
+        .corres_table_wrapper {
+            .table, .sender-table, .table_cover_letter, .table_attachments {
+                td,th {
+                 text-align: right;
+                }
+                .group_btn_attachments_cover{
+                    right: auto;
+                    left:10px;
+                }
+             }  
+        } 
+        .multiapp_table_wrapper .table {
+            thead{
+                .approver{
+                    text-align: right;
+                }
+            }
+        }
+        .last_note_btn{
+            .last_not_show {
+                left: -20px;
+                &:after {
+                    left: 25px;
+                }
+            }
+        }
+    }
+    .show_preview_btn span {
+        padding-left: 0;
+        padding-right: 5px;
+    }
+    .org_cht_header {
+        .chk_emply {
+            margin-right: 0;
+            margin-left: 15px;
+        }
+        .right_org_head {
+            margin-left: 0;
+            margin-right: auto;
+            .mat-button.btn_001 {
+                margin-left: 0;
+                margin-right: 11px;
+            }
+        }
+    }
+    .cover_ltr_pre {
+        .tree_container {
+            .main_tree_wrapper {
+                &:first-child::before {
+                    right: 22px;
+                    left: auto;
+                }
+                &:after {
+                    right: 21px !important;
+                    left: 0 !important;
+                }
+                .full_fil_wrapper .tree_nested_node_child {
+                    &:before {
+                        right: 65px;
+                        left: auto;
+                    }
+                    .main_tree_wrapper {
+                        padding-right: 44px;
+                        padding-left: 0;
+                        &::after {
+                            right: 65px !important;
+                        }
+                        &::before {
+                            right: 65px !important;
+                        }
+                    }
+                    &:after {
+                        left: auto;
+                        right: 21px;
+                        background: #f9f9f9;
+                    }
+                }
+            }
+        }
+        .mat-tree .tree_icn_wrp {
+            &:after {
+                right: 22px;
+                left: 0;
+            }
+            .mat-checkbox {
+                margin-right: 14px;
+                margin-left: 0;
+            }
+        }
+        .org_text_wrp {
+            padding-left: 0;
+            padding-right: 15px;
+            .org_chart_text {
+                padding-left: 0;
+                padding-right: 15px;
+            }
+        }
+        .mat-tree .show_empl_name_wrp {
+            .show_empl_name {
+                padding-left: 0px;
+                padding-right: 24px;
+                &_ul {
+                    padding-left: 0px;
+                    padding-right: 64px;
+                }
+                &:before {
+                    right: 0px;
+                    left:auto;
+                }
+            }
+            .show_empl_name_ul::before {
+                right: 64px;
+                left: auto;
+            }
+        }
+    }
+    .print_btn {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    .colse_btn {
+        margin-left: 0;
+        margin-right: 10px;
+    }
+    .workflow_wrapper .work_flow_headding .text_16 {
+        padding-right: 0;
+        padding-left: 35px;
+    }
+    .priview_wrapper {
+        left: 0;
+        right: auto;
+        .pre_close {
+            right:auto;
+            left:35px;
+            &:after {
+                right: 0;
+                left: auto;
+            }
+        }
+        .priview_body .attachment_wrapper .attach_item_wrp li {
+            margin-right: 0;
+            margin-left: 20px;
+        }
+    }
+    .oppr_icon_001 {
+        right: auto;
+        left: 70px;
+    }
+    .oppr_icon_002 {
+        right: auto;
+        left: 105px;
+    }
+    .org_cht_header .right_org_head::after {
+        left: 88px;
+        right: auto;
+    }
+    .input_item_wrp .mat-form-field-appearance-legacy .mat-form-field-label {
+        left: auto;
+        right: 14px;
+    }
+    .new_inbound_container .search_wrapper .row_001 .input_item_wrp {
+        padding-right: 0;
+        padding-left: 20px;
+    }
+    .header_001_wrapper .header_btn_wrp {
+        margin-left: 0;
+        margin-right: auto;
+    }
+    .btn_003 {
+        flex-direction: row-reverse;
+    }
+    .input_item_wrp, .input_field_wrp {
+        .date_picker_icon {
+            left: 15px;
+            right: auto;
+            top: 10px;
+        }
+        &.auto_cmplt .mat-form-field::after {
+            left: 15px;
+            right: auto;
+            top: 10px; 
+        }
+    }
+    .sub_correspondence_open {
+        border-right: 5px solid #00a5bd;
+    }
+    .main_side_menu {
+        left: auto;
+        right: 70px;
+        direction: rtl;
+        &:after {
+            right: -20px;
+            border-left: 10px solid #fff;
+            border-right: 10px solid transparent;
+        }
+    }
+    .menu_use_user_details .menu_use_user_detail {
+        padding-left:0;
+        padding-right: 15px;
+    }
+    .menu_designation_user_details .menu_designation_user_detail {
+        padding-left: 0;
+        padding-right: 15px;
+    }
+    .scroll_wrp_001 ng-scrollbar-x.ng-scrollbar-visible, .scroll_wrp_001 ng-scrollbar-y.ng-scrollbar-visible {
+        left: 0px;
+        margin-left: 0px !important;
+    }
+
+    .main_admin_wrapper{
+        .action-buttons{
+            button{
+                margin-left: 0 !important;
+                margin-right: 5px;
+                &:first-child{
+                    margin-left: 0 !important;
+                    margin-right: 15px;
+                  }
+            }
+        }
+        .breadcrumbs_wapper{
+            a{
+                background-image: url(assets/images/icons/arrow_point_icon_002.svg);
+                padding: 0 0 0 15px;
+                background-position: left center;
+            }
+        }
+        .input_field_wrp {
+            .mat-form-field-label{
+                right: 14px;
+            }
+        }
+        .table_wrapper{
+            th, td {
+                &:first-child{
+                    padding-left: 5px;
+                    padding-right: 24px;
+                }
+                &:last-child{
+                    padding-left: 24px;
+                    padding-right: 5px;
+                }
+            }
+
+        }
+        .org_chart_tree {
+            .tree_container {
+                .tree_wrapper {
+                    .full_fill_wrapper .tree_nested_node_child {
+                        .tree_wrapper {
+                            padding-right: 44px;
+                            padding-left: 0;
+                        }
+                    }
+                }
+            }
+            .org_chart_text {
+                padding-left: 0;
+                padding-right: 15px;
+            }
+            .mat-tree .show_empl_name_wrp {
+                .show_empl_name_ul {
+                    padding-left: 0px;
+                    padding-right: 64px;
+                    .show_empl_name {
+                        padding-left: 0px;
+                        padding-right: 24px;
+                    }
+                }
+            }
+        }
+        .content-with-drawer-wrapper{
+            .drawer-animation-holder{
+                border-left: none;
+                border-right: 1px solid #E4E5E7;
+            .drawer-wrapper{
+                padding: 25px;
+                padding-left: 0;
+                }
+            }
+            &.drawer-opened {
+                .org-chart-block, .table_wrapper {
+                  overflow: auto;
+                  padding-right: 0px;
+                  padding-left: 25px;
+                }
+            }
+            .prop-list{
+                h4, p{
+                    padding-right: 0px;
+                    padding-left: 5px;
+                }
+            }
+        }
+    }
+    .dialog-box-wrapper{
+        .interaction-list{
+            h4{
+                padding-right: 0;
+                padding-left: 5px;
+            }
+        }
+        .input_field_wrp {
+            .mat-form-field-label{
+                right: 14px;
+            }
+        }
+        .show_preview_btn{
+            justify-content: flex-start;
+        }
+        .action_inside{
+            .btn{
+                right: auto;
+                left: 0;
+            }
+            
+        }
+        .table_wrapper{
+            th, td {
+                &:first-child{
+                    padding-left: 5px;
+                    padding-right: 24px;
+                }
+                &:last-child{
+                    padding-left: 24px;
+                    padding-right: 5px;
+                }
+            }
+
+        }
+    }
+}
+

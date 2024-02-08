@@ -1,0 +1,63 @@
+{
+
+"mails" : [{
+	"id" : 100,
+	"fromName" : "Mayur",
+	"toName" : "Swati",
+	"subject" : "Assignment-1",
+	"body" : "Assignment details",
+	"sentDate" : "Sat Nov 22 2014 10:12:54 GMT-0500",
+	"isTrash" : false,
+	"isFavorite" : true
+},
+{
+	"id" : 101,
+	"fromName" : "Vikash",
+	"toName" : "Swati",
+	"subject" : "Assignment-1 Questions",
+	"body" : "Are you getting all the concepts",
+	"sentDate" : "Sat Nov 23 2014 10:12:54 GMT-0500",
+	"isTrash" : false,
+	"isFavorite" : false
+},
+{
+	"id" : 102,
+	"fromName" : "Khushbu",
+	"toName" : "Swati",
+	"subject" : "Assignment-2 Solutions",
+	"body" : "How is it going with you? How is it going with you?",
+	"sentDate" : "Sat Nov 22 2014 18:12:54 GMT-0500",
+	"isTrash" : false,
+	"isFavorite" : true
+},
+{
+	"id" : 103,
+	"fromName" : "Swati",
+	"toName" : "Vikash",
+	"subject" : "Assignment-2-Questions",
+	"body" : "Nice Assignments",
+	"sentDate" : "Sat Nov 21 2014 10:12:54 GMT-0500",
+	"isTrash" : false,
+	"isFavorite" : true
+},
+{
+	"id" : 104,
+	"fromName" : "Swati",
+	"toName" : "Swati",
+	"subject" : "hello",
+	"body" : "learning",
+	"sentDate" : "Tue 30 2018 10:12:54 GMT-0500",
+	"isTrash" : true,
+	"isFavorite" : false
+},
+{	
+	"id" : 105,
+	"fromName" : "Swati",
+	"toName" : "Mayur",
+	"subject" : "Assignment-1-Done?",
+	"body" : "Did you review my code?",
+	"sentDate" : "Sat Nov 22 2014 10:12:54 GMT-0500",
+	"isTrash" : false,
+	"isFavorite" : false
+}]
+}

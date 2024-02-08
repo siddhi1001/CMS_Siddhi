@@ -1,0 +1,52 @@
+<div class="profile_wrapper">
+  <div class="profile_header">
+    <p class="profile_header_text">{{'my_profile' | translator}}</p>
+    <button class="profile_btn">
+      <img src="../../assets/images/icons/close_btn_white.svg" alt="" (click)="profileClose()">
+    </button>
+  </div>
+  <div class="profile_contant_wrapper">
+    <div class="profile_general_wrp">
+        <div class="user_profile_details">
+          <div class="user_profile_img_wrp">
+            <div class="menu_use_user_img" *ngIf="userPhoto">
+              <img [src]="sanitize(userPhoto)" alt="">
+            </div>
+            <div class="menu_use_user_img" *ngIf="!userPhoto" >
+              <div class="userInitials">
+                <p>{{initials}}</p>  
+              </div>
+            </div>
+            <label class="profile_dp_edit" for="profileImageSelect">{{'update' | translator}}</label>
+            <input class="profile_dp_input" type="file" id="profileImageSelect">
+          </div>
+          <div class="profile_user_detail"  *ngIf="userData">
+            <p class="title_001">{{userData.FirstName_En}}&nbsp;{{userData.LastName_En}}</p>
+            <p class="text_14 color_001">{{'arabic_name' | translator}}: {{userData.FirstName_Ar}} {{userData.LastName_Ar}}</p>
+            <p class="text_14 color_001"> {{'login' | translator}}: {{userData.Login}}</p>
+            <p class="text_14 color_001"> {{'role' | translator}}: {{userData.RoleName_En }}</p>
+          </div>
+        </div>
+    </div>
+     <div class="profile_group_wrp" *ngIf="userGroups">
+        <div class="profile_group_header">
+          <span class="title_001">{{'group' | translator}}</span>
+          <span class="group_number">{{userGroups.length}}</span>
+        </div>
+<!--         <div class="search_wrppaer">
+          <input class="search_box" type="text" placeholder="Search">
+        </div> -->
+        <div class="list_holder">
+          <ng-scrollbar thumbClass="scroll_001" compact="true">
+            <ul class="group_list_item_wrapper">
+              <li *ngFor = "let groupDetail of userGroups" class="group_list_item">
+                    <span class="group_list_icom">
+                      <img alt="" class="org_img_001" src="../../assets/images/icons/folder_001.svg">
+                    </span>&nbsp;<span>{{groupDetail.GroupName}}</span>
+              </li>
+            </ul>
+          </ng-scrollbar>
+        </div>  
+    </div> 
+  </div>
+</div>

@@ -1,0 +1,13 @@
+
+<app-notification></app-notification>
+<div class="main_container full_container" [ngClass]="mainMenuAction ? 'unActive' : 'Active'">
+  <div class="side_nav_btn">
+    <button class="main_resp_btn" (click)="mainMenuActionButton()"><img src="{{basehref}}assets/images/icons/menu-button.svg" alt=""></button>
+  </div>
+  <div class="main_wrapper am_wrapper">
+    <div class="navigation_wrapper">
+      <app-side-navigation class="navigation_selector"></app-side-navigation>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

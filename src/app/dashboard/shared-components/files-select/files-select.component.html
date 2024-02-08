@@ -1,0 +1,72 @@
+<div class="fileSearch">
+  <div *ngIf="folderHierarchy" class="fileSearch-header">
+    <div class="hierarchy">
+      <div *ngIf="outputActionIdent==='copyToFolder'" class="select-current-folder">
+        <p (click)="currentFolderSelect()">
+          {{'select'| translator}}
+        </p>
+        <mat-icon class="material-icons" [class.hidden]="!this.currentFolderSelected">{{'done'| translator}}</mat-icon>
+      </div>
+      <mat-form-field style="width:100%">
+        <mat-select [formControl]="hierarchy" (selectionChange)="getFolderProperties(hierarchy.value, false)">
+          <mat-option *ngFor="let folder of folderHierarchy; let i = index" [value]="folder.DataID"
+            style="padding-top:5px !important;padding-bottom:5px !important"><span
+              [style.marginLeft]="folder.ParentID == '-1' ? '0' : i*10 + 'px'"></span>
+            {{folder.Name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <img *ngIf="folderParent!=='-1'" class="goParentIcon" src="{{basehref}}assets/images/icons/achieved_icon_001.svg"
+        alt="" (click)="getFolderProperties(currentReferenceID, true)">
+    </div>
+    <div class="file_search">
+      <div class="search-input-holder">
+        <input type="text" class="search_input" [placeholder]="'search_in_folder' | translator" [(ngModel)]="searchValue"
+          (keydown.enter)="searchFunction()">
+      </div>
+      <img src="{{basehref}}assets/images/icons/search.svg" class="search-glass-img" (click)="fileSearch(searchValue)">
+    </div>
+    <div *ngIf="outputActionIdent==='copyToFolder'" class="selectable-checkbox">
+      <mat-checkbox (change)="onlySelectable($event)">{{'show_selectable_items_only'| translator}}</mat-checkbox>
+    </div>
+  </div>
+  <ng-scrollbar #scrollbarRef thumbClass="scroll_001" compact="true">
+    <div *ngIf="activeSearchSpinner" class="search-spinner">
+      <mat-spinner class="spinner_lc"></mat-spinner>
+    </div>
+    <div *ngIf="!activeSearchSpinner" class="table-holder">
+      <table mat-table [dataSource]="dataSource" class="fileSearchTable" style="width:100%; max-height: 500px;">
+        <ng-container *ngFor="let col of FilesTableStructure" [matColumnDef]="col.columnDef">
+          <th mat-header-cell *matHeaderCellDef>{{col.columnName}}</th>
+          <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" [style.width]="col.width + '%'">
+            <mat-checkbox *ngSwitchCase="'Select'" (click)="$event.stopPropagation()"
+              (change)="changeCheckbox($event, element)" [checked]="selection.isSelected(element)"
+              [aria-label]="checkboxLabel(element)"
+              [disabled]="outputActionIdent==='copyToFolder' && !(folderTypes.indexOf(element.SubType)>-1)"
+              [class.disabledInput]="outputActionIdent==='copyToFolder' && !(folderTypes.indexOf(element.SubType)>-1)">
+            </mat-checkbox>
+            <p *ngSwitchCase="'Type'" [innerHTML]="element.Type"></p>
+            <div *ngSwitchCase="'Name'">
+              <p *ngIf="folderTypes.indexOf(element.SubType)>-1 else onlyName"
+                (click)="getFolderProperties(element.DataID, false)" class="folderName">{{element[col.columnDef]}}</p>
+              <ng-template #onlyName>
+                <p>{{element[col.columnDef]}}</p>
+              </ng-template>
+            </div>
+            <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="FilesDisplayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: FilesDisplayedColumns;" [class.checked]="isCheckedrow(row)"></tr>
+      </table>
+      <div class="empty-table-message" *ngIf="!dataSource?.data.length">{{'no_records_found'| translator}}
+      </div>
+    </div>
+  </ng-scrollbar>
+  <div class="button-holder">
+    <button *ngIf="outputActionIdent==='addFiles'" class="btn_004_action" [disabled]="selection.selected.length === 0"
+      (click)="outputActionTrigger()">Add</button>
+    <button *ngIf="outputActionIdent==='copyToFolder'" class="btn_004" (click)="outputActionTrigger()"
+      [disabled]="selection.selected.length === 0 && !currentFolderSelected">{{'actbtn_copy'| translator}}</button>
+    <button class="btn_004_cancel" (click)="BackToDocList()">{{'cancel'| translator}}</button>
+  </div>
+</div>

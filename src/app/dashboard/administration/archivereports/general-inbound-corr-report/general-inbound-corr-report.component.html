@@ -1,0 +1,72 @@
+<div class="main_admin_wrapper">
+  <div class="header_wapper">
+    <app-breadcrumbs></app-breadcrumbs>
+  </div>
+  <div class="filter-wrapper">
+    <form [formGroup]="generalInboundCorrForm" class="filter-form">
+      <!-- <div class="input_field_wrp">
+        <mat-form-field>
+          <input matInput [placeholder]="'delegator_user' | translator" formControlName="DelegatorUser"
+            [matAutocomplete]="DelegatorUser">
+          <mat-autocomplete #DelegatorUser="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+            <mat-option *ngFor="let user of (delegatorUsersAutocmpl | async)" [value]="user" autoActiveFirstOption>
+              {{ user.Name_EN | translator:user.Name_AR }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> -->
+    <div class="input_field_wrp">
+        <mat-form-field>
+          <input matInput [placeholder]="'proxy_user' | translator" formControlName="MailRoomUser"
+            [matAutocomplete]="MailRoomUser">
+          <mat-autocomplete #MailRoomUser="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+            <mat-option *ngFor="let user of (mailroomUserAutocmpl | async)" [value]="user" autoActiveFirstOption>
+              {{ user.Name_EN | translator:user.Name_AR }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div> 
+      <div class="input_field_wrp">
+        <mat-form-field (click)="Datepicker_001.open()">
+          <input matInput formControlName="StartDate" [placeholder]="'start_date' | translator"
+            [matDatepicker]="Datepicker_001" autocomplete="off">
+          <mat-datepicker-toggle matSuffix [for]="Datepicker_001" class="date_picker_icon"></mat-datepicker-toggle>
+          <mat-datepicker #Datepicker_001></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="input_field_wrp">
+        <mat-form-field (click)="Datepicker_002.open()">
+          <input matInput formControlName="EndDate" [placeholder]="'end_date' | translator"
+            [matDatepicker]="Datepicker_002" autocomplete="off">
+          <mat-datepicker-toggle matSuffix [for]="Datepicker_002" class="date_picker_icon"></mat-datepicker-toggle>
+          <mat-datepicker #Datepicker_002></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="input_field_wrp">
+        <button class="btn_001" mat-button (click)="runReport()">{{'run_report' | translator}}</button>
+      </div>
+    </form>
+  </div>
+  <div class="table_wrapper">
+    <div *ngIf="isLoading; else elseBlock" class="spinner-wrappar">
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 current-users" style="width:100%">
+        <ng-container *ngFor="let col of tableStructure" [matColumnDef]="col.columnDef">
+          <th mat-header-cell *matHeaderCellDef>
+            {{col.columnName | translator}}
+          </th>
+          <td mat-cell *matCellDef="let element" [ngSwitch]="true" [ngClass]="col.className">
+            <p
+              *ngSwitchCase="col.columnDef === 'StartDate' || col.columnDef === 'EndDate' || col.columnDef === 'UserStartDate' || col.columnDef === 'UserFinishDate'">
+              {{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+            <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row class="default-pointer" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </ng-template>
+  </div>
+</div>

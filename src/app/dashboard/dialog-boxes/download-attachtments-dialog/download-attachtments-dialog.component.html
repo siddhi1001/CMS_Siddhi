@@ -1,0 +1,123 @@
+<div class="box-holder">
+  <div *ngIf="spinner" class=veil></div>
+  <mat-spinner *ngIf="spinner" class="spinner_sm"></mat-spinner>
+  <div class="action_header">
+    <p class="text_16 blt_text">
+      {{data.correspondData.Name}} - {{'actbtn_downattachments' | translator}}
+    </p>
+    <div class="header-actions">
+      <mat-icon class="material-icons" [matTooltip]="'copy_to_content_server' | translator" (click)="getCopyDestination(false)">{{'save_alt' | translator}}
+      </mat-icon>
+      <mat-icon class="material-icons" [matTooltip]="'zip_and_download_all' | translator" (click)="zipAndDownloadAll()">{{'actbtn_archive' | translator}}</mat-icon>
+      <mat-icon class="material-icons close-button" [matTooltip]="'close' | translator" (click)="closeDialog()">{{'close' | translator}}</mat-icon>
+    </div>
+  </div>
+  <mat-expansion-panel
+    [expanded]="(selectionCover.selected.length > 0 || selectionAttachment.selected.length > 0) && tabIndex === 0"
+    class="action-options">
+    <button mat-stroked-button class="action-button" (click)="zipAndDownloadSelected()">{{'download_selected_documents' | translator}}
+      </button>
+    <button mat-stroked-button class="action-button" (click)="getCopyDestination(true)">{{'copy_to_content_server' | translator}}
+      </button>
+  </mat-expansion-panel>
+  <div class="download-attachment-body">
+    <mat-tab-group [(selectedIndex)]="tabIndex">
+      <mat-tab label="First">
+        <ng-scrollbar #scrollbarRef thumbClass="scroll_001" compact="true">
+          <div class="content-holder">
+            <div class="download-attachment-list">
+              <div>
+                <h4 class="table-header">{{'cover_letter' | translator}}</h4>
+                <table mat-table *ngIf="coverLetter" [dataSource]="coverLetter" class="" style="width:100%;">
+                  <ng-container matColumnDef="Select">
+                    <th mat-header-cell *matHeaderCellDef [style.width]="'5%'">
+                      <mat-checkbox class="main-checkbox" (change)="$event ? masterToggleCover() : null"
+                        [checked]="selectionCover.hasValue() && isAllSelectedCover()"
+                        [indeterminate]="selectionCover.hasValue() && !isAllSelectedCover()"
+                        [aria-label]="checkboxLabelCover()">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" [style.width]="'5%'">
+                      <mat-checkbox (click)="$event.stopPropagation()" [checked]="selectionCover.isSelected(row)"
+                        (change)="$event ? selectionCover.toggle(row) : null" [aria-label]="checkboxLabelCover(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+                  <ng-container *ngFor="let col of tableStructure" [matColumnDef]="col.columnDef">
+                    <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th>
+                    <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" [style.width]="col.width + '%'"
+                      style="padding: 0px 5px;">
+                      <p *ngSwitchCase="'DocType'" [innerHTML]="element.DocType"></p>
+                      <div *ngSwitchCase="'Parent'" class="parent-data">
+                        <p [innerHTML]="element.ParentType"></p>
+                        <p class="parent-name">{{element.ParentName}}</p>
+                      </div>
+                      <a *ngSwitchCase="'DownloadURL'" class="download-url" [matTooltip]="'download' | translator"
+                        href="{{CSUrl}}{{element[col.columnDef]}}">
+                        <i class="material-icons">save_alt</i>
+                      </a>
+                      <p *ngSwitchCase="'ModifyDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                      <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="empty-table-message" *ngIf="coverLetter?.data.length === 0">{{'no_records_found' | translator}}
+                  </div>
+              </div>
+
+              <div>
+                <h4 class="table-header">Attachments</h4>
+                <table mat-table *ngIf="attachmentsFiles" [dataSource]="attachmentsFiles" style="width:100%;">
+                  <ng-container matColumnDef="Select">
+                    <th mat-header-cell *matHeaderCellDef [style.width]="'5%'">
+                      <mat-checkbox class="main-checkbox" (change)="$event ? masterToggleAttachment() : null"
+                        [checked]="selectionAttachment.hasValue() && isAllSelectedAttachment()"
+                        [indeterminate]="selectionAttachment.hasValue() && !isAllSelectedAttachment()"
+                        [aria-label]="checkboxLabelAttachment()">
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" [style.width]="'5%'">
+                      <mat-checkbox (click)="$event.stopPropagation()" [checked]="selectionAttachment.isSelected(row)"
+                        (change)="$event ? selectionAttachment.toggle(row) : null"
+                        [aria-label]="checkboxLabelAttachment(row)">
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+                  <ng-container *ngFor="let col of tableStructure" [matColumnDef]="col.columnDef">
+                    <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th>
+                    <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" [style.width]="col.width + '%'"
+                      style="padding: 0px 5px;">
+                      <p *ngSwitchCase="'DocType'" [innerHTML]="element.DocType"></p>
+                      <div *ngSwitchCase="'Parent'" class="parent-data">
+                        <p [innerHTML]="element.ParentType"></p>
+                        <p class="parent-name">{{element.ParentName}}</p>
+                      </div>
+                      <a *ngSwitchCase="'DownloadURL'" class="download-url" [matTooltip]="'download' | translator"
+                        href="{{CSUrl}}{{element[col.columnDef]}}">
+                        <i class="material-icons">save_alt</i>
+                      </a>
+                      <p *ngSwitchCase="'ModifyDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                      <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="height:30px"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="height:30px"></tr>
+                </table>
+                <div class="empty-table-message" *ngIf="attachmentsFiles?.data.length === 0">{{'no_records_found' | translator}}
+                  </div>
+              </div>
+            </div>
+          </div>
+        </ng-scrollbar>
+      </mat-tab>
+      <mat-tab label="Second">
+        <app-files-select *ngIf="tabIndex===1" [DataID]="this.EnterpriseWorkspace" [multiple]="false"
+          [getParentStructure]="false" [outputActionIdent]="this.filesAction" (backtodoc)="changeTab($event)"
+          (outputAction)="copyFiles($event)">
+        </app-files-select>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

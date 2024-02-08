@@ -1,0 +1,137 @@
+<div class="search_wrapper">
+  <div class="row_001">
+    <div class="input_item_wrp">
+      <mat-form-field>
+        <input matInput #PWAReference [(ngModel)]="SearchFilterData.ReferenceCode"
+          [placeholder]="'tbl_reference' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.DocumentNumber" [placeholder]="'document_number' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp mat_chk_wrp">
+      <mat-checkbox [(ngModel)]="SearchFilterData.MyAssignments">{{'my_assignments' | translator}}</mat-checkbox>
+    </div>
+    <div class="input_item_wrp" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field (click)="Datepicker_001.open()">
+        <input matInput [(ngModel)]="SearchFilterData.DispatchDateFrom" [matDatepicker]="Datepicker_001"
+          [placeholder]="'dispatch_date_from' | translator">
+        <mat-datepicker-toggle matSuffix [for]="Datepicker_001" class="date_picker_icon"></mat-datepicker-toggle>
+        <mat-datepicker #Datepicker_001></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field (click)="Datepicker_002.open()">
+        <input matInput [(ngModel)]="SearchFilterData.DispatchDateTo" [matDatepicker]="Datepicker_002"
+          [placeholder]="'dispatch_date_to' | translator">
+        <mat-datepicker-toggle matSuffix [for]="Datepicker_002" class="date_picker_icon"></mat-datepicker-toggle>
+        <mat-datepicker #Datepicker_002></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.Subject" #Subject [placeholder]="'subject' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp auto_cmplt" *ngIf="_showExtFld" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input type="text" [(ngModel)]="SearchFilterData.ExternalOrganization"
+          [placeholder]="'external_organization' | translator" [formControl]="ExteranlOrgnizationControl" matInput
+          [matAutocomplete]="ExternalOrganization">
+      </mat-form-field>
+      <mat-autocomplete #ExternalOrganization="matAutocomplete" [displayWith]="displayExtOrgName">
+        <mat-option *ngFor="let OrgName of (filteredExtOrgNames | async)?.myRows" [value]="OrgName"
+          autoActiveFirstOption>
+          <span>{{ OrgName.Name }}</span>
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div class="input_item_wrp auto_cmplt" *ngIf="_showSenderDeptFld"
+      [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input type="text" [(ngModel)]="SearchFilterData.SenderDepartment"
+          [placeholder]="'sender_department' | translator" matInput [matAutocomplete]="SenderDepartment"
+          [formControl]="myControl">
+        <mat-autocomplete #SenderDepartment="matAutocomplete" [displayWith]="displayFn.bind(this)"
+          autoActiveFirstOption>
+          <mat-option
+            *ngFor="let option of DashboardFilters | attrfilter:'Department':SearchFilterData.SenderDepartment"
+            [value]="option">
+            {{option.EN | translator:option.AR}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp auto_cmplt" *ngIf="_showRecipientDeptFld"
+      [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input type="text" [(ngModel)]="SearchFilterData.RecipientDepartment"
+          [placeholder]="'recipient_department' | translator" [formControl]="myControl" matInput
+          [matAutocomplete]="RecipientDepartment">
+        <mat-autocomplete #RecipientDepartment="matAutocomplete" [displayWith]="displayFn.bind(this)"
+          autoActiveFirstOption>
+          <mat-option
+            *ngFor="let option of DashboardFilters | attrfilter:'Department':SearchFilterData.RecipientDepartment"
+            [value]="option">
+            {{option.EN | translator:option.AR}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp auto_cmplt" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input type="text" [(ngModel)]="SearchFilterData.Priority" [placeholder]="'priority' | translator" matInput
+          [matAutocomplete]="Priority" [formControl]="myControl">
+        <mat-autocomplete #Priority="matAutocomplete" [displayWith]="displayFn.bind(this)" autoActiveFirstOption>
+          <mat-option *ngFor="let option of DashboardFilters | attrfilter:'Priority':SearchFilterData.Priority"
+            [value]="option">
+            {{option.EN | translator:option.AR}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp auto_cmplt" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input type="text" [(ngModel)]="SearchFilterData.BaseType" [placeholder]="'base_type' | translator" matInput
+          [matAutocomplete]="BaseType" [formControl]="myControl">
+        <mat-autocomplete #BaseType="matAutocomplete" [displayWith]="displayFn.bind(this)" autoActiveFirstOption>
+          <mat-option *ngFor="let option of DashboardFilters | attrfilter:'BaseType':SearchFilterData.BaseType"
+            [value]="option">
+            {{option.EN | translator:option.AR}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="_isFullSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.Budget" [placeholder]="'budget_number' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="_isFullSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.Project" [placeholder]="'project_code' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="_isFullSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.Tender" [placeholder]="'tender_number' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp" [ngClass]="_isFullSearch ? 'Active' : 'unActive'">
+      <mat-form-field>
+        <input matInput [(ngModel)]="SearchFilterData.Contract" [placeholder]="'contract_number' | translator">
+      </mat-form-field>
+    </div>
+    <div class="input_item_wrp">
+      <button class="btn_001" (click)="searchDasboardButtonAction()" mat-button>{{'search' | translator}}</button>
+    </div>
+  </div>
+  <div *ngIf="!_isFullSearch" class="row_001">
+    <button (click)="AdvancedSearchButton()" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'" class="btn_002">
+      <span class="adv_srch">{{'advanced_search' | translator}}</span>
+      <span class="smp_srch">{{'simple_search' | translator}}</span>
+    </button>
+  </div>
+</div>

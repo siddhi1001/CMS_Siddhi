@@ -1,0 +1,19 @@
+<div class="notification_wrapper" *ngIf="notifications.length > 0">
+  <div class="notification_list">
+    <div *ngFor="let notification of notifications" class="notification_item" [ngClass]="className(notification)">
+      <ng-container *ngTemplateOutlet="notificationTpl;context:{notification:notification}"></ng-container>
+    </div>
+  </div>
+  <ng-template #notificationTpl let-notification="notification">
+    <div class="notification_cont">
+      <div class="message_wrp">
+        <div class="notification_type" [ngClass]="className(notification)">
+          {{className | json}}
+        </div>
+        <div class="message">{{notification.message}}</div>
+        <button mat-icon-button (click)="close(notification)" [matTooltip]="'close_notification' | translator" class="notification_close" [ngClass]="className(notification) + '_close'">
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

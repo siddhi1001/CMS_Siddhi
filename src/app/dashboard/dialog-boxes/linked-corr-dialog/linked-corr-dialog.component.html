@@ -1,0 +1,274 @@
+<div class="action_header">
+  <p class="text_16 blt_text">
+    {{currentName}} - {{'linked_correspondence'|translator}}
+  </p>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'|translator}}</mat-icon>
+</div>
+<mat-accordion class="headers-align" #accordion="matAccordion">
+  <mat-expansion-panel [expanded]="true" hideToggle class="connected-correspondences">
+    <mat-expansion-panel-header class="panelHeader">
+      <mat-panel-title>
+        {{'connected_correspondences'|translator}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>{{'description'|translator}}</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-tab-group [(selectedIndex)]="CorrTabIndex" class="connected-correspondences-view">
+      <mat-tab label="First">
+        <ng-scrollbar thumbClass="scroll_001" compact="true">
+          <div *ngIf="firstLoadSpinner" class="data-spinner">
+            <mat-spinner class="spinner_lc"></mat-spinner>
+          </div>
+          <div *ngIf="!firstLoadSpinner && CorrTabIndex === 0" class="table-holder">
+            <!-- Connected Correspondences Table -->
+            <table mat-table [dataSource]="connectedCorrData" multiTemplateDataRows style="width:100%"
+              class="connectedCorrTable">
+              <ng-container *ngFor="let col of CorrTableStructure" [matColumnDef]="col.columnDef">
+                <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th>
+                <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+                  <div *ngSwitchCase="'DocType'" style=" height: 20px;">
+                    <span [matTooltip]="element.CorrespondenceIcon.title" class="icon_004">
+                      <img class="inbox_icon_img" [src]="element.CorrespondenceIcon.icon" alt="">
+                    </span>
+                  </div>
+                  <div *ngSwitchCase="'name'" class="correspondence-name">
+                    <p>{{element[col.columnDef]}}</p><i
+                      (click)="expandedElement = expandedElement === element ? null : element" class="material-icons">
+                      {{expandedElement === element ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+                  </div>
+                  <div *ngSwitchCase="'Remove'" class="correspondence-action">
+                    <button class="remove_btn_002" mat-button [matTooltip]="'remove' | translator"
+                      (click)="deleteConnectionConfirmDialog(element.ID, 'corr')">
+                      <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                    </button>
+                    <!-- <button *ngIf="element.SeeContents" mat-button matTooltip="Open" color="primary" class="icon_btn"
+                      (click)="correspondenceReroute(element)"><img
+                        src="{{basehref}}assets/images/icons/external-link_green.svg" alt=""></button> -->
+                    <button *ngIf="element.SeeContents && element.CoverID" mat-button [matTooltip]="'open' | translator" color="primary"
+                      class="icon_btn" (click)="CoverLetterPreview(element.CoverIDLink)"><img
+                        src="{{basehref}}assets/images/icons/external-link_green.svg" alt=""></button>
+                  </div>
+                  <p *ngSwitchCase="'CorrespondenceDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                  <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="CorrTableStructure.length"
+                  style="border-top: 1px solid white;">
+                  <div class="element-detail" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+                    <div class="detail-parameter" *ngFor="let param of CorrespondenceDetailsStructure"
+                      [ngSwitch]="param.ParameterName">
+                      <p class="detail-definition">{{param.Definition}}: </p>&nbsp;
+                      <p *ngSwitchCase="'CorrespondenceDate'">
+                        {{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                      <p *ngSwitchCase="'DispatchDate'">{{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                      <p *ngSwitchDefault>{{element[param.ParameterName]}}</p>
+                    </div>
+                  </div>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="CorrDisplayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let element; columns: CorrDisplayedColumns;" class="element-row"
+                [class.expanded-row]="expandedElement === element"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+            </table>
+            <div class="empty-table-message" *ngIf="connectedCorrData?.length === 0">{{'no_records_found'|translator}}</div>
+          </div>
+        </ng-scrollbar>
+        <button class="btn_007 mat-button" (click)="changeCorrTab(1)">
+          <img src="{{basehref}}assets/images/icons/plus_btn_green.svg" alt=""> {{'add'|translator}}
+          Correspondence Connection</button>
+      </mat-tab>
+      <mat-tab label="Second">
+        <ng-scrollbar thumbClass="scroll_001" compact="true">
+          <!-- Search section  -->
+          <div class="content-holder">
+            <app-searchfilter [searchExtOrgFieldShow]="searchExtOrgFieldShow"
+              [searchSenderDeptFieldShow]="searchSenderDeptFieldShow"
+              [searchRecipientDeptFieldShow]="searchRecipientDeptFieldShow"
+              (searchDashboardButtonClicked)="onSearchLinkedButtonClick($event)"></app-searchfilter>
+            <!-- Search table -->
+
+            <div *ngIf="activeSearchSpinner" class="search-spinner">
+              <mat-spinner class="spinner_lc"></mat-spinner>
+            </div>
+            <div *ngIf="!activeSearchSpinner && CorrTabIndex === 1">
+              <table mat-table [dataSource]="connectedSearchDataObj" multiTemplateDataRows style="width:100%">
+                <ng-container *ngFor="let col of SearchTableStructure" [matColumnDef]="col.columnDef">
+                  <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+                    <p *ngSwitchCase="'DocType'"><i class="material-icons backspace"
+                        (click)="changeCorrTab(0)">{{'keyboard_backspace'|translator}}</i></p>
+                    <p *ngSwitchDefault>{{col.columnName}}</p>
+                  </th>
+                  <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+                    <div style="height: 20px;" *ngSwitchCase="'DocType'">
+                      <span [matTooltip]="element.CorrespondenceIcon.title" class="icon_004">
+                        <img class="inbox_icon_img" [src]="element.CorrespondenceIcon.icon" alt="">
+                      </span>
+                    </div>
+                    <div *ngSwitchCase="'Name'" class="correspondence-name">
+                      <p>{{element[col.columnDef]}}</p><i
+                        (click)="expandedElement = expandedElement === element ? null : element" class="material-icons">
+                        {{expandedElement === element ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+                    </div>
+                    <div *ngSwitchCase="'Link'" class="correspondence-action">
+                      <button mat-button [matTooltip]="'link' | translator" class="icon_btn" (click)="addCorrConnection(element.DataID)">
+                        <img src="{{basehref}}assets/images/icons/link_01.svg" alt="">
+                      </button>
+                      <button *ngIf="element.SeeContents && element.CoverID" mat-button [matTooltip]="'open' | translator"
+                        class="icon_btn" (click)="CoverLetterPreview(element.CoverIDLink)"><img
+                          src="{{basehref}}assets/images/icons/external-link_green.svg" alt=""></button>
+                    </div>
+                    <p *ngSwitchCase="'CorrespondenceDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                    <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let element" [attr.colspan]="SearchTableDisplayedColumns.length"
+                    style="border:none">
+                    <div class="element-detail"
+                      [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+                      <div class="detail-parameter" *ngFor="let param of CorrespondenceDetailsStructure"
+                        [ngSwitch]="param.ParameterName">
+                        <p class="detail-definition">{{param.Definition}}: </p>&nbsp;
+                        <p *ngSwitchCase="'CorrespondenceDate'">
+                          {{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                        <p *ngSwitchCase="'DispatchDate'">{{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}
+                        </p>
+                        <p *ngSwitchDefault>{{element[param.ParameterName]}}</p>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="SearchTableDisplayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef=" let element; columns: SearchTableDisplayedColumns; " style=" height:30px"
+                  [class.expanded-row]="expandedElement === element"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+              </table>
+              <div class="empty-table-message" *ngIf="connectedSearchDataObj?.length === 0">{{'no_records_found'|translator}}
+                </div>
+            </div>
+          </div>
+        </ng-scrollbar>
+        <!--         <div class="button-holder">
+          <button class="btn_004_cancel" (click)="changeCorrTab(0)">Cancel</button>
+        </div> -->
+      </mat-tab>
+    </mat-tab-group>
+  </mat-expansion-panel>
+  <!-- Connected Documents -->
+  <mat-expansion-panel [expanded]="false" hideToggle class="connected-documents">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'connected_documents'|translator}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>{{'file_copy'|translator}}</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <mat-tab-group [(selectedIndex)]="DocTabIndex" class="connected-documents-view">
+      <mat-tab label="First">
+        <ng-scrollbar thumbClass="scroll_001" compact="true">
+          <div *ngIf="activeDataSpinner" class="data-spinner">
+            <mat-spinner class="spinner_lc"></mat-spinner>
+          </div>
+          <div *ngIf="!activeDataSpinner" class="table-holder">
+            <table mat-table [dataSource]="connectedDocData" style="width:100%" class="connectedDocTable">
+              <ng-container *ngFor="let col of DocsTableStructure" [matColumnDef]="col.columnDef">
+                <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th>
+                <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+                  <p *ngSwitchCase="'DocType'" [innerHTML]="element.DocType"></p>
+                  <p *ngSwitchCase="'CreationDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                  <a *ngSwitchCase="'Name'" href="{{CSUrl}}{{element.Link}}"
+                    target="_blank">{{element[col.columnDef]}}</a>
+                  <button *ngSwitchCase="'Remove'" class="remove_btn_002" mat-button [matTooltip]="'remove' | translator"
+                    (click)="deleteConnectionConfirmDialog(element.ID, 'doc')">
+                    <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                  </button>
+                  <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="DocDisplayedColumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: DocDisplayedColumns;"></tr>
+            </table>
+            <div class="empty-table-message" *ngIf="connectedDocData?.length === 0">{{'no_records_found'|translator}}</div>
+          </div>
+        </ng-scrollbar>
+        <button class="btn_007 mat-button" (click)="changeDocumentTab(1)">
+          <img src="{{basehref}}assets/images/icons/plus_btn_green.svg" alt="">{{'add_document_connection'|translator}}
+          </button>
+      </mat-tab>
+      <mat-tab label="Second">
+        <!-- Connected documents search  -->
+        <app-files-select *ngIf="DocTabIndex===1" [DataID]="currentReference" [multiple]="true"
+          [getParentStructure]="true" [outputActionIdent]="this.filesAction" (backtodoc)="changeDocumentTab($event)"
+          (outputAction)="addFileConnection($event)">
+        </app-files-select>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-expansion-panel>
+  <!-- Threaded View -->
+  <mat-expansion-panel [expanded]=" false" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{'threaded_view'|translator}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <mat-icon>{{'account_tree'|translator}}</mat-icon>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <ng-scrollbar thumbClass="scroll_001" compact="true">
+      <div class="table-holder">
+        <table mat-table [dataSource]="threadedViewObj" multiTemplateDataRows matSort matSortActive="SortNumber"
+          matSortDirection="asc" style="width:100%" class="threadedCorrTable">
+          <ng-container *ngFor="let col of ThreadedViewTableStructure" [matColumnDef]="col.columnDef">
+            <th mat-header-cell *matHeaderCellDef>{{col.columnName}}</th>
+            <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef">
+              <div *ngSwitchCase="'EnglishSubject'" [style.marginLeft]="element.Level*10 + 'px'"
+                class='threaded-corr-name'>
+                <span [matTooltip]="element.CorrespondenceIcon.title" class="icon_004">
+                  <img class="inbox_icon_img" [src]="element.CorrespondenceIcon.icon" alt="">
+                </span>
+                <span [matTooltip]="element.LinkedIcon.title" class="icon_004" (click)="threadedMoving(element)">
+                  <img class="inbox_icon_img" [src]="element.LinkedIcon.icon" alt="">
+                </span>
+                <p>{{element[col.columnDef]}}</p>
+                <i (click)="expandedElement = expandedElement === element ? null : element" class="material-icons">
+                  {{expandedElement === element ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+              </div>
+              <div *ngSwitchCase="'Open'" class="correspondence-action">
+                <button *ngIf="element.SeeContents && element.CoverID" mat-button [matTooltip]="'open' | translator" class="icon_btn"
+                  (click)="CoverLetterPreview(element.CoverIDLink)"><img
+                    src="{{basehref}}assets/images/icons/external-link_green.svg" alt=""></button>
+              </div>
+              <p *ngSwitchCase="'CorrespondenceDate'">{{element[col.columnDef] | date: 'dd/MM/yyyy HH:mm'}}</p>
+              <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="ThreadedViewTableStructure.length"
+              style="border:none">
+              <div class="element-detail" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+                <div class="detail-parameter" *ngFor="let param of CorrespondenceDetailsStructure"
+                  [ngSwitch]="param.ParameterName">
+                  <p class="detail-definition">{{param.Definition}}: </p>&nbsp;
+                  <p *ngSwitchCase="'CorrespondenceDate'">
+                    {{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}</p>
+                  <p *ngSwitchCase="'DispatchDate'">{{element[param.ParameterName] | date: 'dd/MM/yyyy HH:mm'}}
+                  </p>
+                  <p *ngSwitchDefault>{{element[param.ParameterName]}}</p>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="ThreadedDisplayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: ThreadedDisplayedColumns; "
+            [ngClass]="row.DataID === currentReference ? 'highlight' : ''"
+            [class.expanded-row]="expandedElement === element"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+        </table>
+      </div>
+    </ng-scrollbar>
+  </mat-expansion-panel>
+</mat-accordion>

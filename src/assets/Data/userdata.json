@@ -1,0 +1,61 @@
+[{
+    "userDetails": [
+      {
+		"userID": "1643134",
+        "firstName": "Serhii",
+        "lastName": "Pokornyi",
+        "userMessage": "Welcome back to CMS",
+        "userImg" : "assets/images/spokornyi.png",
+        "externalInboundNew": "333",
+        "externalInboundProgress": "554",
+        "externalInboundAchieved": "453",
+        "internalInboundNew": "333",
+        "internalInboundProgress": "554",
+        "internalInboundAchieved": "453",
+        "externalOutbounddNew": "333",
+        "externalOutboundProgress": "554",
+        "externalOutboundAchieved": "453",
+        "internalOutboundNew": "333",
+        "internalOutboundProgress": "554",
+        "internalOutboundAchieved": "453",
+        "designation": "Designation",
+        "delegation" : [
+          {
+			"userID": "272712",
+            "firstName": "Mateo",
+            "lastName": "Cavenaghi",
+            "designation": "Designation",
+			"userImg" : "assets/images/user_img_001.jpg"
+          },
+          {
+			"userID": "404397",
+            "firstName": "Mable",
+            "lastName": "Ann Abraham",
+            "designation": "Designation",
+			"userImg" : "assets/images/user_img_001.jpg"
+          },
+          {
+            "userID": "125412",
+			"firstName": "Steby",
+            "lastName": "OMR",
+            "designation": "Designation",
+			"userImg" : "assets/images/user_img_001.jpg"
+          }
+        ]
+      }
+    ],
+    "groupListNumber" : "22",
+    "groupList": [
+      {"groupName": "[Content Server Administration]"},
+      {"groupName": "Business Administration"},
+      {"groupName": "FCTS FollowUp Team"},
+      {"groupName": "FCTS Incoming Archiving"},
+      {"groupName": "FCTS Incoming Archiving All"},
+      {"groupName": "FCTS Incoming Originators"},
+      {"groupName": "FCTS Incoming Originators All"},
+      {"groupName": "FCTS Internal Originators"},
+      {"groupName": "FCTS Incoming Archiving All"},
+      {"groupName": "FCTS Incoming Originators"},
+      {"groupName": "FCTS Incoming Originators"}
+    ]
+  }]

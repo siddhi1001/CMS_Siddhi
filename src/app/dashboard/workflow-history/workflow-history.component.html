@@ -1,0 +1,76 @@
+<ng-scrollbar thumbClass="scroll_001" class="workflow_wrapper"  compact="true">
+<div class="workflow_wrapper">
+    
+  <div class="work_flow_headding">
+    <p class="text_16 blt_text">{{corrData.data.ReferenceNumber}}</p>
+    <button [matTooltip]="'print' | translator" class="print_btn"><img src="{{basehref}}assets/images/icons/print.svg" alt=""></button>
+    <button [matTooltip]="'close' | translator" class="colse_btn" (click)="workFlowDialogClose();"><img src="{{basehref}}assets/images/icons/close_btn_white.svg" alt=""></button>
+  </div>
+  <div class="work_flow_body">
+    <p class="title_001">{{'workflow_history'| translator}}</p>
+    <div class="table_004_wrapper inbox_table_002">
+      <div class="table_wrapper_003">
+        <table class="table table_nrml">
+          <tr class="no_bg">
+            <td>{{'action_date'| translator}}</td>
+            <td>{{'department'| translator}}</td>
+            <td>{{'user_name'| translator}}</td>
+            <td>{{'user_contact'| translator}}</td>
+            <td>{{'step'| translator}}</td>
+            <td>{{'action'| translator}}</td>
+            <td>{{'comments'| translator}}</td>
+          </tr>
+          <tbody *ngFor="let workflowHistoryDetailsData of workflowHistoryDetailData">
+            <tr *ngFor="let workflowHistoryDetails of workflowHistoryDetailsData.myRows"
+              [ngClass]="workflowHistoryDetails.Active? 'workflowhistoryActive' : 'workflowhistoryInActive'">
+              <td>{{workflowHistoryDetails.Action_Date}}</td>
+              <td>{{workflowHistoryDetails.DepartmentName_EN}}</td>
+              <td>{{workflowHistoryDetails.PerformerName_EN}}</td>
+              <td>{{workflowHistoryDetails.Contact}}</td>
+              <td>{{workflowHistoryDetails.Step}}</td>
+              <td>{{workflowHistoryDetails.Action}}</td>
+              <td>{{workflowHistoryDetails.Comment}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- <p class="title_001" *ngIf="transferHistoryDetailData[0].totalRows >= 1">Transfer history</p>
+    <div class="table_004_wrapper inbox_table_002" *ngIf="transferHistoryDetailData[0].totalRows >= 1">
+    -->
+    <p class="title_001" *ngIf="tranferHistory">{{'transfer_history'| translator}}</p>
+    <div class="table_004_wrapper inbox_table_002" *ngIf="tranferHistory">
+      <div class="table_wrapper_003">
+        <table class="table table_nrml">
+          <tr class="no_bg">
+            <td>{{'transfer_date'| translator}}</td>
+            <td>{{'from_department'| translator}}</td>
+            <td>{{'from_user'| translator}}</td>
+            <td>{{'to_department'| translator}}</td>
+            <td>{{'to_user'| translator}}</td>
+            <td>{{'contact'| translator}}</td>
+            <td>{{'status'| translator}}</td>
+            <td>{{'purpose'| translator}}</td>
+            <td>{{'completed'| translator}}/<br>{{'transfer_date'| translator}}</td>
+            <td>{{'comments'| translator}}</td>
+          </tr>
+          <tbody *ngFor="let transferHistoryDetailsData of transferHistoryDetailData">
+            <tr *ngFor="let  transferHistoryDetails of transferHistoryDetailsData.myRows">
+              <td>{{transferHistoryDetails.TransferDate}}</td>
+              <td>{{transferHistoryDetails.sDepartment_EN}}</td>
+              <td>{{transferHistoryDetails.sName_EN}}</td>
+              <td>{{transferHistoryDetails.rDepartment_EN}}</td>
+              <td>{{transferHistoryDetails.rName_EN}}</td>
+              <td>{{transferHistoryDetails.rContact}}</td>
+              <td>{{transferHistoryDetails.Status}}</td>
+              <td>{{transferHistoryDetails.Purpose_EN}}</td>
+              <td>{{transferHistoryDetails.CompletedDate}}</td>
+              <td>{{transferHistoryDetails.TransferComment}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div></ng-scrollbar>

@@ -1,0 +1,108 @@
+<ng-scrollbar thumbClass="scroll_001" compact="true">
+<div class="sm_popup_wrapper" style="height: auto;">
+  <mat-expansion-panel hideToggle="true"  #delegation [expanded] = "panelcontrol" class="mat-elevation-z0">
+    <mat-expansion-panel-header (click)="matHeaderToggle()">
+        <p class="text_23">{{'delegations_report' | translator}}</p>
+    </mat-expansion-panel-header>
+    <div class="delegation-form-holder">
+      <form [formGroup]="delegationReportForm" >
+        <mat-form-field class="proxy_fld">
+          <input  type="text" [placeholder]="'proxy_user_delegatee' | translator" formControlName="Delegatee" aria-label="Number" matInput [matAutocomplete]="DelegationReportControlEmpNameAuto">
+          <mat-autocomplete #DelegationReportControlEmpNameAuto="matAutocomplete" [displayWith]="displayFieldValue">
+            <mat-option *ngFor="let empName of (filteredDelNames | async)" [value]="empName" autoActiveFirstOption>
+                {{ empName?.Val_En }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field  (click)="picker1.open()">
+          <input matInput [matDatepicker]="picker1" [placeholder]="'start_date' | translator" formControlName="startDate">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field (click)="picker2.open()">
+          <input matInput [matDatepicker]="picker2" [placeholder]="'end_date' | translator" formControlName="endDate">
+          <mat-datepicker-toggle matSuffix [for]="picker2" disabled="false"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+        </mat-form-field>
+        <button class="btn_002" (click)="getSearchObject()" >{{'run_report' | translator}}</button>
+        <button  class="btn_002" (click)="clearFilter()">{{'reset' | translator}}</button>
+      </form>
+    </div>
+  </mat-expansion-panel>
+  <div *ngIf="spinnerProgbar" class="spinner_sm_wrappar">
+    <mat-spinner class="spinner_sm"></mat-spinner>
+  </div>
+  <div class="delegation-report-holder" *ngIf = "delegationRepotrProgbar && !spinnerProgbar">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="UserName">
+        <th mat-header-cell *matHeaderCellDef> 
+          <div>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="userFilter" [placeholder]="'delegator' | translator">
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.UserName_EN}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ProxyName">
+        <th mat-header-cell *matHeaderCellDef> 
+          <div>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="proxyFilter" [placeholder]="'proxy_user' | translator">
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.ProxyName_EN}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="StartDate">
+        <th mat-header-cell *matHeaderCellDef>
+          <div>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="startDateFilter" [placeholder]="'start_date' | translator">
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.StartDate }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="EndDate">
+          <th mat-header-cell *matHeaderCellDef>
+              <div>
+                <mat-form-field>
+                  <input matInput class="form-field" [formControl]="endDateFilter" [placeholder]="'end_date' | translator">
+                </mat-form-field>
+              </div>
+          </th>
+          <td mat-cell *matCellDef="let element"> {{element.EndDate }} </td>
+        </ng-container>
+
+      <ng-container matColumnDef="UserStartDate">
+        <th mat-header-cell *matHeaderCellDef>
+          <div>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="userStartDateFilter"[placeholder]="'user_start_date' | translator">
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.UserStartDate }} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="UserFinishDate">
+        <th mat-header-cell *matHeaderCellDef>
+          <div>
+            <mat-form-field>
+              <input matInput class="form-field" [formControl]="userFinishDateFilter" [placeholder]="'user_finish_date' | translator">
+            </mat-form-field>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.UserFinishDate }} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+</ng-scrollbar>

@@ -1,0 +1,5 @@
+<div class="breadcrumbs_wapper">
+  <ng-container *ngFor="let element of breadcrumbs">
+    <a *ngIf="element.name" (click)="navigateTo(element)">{{element.name}}</a>
+  </ng-container>
+</div>

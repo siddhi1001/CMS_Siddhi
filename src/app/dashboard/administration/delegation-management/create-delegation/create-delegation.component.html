@@ -1,0 +1,107 @@
+<div class="admin_small_window_wrapper">
+  <div class="header_wapper">
+    <app-breadcrumbs></app-breadcrumbs>
+  </div>
+  <div class="fictitious-dialog-wrapper">
+    <div class="fictitious-dialog">
+      <div *ngIf="isLoading" class="spinner-wrappar submit-blocker">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="dialog_header">
+        <h2>
+          {{'create_new_delegation' | translator}}
+        </h2>
+      </div>
+      <form [formGroup]="DelegationData" class="dialog-body">
+        <div class="interaction-list">
+          <h4>{{'delegator_user' | translator}}</h4>
+          <div class="input_field_wrp sm_input_wrapper">
+            <mat-form-field>
+              <input matInput formControlName="Delegator" [matAutocomplete]="DelegatorUser">
+              <mat-autocomplete #DelegatorUser="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+                <mat-option *ngFor="let user of (usersAutocml | async)" [value]="user" autoActiveFirstOption>
+                  {{ user.Name_EN | translator:user.Name_AR }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="interaction_items_arr_wrapper">
+          <div formArrayName="ProxyData" class="interaction-list"
+            *ngFor="let proxy of DelegationData.get('ProxyData')['controls']; let i = index;">
+            <ng-container [formGroupName]="i">
+              <h4 class="proxy">{{'proxy_user' | translator }}</h4>
+              <mat-checkbox class="active-checkbox" formControlName="Active" (click)="MakeDelegateeActive(i)">
+                <h4>{{'active' | translator}}</h4>
+              </mat-checkbox>
+              <div class="input_field_wrp sm_input_wrapper action_inside">
+                <mat-form-field>
+                  <input [type]="text" matInput formControlName="Delegatee" [matAutocomplete]="Delegatee">
+                </mat-form-field>
+                <mat-autocomplete #Delegatee="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+                  <mat-option *ngFor="let delegatee of (delegateeList[i] | async)" [value]="delegatee"
+                    autoActiveFirstOption>
+                    {{ delegatee.Name_EN | translator:delegatee.Name_AR }}
+                  </mat-option>
+                </mat-autocomplete>
+                <a *ngIf="i!==0" [matTooltip]="'actbtn_delete' | translator" class="btn btn_013"
+                  (click)="removeDelegatee(i)">
+                  <img src="{{basehref}}assets/images/icons/delete_01.svg" alt="">
+                </a>
+              </div>
+            </ng-container>
+          </div>
+          <div class="interaction-list">
+            <h4></h4>
+            <p *ngIf="proxyCounter<5" class="color_003 add-button" (click)="addProxy()">{{'add_more' | translator }}</p>
+          </div>
+        </div>
+        <div class="interaction-list">
+          <h4>{{'start_date' | translator }}</h4>
+          <div class="input_field_wrp sm_input_wrapper">
+            <mat-form-field (click)="Datepicker_001.open()">
+              <input matInput formControlName="StartDate" [matDatepicker]="Datepicker_001" autocomplete="off">
+              <mat-datepicker-toggle matSuffix [for]="Datepicker_001" class="date_picker_icon"></mat-datepicker-toggle>
+              <mat-datepicker #Datepicker_001></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="interaction-list">
+          <h4>{{'start_time' | translator }}</h4>
+          <div class="input_field_wrp sm_input_wrapper">
+            <mat-form-field class="col_6 evn">
+              <input matInput autocomplete="off" formControlName="StartTime" required [owlDateTimeTrigger]="startTime"
+                [owlDateTime]="startTime">
+              <owl-date-time [pickerType]="'timer'" #startTime [stepMinute]="30" [startAt]="startTime"></owl-date-time>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="interaction-list">
+          <h4>{{'end_date' | translator}}</h4>
+          <div class="input_field_wrp sm_input_wrapper">
+            <mat-form-field (click)="Datepicker_002.open()">
+              <input matInput formControlName="EndDate" [matDatepicker]="Datepicker_002" autocomplete="off">
+              <mat-datepicker-toggle matSuffix [for]="Datepicker_002" class="date_picker_icon"></mat-datepicker-toggle>
+              <mat-datepicker #Datepicker_002></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="interaction-list">
+          <h4>{{'end_time' | translator }}</h4>
+          <div class="input_field_wrp sm_input_wrapper">
+            <mat-form-field class="col_6 evn">
+              <input matInput autocomplete="off" formControlName="EndTime" required [owlDateTimeTrigger]="endTime"
+                [owlDateTime]="endTime">
+              <owl-date-time [pickerType]="'timer'" #endTime [stepMinute]="30">
+              </owl-date-time>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+      <div class="dialog-footer">
+        <button mat-flat-button class="btn_011" (click)="resetForm()">{{'cancel' | translator}}</button>
+        <button mat-flat-button class="btn_012" (click)="prepareRequestData()">{{'save' | translator}}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,151 @@
+<form [formGroup]="transferRequestForm">
+  <div class="transfer_container">
+    <div class="transter_header">
+      <p class="text_16 blt_text"></p>
+      <p class="text_16">{{'transfer_to' | translator}} :</p>
+    </div>
+    <div class="transfer_body inbox_table_002">
+      <div class="transfer_top_row">
+        <div class="input_item_wrp auto_cmplt" *ngIf="transferAttribute">
+          <mat-form-field>
+            <mat-label>{{'purpose' | translator}} </mat-label>
+            <mat-select [(value)]="transferPurpose" (selectionChange)=groupChangePurpose()>
+              <mat-option *ngFor="let transferDummy of transferAttribute.Purpose" [value]="transferDummy.ID">
+                {{transferDummy.Purpose_EN | translator:transferDummy.Purpose_AR}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="input_item_wrp auto_cmplt" *ngIf="transferAttribute">
+          <mat-form-field>
+            <mat-label>{{'priority' | translator}}</mat-label>
+            <mat-select [(value)]="transferPriority" (selectionChange)=groupChangePriority()>
+              <mat-option *ngFor="let transferDummy of transferAttribute.Priority" [value]="transferDummy.ID">
+                {{transferDummy.Priority_EN | translator:transferDummy.Priority_AR}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="errormassage">
+          <p [class.msghide]="!(transfertry && (!transferRequestForm.valid))">
+            {{'please_choose_the_highlighted_fields' | translator}}</p>
+        </div>
+        <button class="btn_001 mat-button" (click)="addTransferRow()"
+          mat-button>{{'add_transfer' | translator}}</button>
+      </div>
+      <div class="transfer_table_row table_wrapper_003">
+
+        <table formArrayName="transfer_list" class="table table_nrml" *ngIf="isReady && transferAttribute">
+          <tr class="no_bg">
+            <td class="">{{'department' | translator }}</td>
+            <td>{{'to' | translator }}</td>
+            <td>{{'role' | translator }}</td>
+            <td>{{'purpose' | translator }}</td>
+            <td>{{'comments' | translator }}</td>
+            <td>{{'priority' | translator }}</td>
+            <td>{{'due_date' | translator }}</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let item of transferLists.controls; let pointIndex=index" [formGroupName]="pointIndex">
+            <td>
+              <div class="input_item_wrp auto_cmplt"
+                [ngClass]="{ 'orgstructureError': transferRequestForm.get('transfer_list').controls[pointIndex].errors?.emptyOrg  && transferRequestForm.get('transfer_list').controls[pointIndex].controls.Department.touched}">
+                <mat-form-field>
+                  <input type="text" [placeholder]="'department' | translator" formControlName="Department" matInput
+                    [matAutocomplete]="TransferFormControlDepNameAuto" (keydown.enter)="emptyAction()"
+                    (focusout)="checkRecord(pointIndex)">
+                </mat-form-field>
+                <mat-autocomplete #TransferFormControlDepNameAuto="matAutocomplete"
+                  [displayWith]="displayFieldValue.bind(this)">
+                  <mat-option *ngFor="let OrgName of (filteredDepNames[pointIndex] | async)?.myRows" [value]="OrgName"
+                    autoActiveFirstOption (onSelectionChange)="onDepartmentCheck(OrgName, pointIndex)">
+                    <span>{{ OrgName.Val_En | translator:OrgName.Val_Ar }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+            </td>
+            <td>
+
+              <div class="input_item_wrp auto_cmplt"
+                [ngClass]="{ 'orgstructureError': transferRequestForm.get('transfer_list').controls[pointIndex].errors?.emptyOrg && transferRequestForm.get('transfer_list').controls[pointIndex].controls.To.touched}">
+                <mat-form-field>
+                  <input type="text" [placeholder]="'employee' | translator" formControlName="To" matInput
+                    [matAutocomplete]="TransferFormControlEmpNameAuto" (keydown.enter)="emptyAction()"
+                    (focusout)="checkRecord(pointIndex)">
+                </mat-form-field>
+                <mat-autocomplete #TransferFormControlEmpNameAuto="matAutocomplete"
+                  [displayWith]="displayFieldValue.bind(this)">
+                  <mat-option *ngFor="let empName of (filteredEmpNames[pointIndex] | async)?.myRows" [value]="empName"
+                    autoActiveFirstOption (onSelectionChange)="onEmployeeCheck(empName,pointIndex)">
+                    <span>{{ empName.Val_En | translator:empName.Val_Ar }}</span>
+                  </mat-option>
+                </mat-autocomplete>
+              </div>
+
+            </td>
+            <td class="cstm_001">
+              <div class="input_item_wrp roleField">
+                <!-- <p class="text_14">Role</p> -->
+                <mat-form-field>
+                  <input type="text" formControlName="Role" matInput [disabled]="true">
+                </mat-form-field>
+              </div>
+            </td>
+            <td class="cstm_001">
+              <div class="input_item_wrp auto_cmplt">
+                <mat-form-field>
+                  <mat-label>{{'purpose' | translator}}</mat-label>
+                  <mat-select formControlName="Purpose">
+                    <mat-option *ngFor="let transferDummy of transferAttribute.Purpose" [value]="transferDummy.ID">
+                      {{transferDummy.Purpose_EN | translator:transferDummy.Purpose_AR}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <div class="input_item_wrp text_area">
+                <mat-form-field>
+                  <textarea matInput formControlName="Comments" [placeholder]="'leave_comment' | translator"></textarea>
+                </mat-form-field>
+              </div>
+            </td>
+            <td class="cstm_001">
+              <div class="input_item_wrp auto_cmplt">
+                <mat-form-field>
+                  <mat-label>{{'priority' | translator}}</mat-label>
+                  <mat-select formControlName="Priority" (selectionChange)="changeDueDate(pointIndex)">
+                    <mat-option *ngFor="let transferDummy of transferAttribute.Priority" [value]="transferDummy.ID">
+                      {{transferDummy.Priority_EN | translator:transferDummy.Priority_AR}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </td>
+            <td class="cstm_001">
+              <div class="input_item_wrp" [ngClass]="AdvancedSearch ? 'Active' : 'unActive'">
+                <mat-form-field (click)="dueDate.open()">
+                  <input matInput [matDatepicker]="dueDate" formControlName="DueDate"
+                    [placeholder]="'due_date' | translator">
+                  <mat-datepicker-toggle matSuffix [for]="dueDate" class="date_picker_icon"></mat-datepicker-toggle>
+                  <mat-datepicker #dueDate></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </td>
+            <td>
+              <button class="remove_btn" (click)="deleteTransferRow(pointIndex)" [matTooltip]="'remove' | translator">
+                <img alt="" src="{{basehref}}assets/images/icons/cancel-button.svg">
+              </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="transfer_footer">
+        <button mat-button class="btn_002 mat-button"
+          (click)="transferDielogBoxClose('canceled')">{{'cancel' | translator}}</button>
+        <button mat-button class="btn_001 mat-button"
+          (click)="postTransferToRequest('transfer')">{{'transfer_to' | translator}}</button>
+      </div>
+    </div>
+  </div>
+</form>

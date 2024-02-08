@@ -1,0 +1,29 @@
+<div class="return-reason-holder">
+  <div class="action_header">
+      <p class="text_16 blt_text">{{'provide_reason_for_return'|translator}}</p>
+  </div>
+  <div class="message-section">
+    <mat-form-field>
+      <mat-label [class.error-text]= "errmsg">{{'select_reason_for_return'|translator}}</mat-label>
+      <mat-select [(ngModel)]="returnReason.selectedID"> 
+        <mat-option *ngFor="let list of rejectList" [value]="list.ID" (onSelectionChange)="selected(list,$event)">
+          {{list.attrName_EN}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="input_item_wrp text_area row-value">
+      <mat-form-field>
+          <textarea 
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2" 
+            [placeholder]="'comments' | translator"
+            matInput [(ngModel)]="comment" 
+            [(ngModel)]="returnReason.comment"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="button-section">
+    <button  id="no-button" class = "btn_004" [mat-dialog-close]="false" [disabled]="disButton">{{'cancel'|translator}}</button>
+    <button  id="yes-button" class = "btn_004" (click)="sendComment()"  [disabled]="disButton">{{'return'|translator}}</button>
+  </div>
+</div> 

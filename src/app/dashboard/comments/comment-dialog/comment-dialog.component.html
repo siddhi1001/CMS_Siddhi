@@ -1,0 +1,52 @@
+<div *ngIf="commentsProgbar" class="spinner_sm_wrappar">
+  <mat-spinner class="spinner_sm"></mat-spinner>
+</div>
+<div *ngIf="!commentsProgbar" class="input_item_wrp text_area action_container">
+  <div class="action_header">
+      <p class="text_16 blt_text"></p>
+      <p class="text_16">{{'comments'| translator}}</p>
+      <mat-icon class=close-button (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+  </div>
+
+  <div class = "newCommentSection">
+    <div class="buttonHolder">
+      <h4 (click)="openAddCommentWindow()" class = "btn_002" [class.addbutton-hide]= "showAddCommentField" *ngIf="commentsEditable">{{'add_comment'| translator}}</h4>
+    </div>
+    <div class="addComment" [style.opacity]= "showAddCommentField ? '1' : '0'" [style.max-height]= "showAddCommentField ? '180px' : '0'">
+      <label id="radio-group-label"><b>{{infoText}} {{replyToDate | date: 'dd/MM/yyyy HH:mm'}}</b></label>
+        <mat-radio-group aria-label="Select an option">
+          <mat-radio-button class="radio-button" value="0" [checked]="checkedPrivate" (click)="defaltRadio(0)">{{'public'| translator}}</mat-radio-button>
+          <mat-radio-button class="radio-button" value="1" [checked]="!checkedPrivate" (click)="defaltRadio(1)">{{'private'| translator}}</mat-radio-button>
+        </mat-radio-group>
+        <div class="replyToComment">
+          <p><i>{{(replyToComment | slice:0:100) + (replyToComment?.length > 100 ? '...' : '')}}</i></p>
+        </div>
+      <mat-form-field>
+          <textarea
+			#txtArea
+            cdkTextareaAutosize
+            cdkAutosizeMinRows="2" 
+            cdkAutosizeMaxRows = "6"
+            matInput [(ngModel)]="name" 
+            [(ngModel)]="addCommentObj.CommentText"
+            [value] = "addCommentObj.CommentText">
+          </textarea>
+      </mat-form-field>
+      <button  id="no-button" class = "btn_004" (click)="showAddCommentField = false">{{'cancel'| translator}}</button>
+      <button  id="yes-button" class = "btn_004" (click)="saveComment()">{{'save'| translator}}</button>
+    </div>
+  </div>
+   <!--  <div class="tree-holder">
+      <app-comments-tree [commentsDetails]="commentsDataBufer" (makeReply)="openAddReplyWindow($event)"></app-comments-tree>
+    </div> -->
+  <ng-scrollbar thumbClass="scroll_001" compact="true">
+  <div class="comments-scroll">
+    <div class="tree-holder" *ngIf="commentsDataBufer.length; else emptyBlock">
+      <app-comments-tree [commentsDetails]="commentsDataBufer" [commentEdit]="commentsEditable" (makeReply)="openAddReplyWindow($event)" (closeDialogBox)="getCommentsData()"></app-comments-tree>
+    </div>
+      <ng-template #emptyBlock>
+          <h3 class="empty-block">{{'no_comments_available'| translator}}</h3>
+      </ng-template>
+  </div>
+  </ng-scrollbar>
+</div>

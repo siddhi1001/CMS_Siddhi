@@ -1,0 +1,113 @@
+.notification_wrapper {
+    width: 100%;
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999999999;
+    justify-content: center;
+    justify-items: center;
+    .notification_list {
+        max-height: 75vh;
+        overflow: auto;
+        max-width: 735px;
+        margin: auto;
+        width: 100%;
+        .notification_item {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            border-width: 1px;
+            border-style: solid;
+            font-size: 17px;
+            &.info {
+                color: #32a2b7;
+                border-color: #32a2b7;
+                background-color: #e8f4f7;
+            }
+            &.warning {
+                color: #cd9702;
+                border-color: #e0a500;
+                background-color: #fbf5e2;
+            }
+            &.error {
+                color: #ff3b4d;
+                border-color: #ff5262;
+                background-color: #ffe9eb;
+            }
+            &.success {
+                color: #39a052;
+                border-color: #39a052;
+                background-color: #e3f2e7;
+            }
+        }
+        .notification_cont {
+            .message_wrp {
+                display: flex;
+                .notification_type {
+                    min-width: 40px;
+                    min-height: 40px;
+                    &.info {
+                        background-image: url(assets/images/icons/information.svg);
+                        background-size: 21px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                    }
+                    &.warning {
+                        background-image: url(assets/images/icons/danger_warnning.svg);
+                        background-size: 21px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                    }
+                    &.error {
+                        background-image: url(assets/images/icons/close-button-error-msg.svg);
+                        background-size: 21px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                    }
+                    &.success {
+                        background-image: url(assets/images/icons/check-mark.svg);
+                        background-size: 21px;
+                        background-repeat: no-repeat;
+                        background-position: left center;
+                    }
+                } 
+                .notification_close {
+                    min-width: 30px;
+                    min-height: 30px;
+                    margin-left: auto;
+                    &.info_close {
+                        background-image: url(assets/images/icons/close_for_info.svg);
+                        background-size: 15px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+                    &.warning_close {
+                        background-image: url(assets/images/icons/close_for_warning.svg);
+                        background-size: 15px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+                    &.error_close {
+                        background-image: url(assets/images/icons/close_for_error.svg);
+                        background-size: 15px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+                    &.success_close {
+                        background-image: url(assets/images/icons/close_for_success.svg);
+                        background-size: 15px;
+                        background-repeat: no-repeat;
+                        background-position: center;
+                    }
+                } 
+                .message {
+                    width: calc(100% - 70px);
+                    margin: auto 0;
+                }
+            }
+        }
+    }
+}

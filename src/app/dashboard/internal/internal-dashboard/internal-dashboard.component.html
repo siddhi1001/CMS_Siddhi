@@ -1,0 +1,1028 @@
+<div class="header_location_wrapper">
+  <div class="header_back">
+    <a href="{{basecsurl}}/app">
+      <span [matTooltip]="'back_to_cs' | translator">
+        <img
+          class="homeimg"
+          src="{{ basehref }}assets/images/icons/home.svg"
+          alt=""
+        />
+      </span>
+    </a>
+  </div>
+</div>
+<div class="header_search_wrapper">
+  <div class="header_text_area" *ngFor="let userDatas of userData">
+    <div *ngFor="let userDetail of userDatas.userDetails">
+      <p class="text_26">
+        {{'welcome_text'|translator}},
+        <span class="first_name">{{ userDetail.firstName }}</span>
+        <span>{{ userDetail.lastName }}</span>
+      </p>
+      <p class="text_15 color_002">{{ userDetail.userMessage }}</p>
+    </div>
+  </div>
+  <!-- <div class="header_search">
+    <input type="text" class="search_box" placeholder="search">
+  </div> -->
+  <app-full-search
+    (runFullSearch)="fullSearchParametersSet($event)"
+    (showSearchComponent)="toggleSearchCharts($event)"
+  >
+  </app-full-search>
+</div>
+<div [@slideInOut]="chartsOpen" class="cust_row_001_wrapper">
+  <div class="col_50_cust col_2_cust_wrp">
+    <div class="col_2_cust_50">
+      <div class="chart_001">
+        <p class="text_20">{{ "request_title" | translator }}</p>
+        <div class="internal_chart_wrp">
+          <p class="text_15">{{ "internal" | translator }}</p>
+          <div
+            class="inbound_wrapper"
+            [ngStyle]="{ 'width.%': internalInboundRequestsWidth }"
+          ></div>
+          <div
+            class="outbound_wrapper"
+            [ngStyle]="{ 'width.%': internalOutboundRequestsWidth }"
+          ></div>
+        </div>
+        <div class="external_chart_wrp">
+          <p class="text_15">{{ "external" | translator }}</p>
+          <div
+            class="inbound_wrapper"
+            [ngStyle]="{ 'width.%': externalInboundRequestsWidth }"
+          ></div>
+          <div
+            class="outbound_wrapper"
+            [ngStyle]="{ 'width.%': externalOutboundRequestsWidth }"
+          ></div>
+        </div>
+        <div class="legend_wrp">
+          <div class="legend_row">
+            <span class="Ellipse_4"></span>
+            <p class="text_14">{{ "inbound" | translator }}</p>
+          </div>
+          <div class="legend_row">
+            <span class="Ellipse_5"></span>
+            <p class="text_14">{{ "outbound" | translator }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col_2_cust_50">
+      <div class="chart_001">
+        <p class="text_20">{{ "priority" | translator }}</p>
+        <div class="chart_sp_001">
+          <canvas
+            height="100%"
+            width="100%"
+            baseChart
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [legend]="false"
+            [options]="doughnutChartOptions"
+            [colors]="doughnutChartColor"
+            [chartType]="doughnutChartType"
+          >
+          </canvas>
+        </div>
+        <div class="legend_wrp sp_adjst_001">
+          <div class="legend_row">
+            <span class="Ellipse_3"></span>
+            <p class="text_14">{{ "topUrgent" | translator }}</p>
+          </div>
+          <div class="legend_row">
+            <span class="Ellipse_2"></span>
+            <p class="text_14">{{ "urgent" | translator }}</p>
+          </div>
+          <div class="legend_row">
+            <span class="Ellipse_1"></span>
+            <p class="text_14">{{ "normal" | translator }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col_50_cust">
+    <div class="over_view_wrapper">
+      <p class="text_20">{{ "Overview" | translator }}</p>
+      <div class="over_view_data_wrp mt_20">
+        <div class="over_head_text_001"></div>
+        <div class="over_data_wrapper">
+          <div class="over_row">
+            <img
+              class="over_icon_001"
+              src="assets/images/icons/external_nav_icon.svg"
+              alt=""
+            />
+            <p class="text_center text_15 mt_10">
+              {{ "external" | translator }}
+            </p>
+          </div>
+          <div class="over_row">
+            <img
+              class="over_icon_001"
+              src="assets/images/icons/internal_nav_icon.svg"
+              alt=""
+            />
+            <p class="text_center text_15 mt_10">
+              {{ "internal" | translator }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="over_view_data_wrp mt_20" *ngFor="let userDatas of userData">
+        <div class="over_head_text_001">
+          <p class="over_text_flp">{{ "inbound" | translator }}</p>
+        </div>
+        <div
+          class="over_data_wrapper"
+          *ngFor="let userDetail of userDatas.userDetails"
+        >
+          <div class="over_row over_row_001">
+            <div class="over_sub_row">
+              <p class="text_12">{{ "new" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalInboundNew }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "completed" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalInboundCompleted }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "archived" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalInboundArchived }}</p>
+            </div>
+          </div>
+          <div class="over_row over_row_002">
+            <div class="over_sub_row">
+              <p class="text_12">{{ "new" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalInboundNew }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "completed" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalInboundCompleted }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "archived" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalInboundArchived }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="over_view_data_wrp" *ngFor="let userDatas of userData">
+        <div class="over_head_text_001 pt_20">
+          <p class="over_text_flp">{{ "outbound" | translator }}</p>
+        </div>
+        <div
+          class="over_data_wrapper"
+          *ngFor="let userDetail of userDatas.userDetails"
+        >
+          <div class="over_row over_row_001">
+            <div class="over_sub_row">
+              <p class="text_12">{{ "wip" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalOutboundWIP }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "signed" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalOutboundSigned }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "archived" | translator }}</p>
+              <p class="text_26">{{ userDetail.externalOutboundArchived }}</p>
+            </div>
+          </div>
+          <div class="over_row over_row_002">
+            <div class="over_sub_row">
+              <p class="text_12">{{ "wip" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalOutboundWIP }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "signed" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalOutboundSigned }}</p>
+            </div>
+            <div class="over_sub_row">
+              <p class="text_12">{{ "archived" | translator }}</p>
+              <p class="text_26">{{ userDetail.internalOutboundArchived }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div [@slideInOut]="searchopen" class="advanced-full-search">
+  <!--   <button (click)="showAdvancedSearch" class="btn_002" (click)="toggleHelpMenu()">Show charts</button> -->
+  <app-searchfilter
+    [searchExtOrgFieldShow]="searchExtOrgFieldShow"
+    [searchSenderDeptFieldShow]="searchSenderDeptFieldShow"
+    [searchRecipientDeptFieldShow]="searchRecipientDeptFieldShow"
+    [isFullSearch]="true"
+    (searchDashboardButtonClicked)="onSearchDashboardButtonClick($event)"
+  ></app-searchfilter>
+</div>
+<p class="text_20">{{ "inbox" | translator }}</p>
+
+<!-- <div [ngClass]="correspondData.selectedValue ? 'selectedWithCheckbox' : 'unSelected'" *ngFor="let correspondData of correspondenceData">{{correspondData}}</div> -->
+<div class="inbox_table_002">
+  <div *ngIf="progbar">
+    <mat-spinner></mat-spinner>
+  </div>
+  <div class="table_wrapper_003" *ngIf="!progbar">
+    <table class="table_nrml">
+      <thead>
+        <tr class="no_bg">
+          <td>
+            <!--        <mat-checkbox (change)="$event ? selectionNewInboxAllCorrespondence() : null" [checked]="selection.hasValue() && selectionNewInboxAll()"
+              [indeterminate]="selection.hasValue() && !selectionNewInboxAll()">
+            </mat-checkbox> -->
+          </td>
+          <td></td>
+          <td>{{ "tbl_reference" | translator }}</td>
+          <td>{{ "tbl_subject" | translator }}</td>
+          <!-- <td>Step</td> -->
+          <td>{{ "tbl_fromdepartment" | translator }}</td>
+          <td>{{ "tbl_todepartment" | translator }}</td>
+          <td>{{ "tbl_priority" | translator }}</td>
+          <td>{{ "tbl_createddate" | translator }}</td>
+          <td></td>
+        </tr>
+      </thead>
+      <tbody
+        [class.sub_correspondence_open]="correspondData === openedSubCorrespond"
+        class="flex-container flex-column"
+        *ngFor="
+          let correspondData of correspondenceData
+            | paginate
+              : {
+                  id: 'server',
+                  itemsPerPage: itemsPerPage,
+                  currentPage: pagenumber,
+                  totalItems: totalCount
+                }
+        "
+      >
+        <!-- <tr [ngClass]="correspondData.selectedValue ? 'selectedWithCheckbox' : 'unSelected'" *ngFor="let correspondData of correspondenceData | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: pagenumber, totalItems: totalCount }" -->
+        <tr
+          [ngClass]="
+            correspondData.selectedValue ? 'selectedWithCheckbox' : 'unSelected'
+          "
+          class="mat-row {{ CorrBacklight(correspondData, false) }}"
+          [class.selected]="correspondData === selectedCorrespondence"
+        >
+          <td>
+            <!--         <mat-checkbox [(ngModel)]="correspondData.selectedValue" [checked]="selection.isSelected(correspondData)"></mat-checkbox>
+                  (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(correspondData) : null"
+                  [checked]="selection.isSelected(correspondData)" [value]='correspondData.inboxCorrespondenceValue' -->
+            <mat-checkbox disabled class="disabledInput"></mat-checkbox>
+          </td>
+          <td class="icon_wrapper">
+            <div class="sub_correspondence">
+              <div style="height: 20px">
+                <span
+                  *ngFor="
+                    let inboxCorrespondenceIcons of correspondData.inboxCorrespondenceIcon
+                  "
+                  [matTooltip]="inboxCorrespondenceIcons.title"
+                  class="icon_004"
+                  [ngClass]="inboxCorrespondenceIcons.active"
+                >
+                  <img
+                    class="inbox_icon_img"
+                    [src]="inboxCorrespondenceIcons.icon"
+                    alt=""
+                    (click)="
+                      correspondenceIconsFunction(
+                        correspondData,
+                        inboxCorrespondenceIcons.runfunc
+                      )
+                    "
+                  />
+                </span>
+              </div>
+              <div class="sub_correspondence">
+                <span
+                  matTooltip="{{
+                    correspondData.subCorrespondenceNumber
+                  }} sub correspondence"
+                  *ngIf="correspondData.subCorrespondence"
+                  (click)="openSubCorrespond(correspondData)"
+                  class="sub_correspondence_btn sub_show_btn"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/arrow_point_down.svg"
+                    alt=""
+                  />
+                  {{ correspondData.subCorrespondenceNumber }}
+                </span>
+                <span
+                  *ngIf="correspondData.subCorrespondence"
+                  (click)="openSubCorrespond(!correspondData)"
+                  class="sub_correspondence_btn sub_hide_btn"
+                >
+                  <img
+                    src="{{
+                      basehref
+                    }}assets/images/icons/arrow-point-to-up.svg"
+                    alt=""
+                  />
+                  {{ correspondData.subCorrespondenceNumber }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td (click)="previewViewWrapper(correspondData)">
+            <span class="pwa_btn" (click)="onSelect(correspondData)">
+              {{ correspondData.ReferenceNumber }}
+            </span>
+          </td>
+          <td class="td_002">
+            <span class="subject_text_wrpper">{{
+              correspondData.EnglishSubject
+            }}</span>
+          </td>
+          <!-- <td> {{correspondData.SubWorkTask_Title}} </td> -->
+          <td>{{ correspondData.FromDepartment }}</td>
+          <td>{{ correspondData.ToDepartment }}</td>
+          <td>{{ correspondData.Priority_EN }}</td>
+          <td>
+            {{ correspondData.CorrespondenceDate | date: "dd/MM/yyyy HH:mm" }}
+          </td>
+          <td class="threr_dote_td">
+            <ul class="inbt_icon_wrapper">
+              <li
+                *ngIf="correspondData.showButtons.Info"
+                class="inbt_icons_wrapper"
+                (click)="onSelect(correspondData)"
+              >
+                <button
+                  class="inbt_icon_btn"
+                  (click)="quickViewWrapper(correspondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/info_icon.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+              <li
+                *ngIf="correspondData.showButtons.WFHistory"
+                class="inbt_icons_wrapper"
+              >
+                <button
+                [matTooltip]="'workflow_history' | translator"
+                  (click)="openDialog(correspondData)"
+                  class="inbt_icon_btn"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/history.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+              <li
+                *ngIf="correspondData.showButtons.Open"
+                class="inbt_icons_wrapper"
+                (click)="onSelect(correspondData)"
+              >
+                <a
+                  class="inbt_icon_btn"
+                  [matTooltip]="'open' | translator"
+                  (click)="routeToDetailsPage(correspondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/external-link.svg"
+                    alt=""
+                  />
+                </a>
+              </li>
+              <li
+                *ngIf="correspondData.showButtons.Preview"
+                class="inbt_icons_wrapper"
+                (click)="onSelect(correspondData)"
+              >
+                <button
+                  class="inbt_icon_btn"
+                  (click)="previewViewWrapper(correspondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/eye-close-up.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+              <li
+                class="inbt_icons_wrapper"
+                *ngIf="correspondData.showButtons.ShowMore"
+              >
+                <button
+                  (click)="onSelect(correspondData)"
+                  [matMenuTriggerFor]="options_001"
+                  xPosition="after"
+                  yPosition="above"
+                  mat-button
+                  class="dote_btn"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/menu.svg"
+                    alt=""
+                  />
+                </button>
+                <mat-menu #options_001="matMenu">
+                  <!-- <button mat-menu-item (click)="showWorkflowAudit(correspondData.VolumeID)">Workflow Audit</button> -->
+                  <button
+                    mat-menu-item
+                    (click)="OpenDashCompleteDialog(correspondData, '1')"
+                    *ngIf="correspondData.showButtons.Complete"
+                  >
+                    {{ "actbtn_complete" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="OpenDashCompleteDialog(correspondData, '2')"
+                    *ngIf="correspondData.showButtons.Archive"
+                  >
+                    {{ "actbtn_archive" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="startRecall(correspondData, 'SimpleRecall')"
+                    *ngIf="correspondData.showButtons.Recall"
+                  >
+                    {{ "actbtn_recall" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.MRRecall"
+                  >
+                    {{ "actbtn_mrrecall" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.ReturnToAS"
+                  >
+                    {{ "actbtn_returntoas" | translator }}
+                  </button>
+                  <button mat-menu-item *ngIf="correspondData.showButtons.Copy">
+                    {{ "actbtn_copy" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.ReplyIntern"
+                  >
+                    {{ "actbtn_replyinternal" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    (click)="transferReply(correspondData)"
+                    *ngIf="correspondData.showButtons.ReplyTrans"
+                  >
+                    {{ "actbtn_replytransfer" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.SaveCorr"
+                  >
+                    {{ "actbtn_savecorr" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.Delete"
+                  >
+                    {{ "actbtn_delete" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.DownloadAttach"
+                    (click)="downloadAttachmentsDialogBox(correspondData)"
+                  >
+                    {{ "actbtn_downattachments" | translator }}
+                  </button>
+                  <button
+                    mat-menu-item
+                    *ngIf="correspondData.showButtons.PrintBarcode"
+                  >
+                    {{ "actbtn_printbcode" | translator }}
+                  </button>
+                </mat-menu>
+              </li>
+            </ul>
+            <div
+              class="priview_wrapper"
+              [class.active]="correspondData === previewViewCorrespondence"
+            >
+              <div class="priview_header">
+                <button
+                  class="pre_close"
+                  (click)="previewViewWrapper(!correspondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/delete-button.svg"
+                    alt=""
+                  />
+                </button>
+                <a
+                  (click)="routeToDetailsPage(correspondData)"
+                  class="oppr_icon_001"
+                >
+                  <img
+                  [matTooltip]="'open' | translator"
+                    src="{{
+                      basehref
+                    }}assets/images/icons/external-link-white.svg"
+                    alt=""
+                  />
+                </a>
+                <button
+                  class="oppr_icon_002"
+                  (click)="previewViewWrapper(!correspondData)"
+                >
+                  <img
+                    [matTooltip]="'quick_view' | translator"
+                    (click)="quickViewWrapper(correspondData)"
+                    src="{{ basehref }}assets/images/icons/info_icon-white.svg"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div
+                class="documentViewerDiv"
+                *ngFor="let docpreviewData of documentPreviewURL"
+              >
+                <iframe
+                  class="iframeclass"
+                  [src]="docpreviewData.CorrespondencedocumentURL | safe"
+                >
+                </iframe>
+              </div>
+            </div>
+
+            <div
+              class="priview_wrapper qk_view active"
+              [class.active]="correspondData === quickViewCorrespondence"
+            >
+              <div class="priview_header">
+                <button
+                  class="pre_close pre_all_clos"
+                  (click)="quickViewWrapper(!correspondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/delete-button.svg"
+                    alt=""
+                  />
+                </button>
+                <a
+                [matTooltip]="'open' | translator"
+                  (click)="routeToDetailsPage(correspondData)"
+                  class="oppr_icon_001"
+                >
+                  <img
+                    src="{{
+                      basehref
+                    }}assets/images/icons/external-link-white.svg"
+                    alt=""
+                  />
+                </a>
+                <button
+                  class="oppr_icon_002"
+                  (click)="quickViewWrapper(!correspondData)"
+                >
+                  <img
+                    [matTooltip]="'preview' | translator"
+                    (click)="previewViewWrapper(correspondData)"
+                    src="{{
+                      basehref
+                    }}assets/images/icons/eye-close-up-white.svg"
+                    alt=""
+                  />
+                </button>
+                <p class="heading_001 blt_text mb-4">
+                  {{ correspondData.EnglishSubject }}
+                </p>
+                <p class="text_16 blt_text">{{'id'|translator}}</p>
+                <p class="text_16"># {{ correspondData.ReferenceNumber }}</p>
+              </div>
+              <div class="priview_body">
+                <div class="">
+                  <!-- <p class="text_16 blt_text">Reference</p>
+                    <p class="text_16">{{correspondData.ReferenceNumber}}</p>
+                    <p class="text_16 blt_text">Subject</p>
+                    <p class="text_16">{{correspondData.EnglishSubject}}</p> -->
+                  <p class="text_16 blt_text">{{ "step" | translator }}</p>
+                  <p class="text_16">{{ correspondData.SubWorkTask_Title }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "external_organization" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.FromDepartment }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "to_department" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.ToDepartment }}</p>
+                  <p class="text_16 blt_text">{{ "priority" | translator }}</p>
+                  <p class="text_16">{{ correspondData.Priority_EN }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "receivedDate" | translator }}
+                  </p>
+                  <p class="text_16">
+                    {{ correspondData.ReceivedDate | date: "dd/MM/yyyy HH:mm" }}
+                  </p>
+                  <p class="text_16 blt_text">
+                    {{ "tbl_createddate" | translator }}
+                  </p>
+                  <p class="text_16">
+                    {{
+                      correspondData.CorrespondenceDate
+                        | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "due_date" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      correspondData.CorrespondenceDueDate
+                        | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">
+                    {{ "dispatch_date" | translator }}
+                  </p>
+                  <p class="text_16">
+                    {{ correspondData.DispatchDate | date: "dd/MM/yyyy HH:mm" }}
+                  </p>
+                  <p class="text_16 blt_text">
+                    {{ "response_due_date" | translator }}
+                  </p>
+                  <p class="text_16">
+                    {{
+                      correspondData.ResponseDueDate | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "assignee" | translator }}</p>
+                  <p class="text_16">
+                    {{ correspondData.SubWorkTask_PerformerID_Name }}
+                  </p>
+                  <p class="text_16 blt_text">
+                    {{ "correspondence_type" | translator }}
+                  </p>
+                  <p class="text_16">
+                    {{ correspondData.CorrespondenceType_EN }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "base_type" | translator }}</p>
+                  <p class="text_16">{{ correspondData.BaseType_EN }}</p>
+                  <p class="text_16 blt_text">{{ "purpose" | translator }}</p>
+                  <p class="text_16">{{ correspondData.ToPurpose }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "confidential" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.Confidential }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "document_number" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.DocumentNumber }}</p>
+                  <p class="text_16 blt_text">{{ "project_code" | translator }}</p>
+                  <p class="text_16">{{ correspondData.ProjectCode }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "budget_number" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.BudgetNumber }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "tender_number" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.TenderNumber }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "contract_number" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.ContractNumber }}</p>
+                  <p class="text_16 blt_text">
+                    {{ "staff_number" | translator }}
+                  </p>
+                  <p class="text_16">{{ correspondData.StaffNumber }}</p>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr
+          [class.sub_correspondence_show]="
+            correspondData === openedSubCorrespond
+          "
+          class="mat-row nrml_tr_bdr sub_ sub_correspondence_hide"
+          *ngFor="
+            let subCorrespondData of correspondData.subCorrespondenceDetail
+          "
+        >
+          <td>
+            <mat-checkbox></mat-checkbox>
+            {{ row_number }}
+          </td>
+          <td class="icon_wrapper">
+            <div class="sub_correspondence">
+              <div style="height: 20px">
+                <span
+                  *ngFor="
+                    let inboxCorrespondenceIcons of subCorrespondData.inboxCorrespondenceIcon
+                  "
+                  [matTooltip]="inboxCorrespondenceIcons.title"
+                  class="icon_004"
+                  [ngClass]="inboxCorrespondenceIcons.active"
+                >
+                  <img
+                    class="inbox_icon_img"
+                    [src]="inboxCorrespondenceIcons.icon"
+                    alt=""
+                  />
+                </span>
+              </div>
+              <div class="sub_correspondence">
+                <span
+                  matTooltip="{{
+                    subCorrespondData.subCorrespondenceNumber
+                  }} sub correspondence"
+                  *ngIf="subCorrespondData.subCorrespondence"
+                  (click)="openSubCorrespond(correspondData)"
+                  class="sub_correspondence_btn sub_show_btn"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/arrow_point_down.svg"
+                    alt=""
+                  />
+                  {{ subCorrespondData.subCorrespondenceNumber }}
+                </span>
+                <span
+                  *ngIf="subCorrespondData.subCorrespondence"
+                  (click)="openSubCorrespond(!subCorrespondData)"
+                  class="sub_correspondence_btn sub_hide_btn"
+                >
+                  <img
+                    src="{{
+                      basehref
+                    }}assets/images/icons/arrow-point-to-up.svg"
+                    alt=""
+                  />
+                  {{ subCorrespondData.subCorrespondenceNumber }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td (click)="previewViewWrapper(subCorrespondData)">
+            <span class="pwa_btn" (click)="onSelect(subCorrespondData)">
+              {{ subCorrespondData.ReferenceNumber }}
+            </span>
+          </td>
+          <td class="td_002">
+            <span class="subject_text_wrpper">{{
+              subCorrespondData.EnglishSubject
+            }}</span>
+          </td>
+          <!-- <td> {{correspondData.SubWorkTask_Title}} </td> -->
+          <td>{{ subCorrespondData.FromDepartment }}</td>
+          <td>{{ subCorrespondData.ToDepartment }}</td>
+          <td>{{ subCorrespondData.Priority_EN }}</td>
+          <td>
+            {{
+              subCorrespondData.CorrespondenceDate | date: "dd/MM/yyyy HH:mm"
+            }}
+          </td>
+          <td class="threr_dote_td">
+            <ul class="inbt_icon_wrapper">
+              <li
+                class="inbt_icons_wrapper"
+                (click)="onSelect(subCorrespondData)"
+              >
+                <button
+                  class="inbt_icon_btn"
+                  (click)="quickViewWrapper(subCorrespondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/info_icon.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+              <li class="inbt_icons_wrapper">
+                <button
+                  [matTooltip]="'workflow_history' | translator"
+                  (click)="openDialog(subCorrespondData)"
+                  class="inbt_icon_btn"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/history.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+              <li
+                class="inbt_icons_wrapper"
+                (click)="onSelect(subCorrespondData)"
+              >
+                <a
+                  class="inbt_icon_btn"
+                  [matTooltip]="'open' | translator"
+                  (click)="routeToDetailsPage(subCorrespondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/external-link.svg"
+                    alt=""
+                  />
+                </a>
+              </li>
+              <li
+                class="inbt_icons_wrapper"
+                (click)="onSelect(subCorrespondData)"
+              >
+                <button
+                  class="inbt_icon_btn"
+                  (click)="previewViewWrapper(subCorrespondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/eye-close-up.svg"
+                    alt=""
+                  />
+                </button>
+              </li>
+            </ul>
+            <div
+              class="priview_wrapper"
+              [class.active]="subCorrespondData === previewViewCorrespondence"
+            >
+              <div class="priview_header">
+                <button
+                  class="pre_close"
+                  (click)="previewViewWrapper(!subCorrespondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/delete-button.svg"
+                    alt=""
+                  />
+                </button>
+                <a
+                  (click)="routeToDetailsPage(subCorrespondData)"
+                  class="oppr_icon_001"
+                >
+                  <img
+                  [matTooltip]="'open' | translator"
+                    src="{{
+                      basehref
+                    }}assets/images/icons/external-link-white.svg"
+                    alt=""
+                  />
+                </a>
+                <button
+                  class="oppr_icon_002"
+                  (click)="previewViewWrapper(!subCorrespondData)"
+                >
+                  <img
+                    [matTooltip]="'quick_view' | translator"
+                    (click)="quickViewWrapper(subCorrespondData)"
+                    src="{{ basehref }}assets/images/icons/info_icon-white.svg"
+                    alt=""
+                  />
+                </button>
+              </div>
+              <div
+                class="documentViewerDiv"
+                *ngFor="let docpreviewData of documentPreviewURL"
+              >
+                <iframe
+                  class="iframeclass"
+                  [src]="docpreviewData.CorrespondencedocumentURL | safe"
+                >
+                </iframe>
+              </div>
+            </div>
+            <div
+              class="priview_wrapper qk_view active"
+              [class.active]="subCorrespondData === quickViewCorrespondence"
+            >
+              <div class="priview_header">
+                <button
+                  class="pre_close pre_all_clos"
+                  (click)="quickViewWrapper(!subCorrespondData)"
+                >
+                  <img
+                    src="{{ basehref }}assets/images/icons/delete-button.svg"
+                    alt=""
+                  />
+                </button>
+                <a
+                [matTooltip]="'open' | translator"
+                  (click)="routeToDetailsPage(subCorrespondData)"
+                  class="oppr_icon_001"
+                >
+                  <img
+                    src="{{
+                      basehref
+                    }}assets/images/icons/external-link-white.svg"
+                    alt=""
+                  />
+                </a>
+                <button
+                  class="oppr_icon_002"
+                  (click)="quickViewWrapper(!subCorrespondData)"
+                >
+                  <img
+                    [matTooltip]="'preview' | translator"
+                    (click)="previewViewWrapper(subCorrespondData)"
+                    src="{{
+                      basehref
+                    }}assets/images/icons/eye-close-up-white.svg"
+                    alt=""
+                  />
+                </button>
+                <p class="heading_001 blt_text mb-4">
+                  {{ subCorrespondData.EnglishSubject }}
+                </p>
+                <p class="text_16 blt_text">{{'id'|translator}}</p>
+                <p class="text_16"># {{ subCorrespondData.ReferenceNumber }}</p>
+              </div>
+              <div class="priview_body">
+                <div class="">
+                  <!-- <p class="text_16 blt_text">Reference</p>
+                      <p class="text_16">{{subCorrespondData.ReferenceNumber}}</p>
+                      <p class="text_16 blt_text">Subject</p>
+                      <p class="text_16">{{subCorrespondData.EnglishSubject}}</p> -->
+                  <p class="text_16 blt_text">{{ "step" | translator }}</p>
+                  <p class="text_16">
+                    {{ subCorrespondData.SubWorkTask_Title }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "external_organization" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.FromDepartment }}</p>
+                  <p class="text_16 blt_text"> {{ "to_department" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.ToDepartment }}</p>
+                  <p class="text_16 blt_text">{{ "priority" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.Priority_EN }}</p>
+                  <p class="text_16 blt_text"> {{ "receivedDate" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      subCorrespondData.ReceivedDate | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "tbl_createddate" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      subCorrespondData.CorrespondenceDate
+                        | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "due_date" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      subCorrespondData.CorrespondenceDueDate
+                        | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "dispatch_date" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      subCorrespondData.DispatchDate | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "response_due_date" | translator }}</p>
+                  <p class="text_16">
+                    {{
+                      subCorrespondData.ResponseDueDate
+                        | date: "dd/MM/yyyy HH:mm"
+                    }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "assignee" | translator }}</p>
+                  <p class="text_16">
+                    {{ subCorrespondData.SubWorkTask_PerformerID_Name }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "correspondence_type" | translator }}</p>
+                  <p class="text_16">
+                    {{ subCorrespondData.CorrespondenceType_EN }}
+                  </p>
+                  <p class="text_16 blt_text">{{ "base_type" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.BaseType_EN }}</p>
+                  <p class="text_16 blt_text">{{ "purpose" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.ToPurpose }}</p>
+                  <p class="text_16 blt_text">{{ "confidential" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.Confidential }}</p>
+                  <p class="text_16 blt_text">{{ "document_number" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.DocumentNumber }}</p>
+                  <p class="text_16 blt_text">{{ "project_code" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.ProjectCode }}</p>
+                  <p class="text_16 blt_text">{{ "budget_number" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.BudgetNumber }}</p>
+                  <p class="text_16 blt_text">{{ "tender_number" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.TenderNumber }}</p>
+                  <p class="text_16 blt_text">{{ "contract_number" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.ContractNumber }}</p>
+                  <p class="text_16 blt_text">{{ "staff_number" | translator }}</p>
+                  <p class="text_16">{{ subCorrespondData.StaffNumber }}</p>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="pagination_warpper">
+      <pagination-controls
+        (pageChange)="getPage($event)"
+        id="server"
+      ></pagination-controls>
+    </div>
+  </div>
+</div>
+<ul></ul>

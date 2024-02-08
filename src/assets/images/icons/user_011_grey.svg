@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="13px" height="23px" viewBox="0 0 13 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>user_002</title>
+    <defs>
+        <filter id="filter-1">
+            <feColorMatrix in="SourceGraphic" type="matrix" values="0 0 0 0 0.408846 0 0 0 0 0.388923 0 0 0 0 0.388923 0 0 0 1.000000 0"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g filter="url(#filter-1)" id="user_002">
+            <g transform="translate(0.085690, 0.000000)">
+                <path d="M6.27291,0 C3.71101,0 1.62671,2.08425 1.62671,4.6462 C1.62671,7.20811 3.71096,9.29236 6.27291,9.29236 C8.83481,9.29236 10.91911,7.20811 10.91911,4.6462 C10.91911,2.08425 8.83491,0 6.27291,0 Z" id="Path" fill="#FF504A" fill-rule="nonzero"></path>
+                <path d="M6.27291,0 C3.71101,0 1.62671,2.08425 1.62671,4.6462 C1.62671,7.20811 3.71097,9.29236 6.27291,9.29236 L6.27291,0 Z" id="Path" fill="#FF7959" fill-rule="nonzero"></path>
+                <path d="M9.01481,10.2656 L3.53091,10.2656 C1.59239,10.2656 0,11.8475 0,13.786 L0,20.6761 C0,21.8393 0.96155,22.7812 2.12466,22.7812 L10.42111,22.7812 C11.58421,22.7812 12.51571,21.8393 12.51571,20.6761 L12.51571,13.786 C12.51571,11.8475 10.95331,10.2656 9.01481,10.2656 Z" id="Path" fill="#FF504A" fill-rule="nonzero"></path>
+                <path d="M6.27281,10.2656 L3.53091,10.2656 C1.59239,10.2656 0,11.8475 0,13.786 L0,20.6761 C0,21.8393 0.96155,22.7812 2.12466,22.7812 L6.27291,22.7812 L6.27281,10.2656 Z" id="Path" fill="#FF7959" fill-rule="nonzero"></path>
+            </g>
+        </g>
+    </g>
+</svg>

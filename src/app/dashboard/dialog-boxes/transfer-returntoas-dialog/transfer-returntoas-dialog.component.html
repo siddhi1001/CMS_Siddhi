@@ -1,0 +1,20 @@
+<div class="input_item_wrp text_area action_container">
+  <div mat-dialog-title class="action_header">
+      <p class="text_16 blt_text"></p>
+      <p class="text_16">{{'return_reason'|translator}}:</p>
+      <p class="text_16 err_message" >{{err}}</p>
+  </div>
+  <div mat-dialog-content class="input_item_wrp text_area">
+      <mat-form-field>
+        <textarea 
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="2" 
+          [placeholder]="'leave_comment' | translator" matInput [(ngModel)]="comment"></textarea>
+      </mat-form-field>
+  </div>
+  <div class="button-section">
+    <button class = "btn_004" [mat-dialog-close]="true">{{'cancel'|translator}}</button>
+    <button class = "btn_004" (click)="returnComment()">{{'save'|translator}}</button>
+  </div>
+</div>
+ 

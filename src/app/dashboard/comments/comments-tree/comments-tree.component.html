@@ -1,0 +1,35 @@
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree-holder">
+  <mat-tree-node class="tree1" *matTreeNodeDef="let node" matTreeNodePadding>
+    <button mat-icon-button disabled></button>
+    <div class="line-holder">
+      <h4>{{node.CreatorName_EN | translator:node.CreatorName_AR}}</h4>
+      <div class="comment-infoholder">
+        <h5>{{node.CreationDate}} | {{node.ReferenceType}}</h5>
+        <div class="button-holder" *ngIf="commentEdit">
+          <button (click)="deleteItem(node)" class="btn_002 cmntAction"
+            *ngIf="this.node.CreatorID === CurrentUserID">{{'actbtn_delete' | translator}}</button>
+          <button (click)="reply(node);" class="btn_002 cmntAction">{{'reply' | translator}}</button>
+        </div>
+      </div>
+      <p>{{node.CommentText}}</p>
+    </div>
+  </mat-tree-node>
+
+  <mat-tree-node class="tree2" *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.CommentText + node.ID">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    <div class="line-holder">
+      <h4>{{node.CreatorName_EN | translator:node.CreatorName_AR}}</h4>
+      <div class="comment-infoholder">
+        <h5>{{node.CreationDate}} | {{node.ReferenceType}}</h5>
+        <div class="button-holder" *ngIf="commentEdit">
+          <button (click)="reply(node);" class="btn_002 cmntAction">{{'reply' | translator}}</button>
+        </div>
+      </div>
+      <p>{{node.CommentText}}</p>
+    </div>
+  </mat-tree-node>
+</mat-tree>

@@ -1,0 +1,85 @@
+<div class="profile_wrapper" *ngIf="performerInfo">
+  <div class="profile_header">
+    <p class="profile_header_text">{{'assignee_info'|translator}}</p>
+    <button class="profile_btn" (click)="closeDialog()">
+      <img src="../../assets/images/icons/close_btn_white.svg" alt="">
+    </button>
+  </div>
+  <div *ngIf="performerProgbar" class="spinner_sm_wrappar">
+    <mat-spinner class="spinner_sm"></mat-spinner>
+   </div>
+  <div class="profile_contant_wrapper" *ngIf="!performerProgbar">
+    <div class="profile_general_wrp">
+      <div>
+        <div class="user_profile_details">
+          <div class="user_profile_img_wrp" *ngIf="(performerInfo.Employee_Info && userPhoto) else initial">
+            <img class="user_profile_img" [src]="sanitize(userPhoto)" alt="">
+          </div>
+          <ng-template class="user_profile_img" #initial>
+            <div class="performerInitials" *ngIf="performerInfo.Employee_Info">
+              <p>{{initials}}</p>  
+            </div>
+          </ng-template>
+          <div class="user_profile_img" *ngIf="performerInfo.Group_Info">
+            <div class="performerInitials">
+              <img alt="" class="org_img_001" src="../../assets/images/icons/folder_001.svg"> 
+            </div>
+          </div>
+          <div class="profile_user_detail" *ngIf="performerInfo.Employee_Info">
+            <p class="title_001">{{performerInfo.PrfInfo_General.FirstName_EN}}&nbsp;{{performerInfo.PrfInfo_General.LastName_EN}}</p>
+            <p class="text_14 color_001">{{'arabic_name'|translator}} : {{performerInfo.PrfInfo_General.FirstName_AR}} {{performerInfo.PrfInfo_General.LastName_AR}}</p>
+            <p class="text_14 color_001">{{'login'|translator}} : {{performerInfo.PrfInfo_General.Name_EN}}</p>
+            <p class="text_14 color_001">{{'role'|translator}}({{performerInfo.PrfInfo_Roles.length}}) : 
+            <span *ngFor="let role of performerInfo.PrfInfo_Roles; let i = index">{{role.RoleName_EN }}<span *ngIf="(i+1)!==performerInfo.PrfInfo_Roles.length">, </span></span></p>
+          </div>
+          <div class="profile_user_detail" *ngIf="performerInfo.Group_Info">
+            <p class="title_001">{{performerInfo.PrfInfo_General.Name}}</p>
+            <p *ngIf="performerInfo.PrfInfo_General.RoleCode" class="text_14 color_001">{{'role_code'|translator}} : {{performerInfo.PrfInfo_General.RoleCode}}</p>
+            <p *ngIf="performerInfo.PrfInfo_General.RoleName" class="text_14 color_001">{{'role_name'|translator}} : {{performerInfo.PrfInfo_General.RoleName}}</p>
+            <p class="text_14 color_001" *ngIf="performerInfo.PrfInfo_General.RoleType === 'Specific'">{{'node'|translator}} : {{performerInfo.PrfInfo_General.Node_EN}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="profile_group_wrp" *ngIf="performerInfo.Employee_Info">
+      <div class="profile_group_header">
+        <span class="title_001">{{'group'|translator}}</span>
+        <span class="group_number">{{performerInfo.PrfInfo_Groups.length}}</span>
+      </div>
+<!--       <div class="search_wrppaer">
+        <input class="search_box" type="text" placeholder="Search">
+      </div> -->
+      <div class="list_holder">
+        <ng-scrollbar thumbClass="scroll_001" compact="true">
+          <ul class="group_list_item_wrapper">
+            <li *ngFor = "let groupDetail of performerInfo.PrfInfo_Groups" class="group_list_item" (click)="getPerformerUserInfo(groupDetail.GroupID)">
+                  <span class="group_list_icom group_link">
+                    <img alt="" class="org_img_001" src="../../assets/images/icons/folder_001.svg">
+                  </span>&nbsp;<span class="group_link">{{groupDetail.GroupName}}</span>
+            </li>
+          </ul>
+        </ng-scrollbar>
+      </div>
+    </div>
+    <div class="profile_group_wrp" *ngIf="performerInfo.Group_Info">
+      <div class="profile_group_header">
+        <span class="title_001">{{'employee'|translator}}</span>
+        <span class="group_number">{{performerInfo.PrfInfo_Members.length}}</span>
+      </div>
+<!--       <div class="search_wrppaer">
+        <input class="search_box" type="text" placeholder="Search">
+      </div> -->
+      <div class="list_holder">
+        <ng-scrollbar thumbClass="scroll_001" compact="true">
+          <ul class="group_list_item_wrapper">
+            <li *ngFor = "let employee of performerInfo.PrfInfo_Members" class="group_list_item" (click)="getPerformerUserInfo(employee.ID)">
+              <span class="employe_list_icom employee_link">
+                <img alt="" class="org_img_001" src="../../assets/images/icons/user_task_01.svg">
+              </span>&nbsp;<span class="employee_link">{{employee.Employee_EN}}</span>
+            </li>
+          </ul>
+        </ng-scrollbar>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="main_admin_wrapper">
+  <div #header (resized)="onResized($event)">
+    <div class="header_wapper">
+      <app-breadcrumbs></app-breadcrumbs>
+      <div class="search_wrapper">
+        <div class="search-header">
+          <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass" (click)="applyMainFilter()">
+          <input type="text" [placeholder]="'search' | translator" #searchString (keyup.enter)="applyMainFilter()">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-with-drawer-wrapper" [class.drawer-opened]="detailState === 'in'"
+    [ngStyle]="{'height': 'calc(100vh - ' + headerHeight + 'px)'}">
+    <app-ecmd-chart class="org-chart-block" (openNodeDetailsOutput)=showNodeDetails($event)
+      (editNodeOutput)=editNode($event) (deleteNodeOutput)=deleteNode($event) (addNodeOutput)=addNode($event)
+      (activityChangeOutput)=activityChange($event)>
+    </app-ecmd-chart>
+    <div class="drawer-animation-holder" [@slideInOut]="detailState" [ngSwitch]="true">
+      <div class="drawer-wrapper" *ngSwitchCase="!!sideInfoItem">
+        <div class="drawer-header">
+          <p>{{sideInfoType | translator}}</p>
+          <div class="actions-wrapper">
+            <a [matTooltip]="'edit' | translator" class="btn btn_013" (click)="editNode(sideInfoItem)">
+              <img src="{{basehref}}assets/images/icons/edit_01.svg" alt="">
+            </a>
+            <a [matTooltip]="'close' | translator" class="btn btn_013" (click)="detailState='out'">
+              <img src="{{basehref}}assets/images/icons/close_01.svg" alt="">
+            </a>
+          </div>
+        </div>
+        <div class="drawer-main">
+          <h3>{{sideInfoName}}</h3>
+          <div class="prop-list" *ngFor="let prop of sideItemStructure">
+            <h4>{{prop.name | translator}}</h4>
+            <p>{{sideInfoItem[prop.value]}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<div mat-dialog-title class="dialog_header">
+  <h2>
+    {{actionType | translator}}
+  </h2>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+</div>
+<form mat-dialog-content [formGroup]="NodeData" class="dialog-body">
+  <div *ngFor="let item of interactionStructure" class="interaction-list" [ngSwitch]="item.name">
+    <h4>{{item.name | translator}}</h4>
+    <div *ngSwitchCase="'parent'" class="input_field_wrp sm_input_wrapper">
+      <mat-form-field>
+        <mat-select formControlName="ParentID">
+          <ng-container *ngFor="let elem of nodeList">
+            <mat-option [value]="elem.NODEID">
+              {{elem.Name_EN | translator:elem.Name_AR}}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div *ngSwitchDefault class="input_field_wrp sm_input_wrapper">
+      <mat-form-field>
+        <input [type]="item.type" matInput [formControlName]="item.controlName" autocomplete="off"
+          [maxlength]="item.inputLength">
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<div class="dialog-footer">
+  <button mat-flat-button class="btn_011" (click)="closeDialog()">{{'cancel' | translator}}</button>
+  <button mat-flat-button class="btn_012" (click)="save()">{{'save' | translator}}</button>
+</div>

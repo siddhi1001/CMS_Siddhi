@@ -1,0 +1,15 @@
+<div class="dialog-holder">
+  <div class="closeButton">
+    <!-- <mat-icon title="Close" id="close-icon" (click)="closeDialog()">close</mat-icon> -->
+  </div>
+  <div class="action_header">
+      <p class="text_16 blt_text">{{'message'| translator}}</p>
+  </div>
+  <div class="message-section">
+    <p class="text_16">{{message}}</p>
+  </div>
+  <div class="button-section">
+    <button  id="no-button" class = "btn_004" [mat-dialog-close]="false">{{'cancel'| translator}}</button>
+    <button  id="yes-button" class = "btn_004" [mat-dialog-close]="true">{{'ok'| translator}}</button>
+  </div>
+</div> 

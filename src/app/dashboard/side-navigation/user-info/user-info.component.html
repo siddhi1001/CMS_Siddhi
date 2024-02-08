@@ -1,0 +1,16 @@
+
+<div class="userInfoHolder">
+  <div class="menu_use_user_img" *ngIf="userPhoto" (click)= changeProxy(userData.ID)>
+    <img [src]="sanitize(userPhoto)" alt="">
+  </div>
+  <div class="menu_use_user_img" *ngIf="!userPhoto" (click)= changeProxy(userData.ID)>
+    <div class="userInitials">
+      <p>{{initials}}</p>  
+    </div>
+  </div>
+  <div class="menu_use_user_detail">
+    <p class="text_14" (click)= changeProxy(userData.ID)>{{userData.Name_En}}</p>
+    <p class="text_13">{{userData.RoleName_En}}</p>
+    <button class="btn_menu_vp" (click)=openProfile(userData)><img class="btn_menu_img" src="{{basehref}}assets/images/icons/eye.svg"  alt="">{{'view_profile' | translator}}</button>
+  </div>
+</div>

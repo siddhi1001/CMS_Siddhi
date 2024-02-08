@@ -1,0 +1,47 @@
+<div class="main_admin_wrapper">
+  <div class="header_wapper">
+    <app-breadcrumbs></app-breadcrumbs>
+    <div class="search_wrapper">
+      <div class="search-header">
+        <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass" (click)="setFullSearch()">
+        <input type="text" [placeholder]="'search' | translator" [(ngModel)]="searchValue"
+          (keyup.enter)="setFullSearch()">
+      </div>
+      <div class="action-buttons">
+        <button class="btn_011" mat-stroked-button (click)="addItem()">{{ 'add_new' | translator}}</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table_wrapper">
+    <div *ngIf="runSpinner; else elseBlock" class="spinner-wrappar">
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="single-column"></th>
+          <td mat-cell *matCellDef="let element" class="single-column"> {{element.Name_EN | translator:element.Name_AR}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <div class="row-action-button-wrapper">
+              <a [matTooltip]="'edit' | translator" class="btn btn_013" (click)="editItem(element)">
+                <img src="{{basehref}}assets/images/icons/edit_01.svg" alt="">
+              </a>
+              <a [matTooltip]="'actbtn_delete' | translator" class="btn btn_006"
+                (click)="deleteConfirm(element, 'delete')">
+                <img src="{{basehref}}assets/images/icons/admin_delete.svg" alt="">
+              </a>
+            </div>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="empty-header"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="default-cursor"></tr>
+      </table>
+      <div class="empty-search" *ngIf="dataSource.filteredData.length === 0">{{'no_data_to_display'|translator}}</div>
+    </ng-template>
+  </div>
+</div>

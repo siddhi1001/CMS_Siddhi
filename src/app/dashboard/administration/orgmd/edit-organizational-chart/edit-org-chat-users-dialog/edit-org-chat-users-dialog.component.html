@@ -1,0 +1,73 @@
+<div mat-dialog-title class="dialog_header">
+  <h2>
+    {{'empl_details' | translator}}
+  </h2>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+</div>
+<form mat-dialog-content [formGroup]="UserData" class="dialog-body">
+  <div *ngFor="let item of interactionStructure" class="interaction-list" [ngSwitch]="item.name">
+    <div class="interaction_items_arr_wrapper" *ngSwitchCase="'personal_email'">
+      <div class="interaction-list" *ngFor="let n of numSequence(5),let i=index">
+        <h4> {{'personal_email' | translator}} {{i !== 0 ? i + 1 : ''}}</h4>
+        <div class="input_field_wrp sm_input_wrapper">
+          <mat-form-field>
+            <input [type]="item.type" matInput [formControlName]="item.controlName + (i !== 0 ? i + 1 : '')"
+              autocomplete="off" [maxlength]="item.inputLength">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngSwitchCase="'main_role'">
+      <h4>{{item.name | translator}}</h4>
+      <div class="input_field_wrp sm_input_wrapper">
+        <mat-form-field>
+          <input [type]="item.type" matInput [formControlName]="item.controlName" [matAutocomplete]="MainRoleAuto"
+            [maxlength]="item.inputLength">
+          <mat-autocomplete #MainRoleAuto="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+            <mat-option *ngFor="let role of (filteredRoles | async)" [value]="role" autoActiveFirstOption>
+              {{ role.Name_EN | translator:role.Name_AR }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <div class="interaction_items_arr_wrapper" *ngSwitchCase="'additional_roles'">
+      <div formArrayName="additionalRoles" class="interaction-list"
+        *ngFor="let emprole of UserData.get('additionalRoles').controls; let i = index;">
+        <ng-container [formGroupName]="i">
+          <h4>{{'role' | translator}}</h4>
+          <div class="input_field_wrp sm_input_wrapper action_inside">
+            <mat-form-field>
+              <input [type]="text" matInput formControlName="RoleDetails" [matAutocomplete]="AdditionalRoles">
+            </mat-form-field>
+            <mat-autocomplete #AdditionalRoles="matAutocomplete" [displayWith]="displayFieldValue.bind(this)">
+              <mat-option *ngFor="let role of (rolesList[i] | async)" [value]="role" autoActiveFirstOption>
+                {{ role.Name_EN | translator:role.Name_AR }}
+              </mat-option>
+            </mat-autocomplete>
+            <a [matTooltip]="'actbtn_delete' | translator" class="btn btn_013" (click)="removeRole(i)">
+              <img src="{{basehref}}assets/images/icons/delete_01.svg" alt="">
+            </a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <ng-container *ngSwitchDefault>
+      <h4>{{item.name | translator}}</h4>
+      <div class="input_field_wrp sm_input_wrapper">
+        <mat-form-field>
+          <input [type]="item.type" matInput [formControlName]="item.controlName" autocomplete="off"
+            [maxlength]="item.inputLength">
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </div>
+  <button *ngIf="UserData.get('additionalRoles')['controls'].length <= 10" class="show_preview_btn" (click)="addRole()">
+    <img alt="" src="{{basehref}}assets/images/icons/plus_green_btn.svg">
+    <span>{{'add_role' | translator}}</span>
+  </button>
+</form>
+<div class="dialog-footer">
+  <button mat-flat-button class="btn_011" (click)="closeDialog()">{{'cancel' | translator}}</button>
+  <button mat-flat-button class="btn_012" (click)="save()">{{'save' | translator}}</button>
+</div>

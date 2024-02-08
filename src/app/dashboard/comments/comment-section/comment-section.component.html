@@ -1,0 +1,43 @@
+<div class="newCommentSection">
+	<div class="buttonHolder" *ngIf="commentsEditable">
+		<button class="show_preview_btn" (click)="openAddCommentWindow()" [class.addbutton-hide]="showAddCommentField">
+			<img src="{{basehref}}assets/images/icons/plus_green_btn.svg" alt="">
+			<span>{{'add_comment' | translator}}</span>
+		</button>
+	</div>
+	<div *ngIf="commentsProgbar" class="spinner_sm_wrappar">
+		<mat-spinner class="spinner_sm"></mat-spinner>
+	</div>
+	<div *ngIf="!commentsProgbar">
+		<div class="addComment" [style.opacity]="showAddCommentField ? '1' : '0'"
+			[style.max-height]="showAddCommentField ? '180px' : '0'">
+			<label id="radio-group-label"><b>{{infoText | translator}}
+					{{replyToDate | date: 'dd/MM/yyyy HH:mm'}}</b></label>
+			<mat-radio-group aria-label="Select an option">
+				<mat-radio-button class="radio-button" value="0" [checked]="checkedPrivate" (click)="defaltRadio(0)">
+					{{'public' | translator}}</mat-radio-button>
+				<mat-radio-button class="radio-button" value="1" [checked]="!checkedPrivate" (click)="defaltRadio(1)">
+					{{'private' | translator}}</mat-radio-button>
+			</mat-radio-group>
+			<div class="replyToComment">
+				<p><i>{{replyToComment}}</i></p>
+			</div>
+			<mat-form-field>
+				<textarea #txtArea cdkTextareaAutosize cdkAutosizeMinRows="2" cdkAutosizeMaxRows="6" matInput
+					[(ngModel)]="name" [(ngModel)]="addCommentObj.CommentText" [value]="addCommentObj.CommentText">
+	  </textarea>
+			</mat-form-field>
+			<button id="no-button" class="btn_004"
+				(click)="showAddCommentField=false">{{'cancel' | translator}}</button>
+			<button id="yes-button" class="btn_004" (click)="saveComment()">{{'save' | translator}}</button>
+		</div>
+	</div>
+	<div *ngIf="!commentsProgbar">
+		<div class="tree-holder" *ngIf="commentsDataBufer && commentsDataBufer.length; else emptyBlock">
+			<app-comments-tree [commentsDetails]="commentsDataBufer" [commentEdit]="commentsEditable"
+				(makeReply)="openAddReplyWindow($event)" (closeDialogBox)="getCommentsData()"></app-comments-tree>
+		</div>
+		<ng-template #emptyBlock>
+			<h3 class="empty-block">{{'no_comments_available' | translator}}</h3>
+		</ng-template>
+	</div>

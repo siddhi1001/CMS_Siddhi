@@ -1,0 +1,11 @@
+<div class="dialog_header">
+  <h2></h2>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close' | translator}}</mat-icon>
+</div>
+<div class="dialog-body">
+  <p class="message">{{data.message | translator}}</p>
+</div>
+<div class="dialog-footer">
+  <button mat-flat-button class="btn_011" (click)="closeDialog()">{{'cancel' | translator}}</button>
+  <button mat-flat-button class="btn_012" (click)="confirm()">{{'ok' | translator}}</button>
+</div>

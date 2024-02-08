@@ -1,0 +1,19 @@
+[{
+  "ID": "F17/00001012",
+   "Subject": "Town and country planning act 1990 lorem ipsum dolor sit amet consectetur, adipisicing elit.", 
+   "Requester": "Gemma Smith", 
+   "Type": "Unknown",
+   "Assigned": [ "Luzy", "Amy Criz","Luzy", "Amy Criz","Luzy", "Amy Criz","Luzy", "Amy Criz"],
+   "Received":"25/10/2018",
+   "Status":"Reassigned",
+   "Due_Customer":"30/10/2018",
+   "inbox_icons":[{
+     "title":"infom",
+     "icon":"../../assets/images/icons/info_icon.svg"
+     },
+     {
+       "title":"remove",
+       "icon":"../../assets/images/icons/work-flow.svg"
+       }
+  ]}
+]

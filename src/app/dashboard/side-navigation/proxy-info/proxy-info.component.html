@@ -1,0 +1,16 @@
+<div class="userInfoHolder" (click)= changeProxy(userData.ID)>
+  <div class="menu_designation_user_img" *ngIf="userPhoto">
+      <img [src]="sanitize(userPhoto)"  alt="">
+  </div>
+  <div class="menu_use_user_img" *ngIf="!userPhoto">
+      <div class="userInitials">
+        <p>{{initials}}</p>  
+      </div>
+    </div>
+  <div class="menu_designation_user_detail">
+    <div>
+      <p class="text_13">{{userData.Name_En}}</p>
+      <p class="text_12">{{userData.RoleName_En}}</p>
+    </div>
+  </div>
+</div>

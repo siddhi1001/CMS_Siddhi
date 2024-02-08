@@ -1,0 +1,55 @@
+[{
+  "actualRows": 6,
+  "filteredRows": 6,
+	  "inbounds": [	
+		{
+			"ResultName":"MyCorrIntInbound",
+			"Count":"",
+			"Title": "New",
+			"router":"new-intinbounds",
+			"icon":"assets/images/icons/new_message_001.svg"
+		},
+		{
+			"ResultName":"MyCorrIntInbound",
+			"Count":"",
+			"Title": "Completed",
+			"router":"inProgress-intinbounds",
+			"icon":"assets/images/icons/in_progress_icon_001.svg"
+			
+		},
+		{
+			"ResultName":"MyCorrIntInbound",
+			"Count":"",
+			"Title": "Archived",
+			"router":"archieved-intinbounds",
+			"icon":"assets/images/icons/achieved_icon_001.svg"
+		}
+	 ],					
+	"outbounds":[		
+		{
+			"ResultName":"MyCorrIntOutbound",
+			"Count":"",
+			"Title": "WIP",
+			"router":"new-intoutbounds",
+			"icon":"assets/images/icons/new_message_001.svg"			
+		},
+		{
+			"ResultName":"MyCorrIntOutbound",
+			"Count":"",
+			"Title": "Signed",
+			"router":"inProgress-intoutbounds",
+			"icon":"assets/images/icons/in_progress_icon_001.svg"
+		},
+		{
+			"ResultName":"MyCorrIntOutbound",
+			"Count":"",
+			"Title": "Archived",
+			"router":"archieved-intoutbounds",
+			"icon":"assets/images/icons/achieved_icon_001.svg"
+		}
+],
+ "sourceID": 349057,
+  "success": true,
+  "totalRows": 6,
+  "totalSourceRows": 6
+}]

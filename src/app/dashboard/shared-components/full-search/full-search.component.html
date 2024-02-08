@@ -1,0 +1,33 @@
+<form [formGroup]="fullSearchForm" class="full-search-form"
+  [ngClass]="{'full-search-with-details': searchOptions, 'full-search-without-details': !searchOptions}" #elementRef>
+  <div class="search-header" (click)="makeCurrentSearchActive()">
+    <img src="{{basehref}}assets/images/icons/search.svg" class="search-glass-img" (click)=fullSearchSubmit()>
+    <div class="full-search-input-holder">
+      <input type="text" formControlName="searchString" class="full-search-input" (keydown.enter)="searchFunction()"
+        [placeholder]="'search' | translator">
+    </div>
+    <button class="open-search-options-button" (click)="openSearchoptions()">
+      <i class="material-icons">{{'tune'| translator}}</i></button>
+  </div>
+  <div>
+    <mat-expansion-panel [expanded]="searchOptions" class="expanded-options">
+      <div class="search-options">
+        <mat-form-field class="options-selector">
+          <mat-label>{{'search_by'| translator}}</mat-label>
+          <mat-select name="search-option" formControlName="searchParameter">
+            <mat-option *ngFor="let option of Options" [value]="option.value"
+              style="padding-top:5px !important;padding-bottom:5px !important">
+              {{option.viewValue}}
+              <!--  <i class="material-icons">done</i> -->
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button class="btn_002" (click)="showAdvancedSearch(true)">{{'advanced_search'| translator}}</button>
+      </div>
+      <div class="action-buttons">
+        <button (click)="clearFunction()" class="btn_002">{{'clear'| translator}}</button>
+        <button (click)="fullSearchSubmit()" class="btn_002">{{'search'| translator}}</button>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</form>

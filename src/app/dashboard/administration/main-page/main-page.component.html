@@ -1,0 +1,62 @@
+<div class="main_admin_wrapper">
+  <div class="header_wapper">
+    <app-breadcrumbs></app-breadcrumbs>
+    <div class="search_wrapper">
+      <div class="search-header">
+        <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass"
+          (click)="searchInAdminStructure(searchString.value)">
+        <input type="text" [placeholder]="'search' | translator" #searchString
+          (keyup.enter)="searchInAdminStructure(searchString.value)">
+      </div>
+      <div class="action-buttons">
+        <button class="btn_011" mat-stroked-button (click)="accordionAction()">{{possibleAction}}</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="structureJson.length === 0; else elseBlock" class="spinner-wrappar">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #elseBlock>
+    <div class="accordion_wrappar">
+      <mat-accordion class="admin-accordion" multi>
+        <ng-container *ngFor="let section of pageStructure">
+          <mat-expansion-panel [expanded]="secExp == section.route" *ngIf="section.level">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{section.name.en | translator:section.name.ar}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="section-header">
+              <h3>{{'pages'|translator}}</h3>
+              <h3>{{'description'|translator}}</h3>
+            </div>
+            <div class="section-body">
+              <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ list: section.children }"></ng-container>
+              <ng-template #recursiveListTmpl let-list="list">
+                <ng-container *ngFor="let item of list">
+                  <div *ngIf="item.level" class="paragraph-wrapper">
+                    <div class="paragraph-data">
+                      <div class="paragraph-name"
+                        [style.paddingRight]="translator.lang === 'ar' ? (item.level > 2 ? item.level*20 : 15) + 'px' : 0"
+                        [style.paddingLeft]="translator.lang !== 'ar' ? (item.level > 2 ? item.level*20 : 15) + 'px' : 0">
+                        <a [ngClass]="item.hasOwnProperty('route') ? 'color_003' : 'color_004'"
+                          [routerLink]="item.hasOwnProperty('route') && item.route !== '' ? item.route : []">{{ item.name.en | translator:item.name.ar }}</a>
+                      </div>
+                      <div class="paragraph-description">{{ item.description.en | translator:item.description.ar }}
+                      </div>
+                    </div>
+                    <div *ngIf="item.children.length > 0">
+                      <ng-container *ngTemplateOutlet="recursiveListTmpl; context:{ list: item.children }">
+                      </ng-container>
+                    </div>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </div>
+          </mat-expansion-panel>
+        </ng-container>
+      </mat-accordion>
+      <div class="empty-search" *ngIf="pageStructure.length === 0 && structureJson.length > 0">{{'no_matches_found'|translator}}</div>
+    </div>
+  </ng-template>
+</div>

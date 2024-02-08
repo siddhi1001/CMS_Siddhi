@@ -1,0 +1,21 @@
+<div class="dialog_header">
+  <h2>
+    {{header | translator}}
+  </h2>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+</div>
+<form mat-dialog-content [formGroup]="RoleData" class="dialog-body">
+  <div *ngFor="let item of interactionStructure" class="interaction-list">
+    <h4>{{item.name | translator}}</h4>
+    <div class="input_field_wrp sm_input_wrapper">
+      <mat-form-field>
+        <input [type]="item.type" matInput [formControlName]="item.controlName" autocomplete="off"
+          [maxlength]="item.inputLength">
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<div class="dialog-footer">
+  <button mat-flat-button class="btn_011" (click)="closeDialog()">{{'cancel' | translator}}</button>
+  <button mat-flat-button class="btn_012" (click)="save()">{{'save' | translator}}</button>
+</div>

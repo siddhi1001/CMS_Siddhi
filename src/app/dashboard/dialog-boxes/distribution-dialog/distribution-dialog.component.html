@@ -1,0 +1,162 @@
+<div class="action_header">
+  <p class="text_16 blt_text">
+    Distribution To:
+  </p>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+</div>
+<div *ngIf="loadSpinner || !distributionAttributes" class="spinner_sm_wrappar">
+  <mat-spinner class="spinner_sm"></mat-spinner>
+</div>
+<div class="distribution_input_item_wrp general-action" *ngIf="!loadSpinner && distributionAttributes">
+  <mat-form-field>
+    <mat-label>{{'purpose' | translator}}</mat-label>
+    <mat-select (selectionChange)="allParametersChange('Purpose', $event)">
+      <mat-option *ngFor="let option of distributionAttributes.Purpose" [value]="option.ID">
+        {{option.Purpose_EN}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>{{'priority' | translator}}</mat-label>
+    <mat-select (selectionChange)="allParametersChange('Priority', $event)">
+      <mat-option *ngFor="let option of distributionAttributes.Priority" [value]="option.ID">
+        {{option.Priority_EN}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div #tableContainer (resized)="onResized($event)">
+  <ng-scrollbar thumbClass="scroll_001" *ngIf="!loadSpinner && distributionAttributes">
+    <form [formGroup]="distributionForm" class='distribution-form'>
+      <table class="table distribution-dialog-table">
+        <thead>
+          <tr class="mat-row">
+            <th *ngFor="let col of distTableStructure" style=" height:30px">{{col.columnName}}
+            </th>
+          </tr>
+        </thead>
+        <tbody formArrayName="distributionUsers" class="distribution-dialog-table-body"
+          *ngFor="let user of distributionForm.get('distributionUsers').controls; let i = index;">
+          <ng-container [formGroupName]="i">
+            <tr class="expanded-row">
+              <td *ngFor="let col of distTableStructure" class="" [ngSwitch]="col.columnDef">
+                <div *ngSwitchCase="'Icon'" class="left-icons-holder">
+                  <i (click)="expandedElement = expandedElement === i ? null : i" class="material-icons">
+                    {{expandedElement === i ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+                </div>
+                <p *ngSwitchCase="'Department'">{{user.controls.Department_EN.value}}</p>
+                <p class="employee-holder" *ngSwitchCase="'To'">
+                  <span class="role" *ngIf="user.controls.Title_EN.value">
+                    {{user.controls.Title_EN.value}}</span>
+                  <span class="name">{{user.controls.To_EN.value}}</span>
+                </p>
+                <p *ngSwitchCase="'RoleName'">{{user.controls.RoleName_EN.value}}</p>
+                <p *ngSwitchCase="'FlowSeq'">{{user.controls.FlowSeq.value}}</p>
+                <div *ngSwitchCase="'Purpose'" class="distribution_input_item_wrp purpose-field">
+                  <mat-form-field>
+                    <mat-select formControlName="Purpose">
+                      <mat-option *ngFor="let option of distributionAttributes.Purpose" [value]="option.ID">
+                        {{option.Purpose_EN}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngSwitchCase="'Priority'" class="distribution_input_item_wrp">
+                  <mat-form-field>
+                    <mat-select formControlName="Priority">
+                      <mat-option *ngFor="let option of distributionAttributes.Priority" [value]="option.ID">
+                        {{option.Priority_EN}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div *ngSwitchCase="'Days'" class="distribution_input_item_wrp due-days">
+                  <mat-form-field>
+                    <mat-select formControlName="Days" (selectionChange)="changeDueDate(i)">
+                      <mat-option *ngFor="let option of daysArr" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <p *ngSwitchCase="'DueDate'">
+                  {{user.controls.DueDate.value | date: 'dd/MM/yyyy'}}</p>
+                <div class="distribution_input_item_wrp text_area">
+                  <mat-form-field *ngSwitchCase="'Comments'">
+                    <textarea formControlName="Comments" matInput></textarea>
+                  </mat-form-field>
+                </div>
+                <p *ngSwitchDefault></p>
+              </td>
+            </tr>
+            <tr class="mat-row detail-row">
+              <td class="mat-cell" [attr.colspan]="distTableStructure.length">
+                <div class="element-detail" [@detailExpand]="expandedElement === i ? 'expanded' : 'collapsed'">
+                  <div class="detail-parameters">
+                    <table class="" class="detail-table">
+                      <tr *ngFor="let col of distTableStructureDetails">
+                        <th>{{col.columnName}}</th>
+                        <td class="" [ngSwitch]="col.columnDef">
+                          <p *ngSwitchCase="'Department'">{{user.controls.Department_EN.value}}</p>
+                          <p class="employee-holder" *ngSwitchCase="'To'">
+                            <span class="role" *ngIf="user.controls.Title_EN.value">
+                              {{user.controls.Title_EN.value}}</span>
+                            <span class="name">{{user.controls.To_EN.value}}</span>
+                          </p>
+                          <p *ngSwitchCase="'RoleName'">{{user.controls.RoleName_EN.value}}</p>
+                          <p *ngSwitchCase="'FlowSeq'">{{user.controls.FlowSeq.value}}</p>
+                          <div *ngSwitchCase="'Purpose'" class="distribution_input_item_wrp purpose-field">
+                            <mat-form-field>
+                              <mat-select formControlName="Purpose">
+                                <mat-option *ngFor="let option of distributionAttributes.Purpose" [value]="option.ID">
+                                  {{option.Purpose_EN}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div *ngSwitchCase="'Priority'" class="distribution_input_item_wrp">
+                            <mat-form-field>
+                              <mat-select formControlName="Priority">
+                                <mat-option *ngFor="let option of distributionAttributes.Priority" [value]="option.ID">
+                                  {{option.Priority_EN}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                          <div *ngSwitchCase="'Days'" class="distribution_input_item_wrp due-days">
+                            <mat-form-field>
+                              <mat-select formControlName="Days" (selectionChange)="changeDueDate(i)">
+                                <mat-option *ngFor="let option of daysArr" [value]="option">
+                                  {{option}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+
+                          <p *ngSwitchCase="'DueDate'">
+                            {{user.controls.DueDate.value | date: 'dd/MM/yyyy'}}</p>
+                          <div class="distribution_input_item_wrp text_area">
+                            <mat-form-field *ngSwitchCase="'Comments'">
+                              <textarea formControlName="Comments" cdkAutosizeMinRows="1" cdkAutosizeMaxRows="2"
+                                matInput></textarea>
+                            </mat-form-field>
+                          </div>
+                          <p *ngSwitchDefault></p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </form>
+  </ng-scrollbar>
+</div>
+<div class="distribution_footer">
+  <button mat-button class="btn_002 mat-button" (click)=closeDialog()>{{'cancel' | translator}}</button>
+  <button mat-button class="btn_001 mat-button" (click)="saveDistribution()">{{'distribute' | translator}}</button>
+</div>

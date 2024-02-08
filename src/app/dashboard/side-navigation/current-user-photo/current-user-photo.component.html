@@ -1,0 +1,8 @@
+<div *ngIf="userPhoto">
+  <img class="nav_item_user" [src]="sanitize(userPhoto)" alt="">
+</div>
+<div class="menu_use_user_img" *ngIf="!userPhoto">
+    <div class="currentUserInitials">
+      <p>{{initials}}</p>  
+    </div>
+</div>

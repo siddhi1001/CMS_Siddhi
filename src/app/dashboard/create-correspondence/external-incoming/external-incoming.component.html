@@ -1,0 +1,1000 @@
+<div class="new_edt_cont_wrapper" *ngIf="spinnerDataLoaded">
+  <mat-spinner></mat-spinner>
+</div>
+<div class="new_edt_cont_wrapper">
+  <ng-scrollbar thumbClass="scroll_001" class="correspondence_detail scroll_wrp_001" *ngIf="expandedRightAction"
+    [ngClass]="expandedAction ? 'unActive' : 'ActiveLeft'">
+    <button (click)="expandeActionLeftButton()" matRipple class="corsp_ext_btn">
+      <img src="{{basehref}}assets/images/icons/full-screen.svg" alt="">
+    </button>
+    <div class="detail_header">
+      <div class="header_text" *ngFor="let user of userInfo">
+        <div class="header_back_cpd_dtl">
+          <button class="back_btn" (click)="backNavigation()">
+            <img src="{{basehref}}assets/images/icons/left_arrow.svg" alt="">
+          </button>
+          <h3 class="text_23 ltg_text">{{'register_external_incoming_corr'| translator}}
+          </h3>
+        </div>
+        <div class="user_name">
+          <div class="user_img">
+            <img src="{{basehref}}assets/images/icons/profile.svg" alt="">
+          </div>
+          <p class="text_15" *ngFor="let uInfo of user.myRows">{{uInfo.FullName_EN}}</p>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="senderDetailsForm" class="sender-section">
+      <div class="sender_wrapper corspnt_item">
+        <div class="acdn_open_header">
+          <div class="icon_wrapper">
+            <div class="icon_typ icon_typ_001">
+              <img src="{{basehref}}assets/images/icons/sender_mail_icon.svg" alt="">
+            </div>
+          </div>
+          <p class="title_001">{{'sender'| translator}}</p>
+        </div>
+        <div class="corres_data_area">
+          <div class="corres_table_wrapper" #senderContainer (resized)="onResized($event)">
+            <table class="sender-table">
+              <thead>
+                <tr>
+                  <th *ngFor="let col of senderTableStructure" [style.width]="senderColWidth + '%'">
+                    {{col.columnName}}</th>
+                  <th [style.width]="senderIconWidth + '%'"></th>
+                </tr>
+              </thead>
+              <tbody *ngIf="senderTableStructureDetails">
+                <tr>
+                  <td *ngFor="let col of senderTableStructure" [ngSwitch]="col.columnDef"
+                    [style.width]="senderColWidth + '%'">
+                    <div *ngSwitchCase="'OrganizationName'" class="input_item_wrp sm_input_wrapper">
+                      <mat-form-field class="input_tbl_wrp">
+                        <input type="text" aria-label="Number" matInput formControlName="ExternalOrganization"
+                          [matAutocomplete]="extOrgName">
+                      </mat-form-field>
+                      <mat-autocomplete #extOrgName="matAutocomplete" class="longautocomplete"
+                        [displayWith]="displaySearchFilterValueExt">
+                        <mat-option *ngFor="let OrgName of (filteredExtOrgNames | async)" [value]="OrgName"
+                          (onSelectionChange)="optionSelectionChangeExternal(OrgName, $event)">
+                          {{OrgName?.OrgName_En}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </div>
+                    <div *ngSwitchCase="'DepartmentName'" class="input_item_wrp sm_input_wrapper">
+                      <mat-form-field class="input_tbl_wrp">
+                        <input type="text" aria-label="Number" matInput formControlName="SenderDepartment">
+                      </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="'Name'" class="input_item_wrp sm_input_wrapper">
+                      <mat-form-field class="input_tbl_wrp">
+                        <input type="text" aria-label="Number" matInput formControlName="SenderName">
+                      </mat-form-field>
+                    </div>
+                  </td>
+                  <td class="btn_td_wrp" [style.width]="senderIconWidth + '%'">
+                    <div class="btn_td_wrp_flex">
+                      <button (click)="clearDetails('senderDetailsForm')" class="remove_btn_002" mat-button
+                      [matTooltip]="'clear' | translator">
+                        <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                      </button>
+                      <i *ngIf="senderTableStructureDetails.length > 0"
+                        (click)="expandedSenderElement = !expandedSenderElement" class="material-icons">
+                        {{expandedSenderElement ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="detail-row">
+                  <td [attr.colspan]="senderTableStructure.length + 1">
+                    <div class="element-detail" [@detailExpand]="expandedSenderElement ? 'expanded' : 'collapsed'">
+                      <div class="detail-parameters active-details">
+                        <table style="width:100%" class="sender-table-details">
+                          <tr *ngFor="let col of senderTableStructureDetails">
+                            <th>{{col.columnName}}</th>
+                            <td [ngSwitch]="col.columnDef">
+                              <div *ngSwitchCase="'OrganizationName'" class="input_item_wrp sm_input_wrapper">
+                                <mat-form-field class="input_tbl_wrp">
+                                  <input type="text" aria-label="Number" matInput formControlName="ExternalOrganization"
+                                    [matAutocomplete]="extOrgName">
+                                </mat-form-field>
+                                <mat-autocomplete #extOrgName="matAutocomplete" class="longautocomplete"
+                                  [displayWith]="displaySearchFilterValueExt">
+                                  <mat-option *ngFor="let OrgName of (filteredExtOrgNames | async)" [value]="OrgName"
+                                    (onSelectionChange)="optionSelectionChangeExternal(OrgName, $event)">
+                                    {{OrgName?.OrgName_En}}
+                                  </mat-option>
+                                </mat-autocomplete>
+                              </div>
+                              <div *ngSwitchCase="'DepartmentName'" class="input_item_wrp sm_input_wrapper">
+                                <mat-form-field class="input_tbl_wrp">
+                                  <input type="text" aria-label="Number" matInput formControlName="SenderDepartment">
+                                </mat-form-field>
+                              </div>
+                              <div *ngSwitchCase="'Name'" class="input_item_wrp sm_input_wrapper">
+                                <mat-form-field class="input_tbl_wrp">
+                                  <input type="text" aria-label="Number" matInput formControlName="SenderName">
+                                </mat-form-field>
+                              </div>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="show_preview_btn" (click)="showSenderData()">
+            <img src="{{basehref}}assets/images/icons/plus_green_btn.svg" alt="">
+            <span>{{'select_sender'| translator}}</span>
+          </button>
+        </div>
+      </div>
+    </form>
+    <form [formGroup]="recipientDetailsForm">
+      <div class="recipient_wrapper corspnt_item">
+        <div class="acdn_open_header">
+          <div class="icon_wrapper">
+            <div class="icon_typ icon_typ_002">
+              <img src="{{basehref}}assets/images/icons/add-user.svg" alt="">
+            </div>
+          </div>
+          <p class="title_001">{{'recipient'| translator}}</p>
+        </div>
+        <div class="corres_data_area">
+          <div class="corres_table_wrapper">
+            <table class="table">
+              <tr>
+                <th>{{'organization'| translator}}</th>
+                <th class="department">{{'department'| translator}}</th>
+                <th class="role">{{'role'| translator}}</th>
+                <th>{{'name'| translator}}</th>
+                <th class="btn_td_wrp"></th>
+              </tr>
+              <tr>
+                <td>{{IntRecipientInfo?.OrgName_En}}</td>
+                <td>
+                  <div class="input_item_wrp sm_input_wrapper">
+                    <mat-form-field class="input_tbl_wrp">
+                      <input type="text" aria-label="Number" matInput formControlName="RecipientDepartment"
+                        [matAutocomplete]="recpientDepName">
+                      <mat-autocomplete #recpientDepName="matAutocomplete" class="longautocomplete"
+                        [displayWith]="displaySearchFilterValueInt">
+                        <mat-option *ngFor="let DepName of (filteredIntDepNames | async)" [value]="DepName"
+                          (onSelectionChange)="optionSelectionChangeInternal(DepName, $event)">
+                          {{DepName?.DepName_En}} {{ (DepName.SecName_En != null) ? (","+DepName.SecName_En) : "" }}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                  </div>
+                </td>
+                <td>{{IntRecipientInfo?.RoleName_En}}</td>
+                <td>{{IntRecipientInfo?.Name_En}}</td>
+                <td class="btn_td_wrp">
+                  <button (click)="clearDetails('recipientDetailsForm')" class="remove_btn_002" mat-button
+                  [matTooltip]="'clear' | translator">
+                    <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <button class="show_preview_btn" (click)="showRecipientData()">
+            <img src="{{basehref}}assets/images/icons/plus_green_btn.svg" alt="">
+            <span>{{'select_recipient'| translator}}</span>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="corres_acdn_warapper mat_accordion_001">
+      <mat-accordion multi="true">
+        <form [formGroup]="ccDetailsForm">
+          <mat-expansion-panel class="mat-elevation-z bg_001">
+            <mat-expansion-panel-header>
+              <div class="icon_wrapper">
+                <div class="icon_typ icon_typ_003">
+                  <img src="{{basehref}}assets/images/icons/crsp_cc_iocn_white.svg" alt="">
+                </div>
+              </div>
+              <p class="title_001">{{'cc'| translator}}</p>
+            </mat-expansion-panel-header>
+            <div class="corres_data_area">
+              <div *ngIf="ccProgbar" class="spinner_sm_wrappar">
+                <mat-spinner class="spinner_sm"></mat-spinner>
+              </div>
+              <div *ngIf="!ccProgbar" class="corres_table_wrapper">
+                <table class="table">
+                  <tr>
+                    <th>{{'department'| translator}}</th>
+                    <th>{{'role'| translator}}</th>
+                    <th>{{'name'| translator}}</th>
+                    <th class="btn_td_wrp"></th>
+                  </tr>
+                  <tbody>
+                    <tr formArrayName="CCDetails"
+                      *ngFor="let cc of ccDetailsForm.get('CCDetails').controls; let i = index;">
+                      <ng-container>
+                        <td>
+                          {{cc.controls.departmentName.value}}</td>
+                        <td>
+                          {{cc.controls.role.value}}</td>
+                        <td>
+                          {{cc.controls.name.value}}</td>
+                        <td class="btn_td_wrp">
+                          <button (click)="removeCC(i)" class="remove_btn_002" mat-button [matTooltip]="'clear' | translator">
+                            <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                          </button>
+                        </td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <button class="show_preview_btn" (click)="showCCData()">
+                <img src="{{basehref}}assets/images/icons/plus_green_btn.svg" alt="">
+                <span>{{'select_cc'| translator}}</span>
+              </button>
+            </div>
+          </mat-expansion-panel>
+        </form>
+
+        <mat-expansion-panel class="mat-elevation-z ">
+          <mat-expansion-panel-header>
+            <div class="icon_wrapper">
+              <div class="icon_typ icon_typ_004">
+                <img src="{{basehref}}assets/images/icons/crsp_icon_white.svg" alt="">
+              </div>
+            </div>
+            <p class="title_001">{{'correspondence'| translator}}</p>
+          </mat-expansion-panel-header>
+          <div class="corres_data_area">
+            <div *ngIf="coverProgbar" class="spinner_sm_wrappar">
+              <mat-spinner class="spinner_sm"></mat-spinner>
+            </div>
+            <div *ngIf="!coverProgbar" class="corres_fld_wrapper">
+              <form class="cust_row" [formGroup]="correspondenceDetailsForm" (ngSubmit)="onSubmit()">
+                <mat-form-field class="col_6">
+                  <input matInput [placeholder]="'reg_date' | translator" formControlName="regDate">
+                </mat-form-field>
+                <div class="doc_date_wrp col_6">
+                  <mat-form-field class="">
+                    <!-- [(ngModel)]="curDocDate" [ngModelOptions]="{standalone: true}"  -->
+                    <input matInput [placeholder]="'doc_date' | translator" [owlDateTimeTrigger]="docDate" [owlDateTime]="docDate"
+                      autocomplete="off" formControlName="docsDate">
+                    <owl-date-time [pickerType]="'calendar'" #docDate></owl-date-time>
+                  </mat-form-field>
+                  <mat-checkbox formControlName="confidential">{{'confidential'| translator}}</mat-checkbox>
+                </div>
+
+                <mat-form-field class="col_6">
+                  <input type="text" [(ngModel)]="PriorityVal" [placeholder]="'priority' | translator" matInput
+                    [matAutocomplete]="Priority" formControlName="priority">
+                  <mat-autocomplete #Priority="matAutocomplete" [displayWith]="displayFn" autoActiveFirstOption>
+                    <mat-option *ngFor="let option of MetadataFilters | attrfilter:'Priority':PriorityVal"
+                      [value]="option">
+                      {{option.EN}}
+
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'ref_number' | translator" formControlName="refNumber"
+                    [ngClass]="{ 'is-invalid': submitted && f.refNumber.errors }" required>
+                  <mat-error *ngIf="submitted && f.refNumber.errors">{{'please_enter_ref_number'| translator}}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'personal_name' | translator" formControlName="personalName">
+                  <!-- <mat-error *ngIf="submitted && f.personalName.errors">Please enter Personal Name</mat-error> -->
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'id_number' | translator" formControlName="idNumber"
+                    [ngClass]="{ 'is-invalid': submitted && f.IDNumber.errors }">
+                  <!-- <mat-error *ngIf="submitted && f.IDNumber.errors">Please enter ID</mat-error> -->
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input type="text" [(ngModel)]="CorrespondenceTypeVal" [placeholder]="'correspondence_type' | translator" matInput
+                    [matAutocomplete]="CorrespondenceType" formControlName="correspondenceType">
+                  <mat-autocomplete #CorrespondenceType="matAutocomplete" [displayWith]="displayFn"
+                    autoActiveFirstOption>
+                    <mat-option
+                      *ngFor="let option of MetadataFilters | attrfilter:'CorrespondenceType':CorrespondenceTypeVal"
+                      [value]="option">
+                      {{option.EN}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <!-- <mat-form-field class="col_6">
+                  <mat-label>Correspondence Type</mat-label>
+                  <mat-select [(value)]="selectedCorrespondenceType" formControlName="correspondenceType">
+                    <mat-option value="test 1">test 1</mat-option>
+                    <mat-option value="test 2">test 2</mat-option>
+                    <mat-option value="test 3">test 3</mat-option>
+                    <mat-option value="test 4">test 4</mat-option>
+                    <mat-option value="test 5">test 5</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+
+                <mat-form-field class="col_6">
+                  <input type="text" [(ngModel)]="BaseTypeVal" [placeholder]="'base_type' | translator" matInput
+                    [matAutocomplete]="BaseType" formControlName="baseType">
+                  <mat-autocomplete #BaseType="matAutocomplete" [displayWith]="displayFn" autoActiveFirstOption>
+                    <mat-option *ngFor="let option of MetadataFilters | attrfilter:'BaseType':BaseTypeVal"
+                      [value]="option">
+                      {{option.EN}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="col_6">
+                  <mat-label>Base Type</mat-label>
+                  <mat-select [(value)]="selectedBaseType" formControlName="baseType">
+                    <mat-option value="test 1">test 1</mat-option>
+                    <mat-option value="test 2">test 2</mat-option>
+                    <mat-option value="test 3">test 3</mat-option>
+                    <mat-option value="test 4">test 4</mat-option>
+                    <mat-option value="test 5">test 5</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="col_12">
+                  <input matInput autocomplete="off" [placeholder]="'arabic_subject' | translator" formControlName="arabicSubject">
+                </mat-form-field>
+                <mat-form-field class="col_12">
+                  <input matInput autocomplete="off" [placeholder]="'english_subject' | translator" formControlName="englishSubject">
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'project_code' | translator" formControlName="projectCode">
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'budget_number' | translator" formControlName="budgetNumber">
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'contract_number' | translator" formControlName="contractNumber">
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'tender_number' | translator" formControlName="tenderNumber">
+                </mat-form-field>
+                <mat-form-field class="col_6" disabled>
+                  <input matInput autocomplete="off" [placeholder]="'corr_number' | translator" formControlName="corrNumber">
+                </mat-form-field>
+                <mat-form-field class="col_6">
+                  <input type="text" [(ngModel)]="FillingPlanPathVal" [placeholder]="'filling_plan_path' | translator" matInput
+                    [matAutocomplete]="FillingPlanPath" formControlName="fillinPlanPath">
+                  <mat-autocomplete #FillingPlanPath="matAutocomplete" [displayWith]="displayFn" autoActiveFirstOption>
+                    <mat-option *ngFor="let option of MetadataFilters | attrfilter:'FillingPlanPath':FillingPlanPathVal"
+                      [value]="option">
+                      {{option.EN}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="col_6">
+                  <mat-label>Fillin Plan Path</mat-label>
+                  <mat-select [(value)]="selectedFillinPlanPath" formControlName="fillinPlanPath">
+                    <mat-option value="test 1">test 1</mat-option>
+                    <mat-option value="test 2">test 2</mat-option>
+                    <mat-option value="test 3">test 3</mat-option>
+                    <mat-option value="test 4">test 4</mat-option>
+                    <mat-option value="test 5">test 5</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="col_6">
+                  <input type="text" [(ngModel)]="DispatchMethodVal" [placeholder]="'dispatch_method' | translator" matInput
+                    [matAutocomplete]="DispatchMethod" formControlName="dispatchMethod">
+                  <mat-autocomplete #DispatchMethod="matAutocomplete" [displayWith]="displayFn" autoActiveFirstOption>
+                    <mat-option *ngFor="let option of MetadataFilters | attrfilter:'DispatchMethod':DispatchMethodVal"
+                      [value]="option">
+                      {{option.EN}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <!-- <mat-form-field class="col_6">
+                  <mat-label>Dispatch Method</mat-label>
+                  <mat-select [(value)]="selectedDispatchMethod" formControlName="dispatchMethod">
+                    <mat-option value="test 1">test 1</mat-option>
+                    <mat-option value="test 2">test 2</mat-option>
+                    <mat-option value="test 3">test 3</mat-option>
+                    <mat-option value="test 4">test 4</mat-option>
+                    <mat-option value="test 5">test 5</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+                <mat-form-field class="col_6">
+                  <input matInput autocomplete="off" [placeholder]="'staff_number' | translator" formControlName="staffNumber">
+                </mat-form-field>
+              </form>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel class="mat-elevation-z bg_001">
+          <mat-expansion-panel-header>
+            <div class="icon_wrapper">
+              <div class="icon_typ icon_typ_005">
+                <img src="{{basehref}}assets/images/icons/cover-document.svg" alt="">
+              </div>
+            </div>
+            <p class="title_001">{{'cover'| translator}}</p>
+          </mat-expansion-panel-header>
+          <div class="corres_data_area">
+            <ul class="cl_btn_group">
+              <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_001" (click)="refreshCoverSection()">
+                  <img src="{{basehref}}assets/images/icons/refresh_arrow_white.svg" alt="">
+                </button>
+              </li>
+              <li class="cl_btn_wrp">
+                <div class="image-upload">
+
+                  <label for="file-input" class="cl_btn cl_btn_002" [matTooltip]="'add_document' | translator">
+                    <img src="{{basehref}}assets/images/icons/cl_file_add_doc.svg" alt="">
+                  </label>
+                  <input id="file-input" type="file"
+                    (change)="uploadCSDocument($event.target.files,corrFolderData.AttachCorrCoverID,'COVER')" />
+                </div>
+              </li>
+              <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_003" [matTooltip]="'scan' | translator"
+                  (click)="loadFolderPageForScan(corrFolderData.AttachCorrCoverID)">
+                  <img src="{{basehref}}assets/images/icons/scanner_white.svg" alt="">
+                </button>
+              </li>
+              <!-- <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_003" matTooltip="Enterprise Connect">
+                  <img src="{{basehref}}assets/images/icons/scanner_white.svg" alt="">
+                </button>
+              </li> -->
+              <!-- <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_004" matTooltip="Scan">
+                  <img src="{{basehref}}assets/images/icons/search_icon_004.svg" alt="">
+                </button>
+              </li> -->
+            </ul>
+            <div *ngIf="coverProgBar" class="spinner_sm_wrappar">
+              <mat-spinner class="spinner_sm"></mat-spinner>
+            </div>
+            <div *ngIf="!coverProgBar" class="corres_table_wrapper">
+              <table class="table_cover_letter" (mouseleave)="!attachTrigger ? hoveredIndexCover=null : null">
+                <thead>
+                  <tr>
+                    <th class="type">{{'type'| translator}}</th>
+                    <th class="name" [ngClass]="expandedAction ? 'unexpanded-name' : 'expanded-name'">{{'name'| translator}}</th>
+                    <th class="size" *ngIf="!expandedAction">{{'size'| translator}}</th>
+                    <th class="modified" *ngIf="!expandedAction">{{'modified'| translator}}</th>
+                    <th class="creator" *ngIf="!expandedAction">{{'creator'| translator}}</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let correspondenceCoverDetails of CoverLetterData">
+                  <tr *ngFor="let coverLetterData of correspondenceCoverDetails.myRows; let index=index"
+                    (mouseover)="hoveredIndexCover=index" [class]="hoveredIndexCover===index ? 'hovered-row' : ''">
+                    <td class="size_45" [innerHtml]="coverLetterData.CoverType">
+                    <td class="name attachment-cover-data-container"
+                      [ngClass]="expandedAction ? 'unexpanded-name' : 'expanded-name'">
+                      <a class="coverLink"
+                        (click)="getCoverDocumentURL(coverLetterData.Dataid)">{{coverLetterData.Name}}
+                      </a>
+                      <div
+                        [class]="index===hoveredIndexCover ? 'group_btn_attachments_cover' : 'group_btn_attachments_cover hovered' ">
+                        <div class="group_btn_attachments_cover_background">
+                          <!-- <a matTooltip="Print" class="btn btn_006" href="#">
+                              <img src="{{basehref}}assets/images/icons/printer-tool.svg" alt="">
+                            </a> -->
+                          <!-- <a matTooltip="Download" class="btn btn_006" href="{{CSUrl}}{{coverLetterData.DownloadURL}}">
+                            <img src="{{basehref}}assets/images/icons/download-to-storage-drive.svg" alt="">
+                          </a> -->
+                          <a [matTooltip]="'properties' | translator" class="btn btn_006"
+                            (click)=showActionProperties(coverLetterData.Dataid)>
+                            <img src="{{basehref}}assets/images/icons/info-round-button.svg" alt="">
+                          </a>
+                          <a [matTooltip]="'edit' | translator" class="btn btn_006" *ngIf="coverLetterData.editperm=='TRUE'"
+                            (click)="editFile(coverLetterData.Dataid, 'COVER')">
+                            <img src="{{basehref}}assets/images/icons/toolbar_edit.svg" alt="">
+                          </a>
+                          <!-- <a matTooltip="Translate" class="btn btn_006"
+                            (click)=tranlsateDocument(coverLetterData.Dataid)>
+                            <img src="{{basehref}}assets/images/icons/history.svg" alt="">
+                          </a> -->
+                          <a *ngIf="coverLetterData.deleteperm=='TRUE'" [matTooltip]="'delete' | translator" class="btn btn_006"
+                            (click)="deleteDocument(coverLetterData.Dataid,'COVER')">
+                            <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                          </a>
+                          <a [matMenuTriggerFor]="attachMenu" (menuOpened)="attachTrigger=true"
+                            (menuClosed)="attachTrigger=false" #otrigger="matMenuTrigger" [matTooltip]="'more_options' | translator"
+                            class="btn btn_006">
+                            <img src="{{basehref}}assets/images/icons/menu.svg" alt="">
+                          </a>
+                          <mat-menu #attachMenu="matMenu">
+                            <a mat-menu-item href="{{CSUrl}}{{coverLetterData.DownloadURL}}">{{'download'| translator}}</a>
+                            <a mat-menu-item (click)=tranlsateDocument(coverLetterData.Dataid)>{{'translate'| translator}}</a>
+                          </mat-menu>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td class="size" *ngIf="!expandedAction"> {{coverLetterData.CoverSize}} </td>
+                    <td class="modified" *ngIf="!expandedAction">
+                      {{coverLetterData.ModifyDate | date: 'dd/MM/yyyy HH:mm'}} </td>
+                    <td class="creator" *ngIf="!expandedAction"> {{coverLetterData.CreatorName_EN}} </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+
+        <mat-expansion-panel class="mat-elevation-z">
+          <mat-expansion-panel-header>
+            <div class="icon_wrapper">
+              <div class="icon_typ icon_typ_006">
+                <img alt="" src="{{basehref}}assets/images/icons/attachment.svg">
+              </div>
+            </div>
+            <p class="title_001">{{'attachments'| translator}}</p>
+          </mat-expansion-panel-header>
+          <div class="corres_data_area">
+            <div class="attachments-container">
+              <div *ngIf="progress" class="progress-container">
+                <p>{{progress}}%</p>
+                <mat-progress-bar style="width: 75%" [mode]="determinate" [value]="progress">
+                </mat-progress-bar>
+              </div>
+              <ul class="cl_btn_group">
+                <li class="cl_btn_wrp">
+                  <button class="cl_btn cl_btn_001" (click)="refreshAttachmentSection()">
+                    <img src="{{basehref}}assets/images/icons/refresh_arrow_white.svg" alt="">
+                  </button>
+                </li>
+                <li class="cl_btn_wrp">
+                  <div class="image-upload">
+                    <label for="file-inputAttachment" class="cl_btn cl_btn_002" [matTooltip]="'add_document' | translator">
+                      <img src="{{basehref}}assets/images/icons/cl_file_add_doc.svg" alt="">
+                    </label>
+                    <input id="file-inputAttachment" type="file"
+                      (change)="uploadCSDocument($event.target.files,corrFolderData.AttachCorrAttachmentsID,'ATTACHMENT')" />
+                  </div>
+                </li>
+                <li class="cl_btn_wrp">
+                  <button class="cl_btn cl_btn_003" (click)="showCSCopy(corrFolderData.AttachCorrAttachmentsID)"
+                  [matTooltip]="'copy_from_content_server' | translator">
+                    <img src="{{basehref}}assets/images/icons/search_icon_004.svg" alt="">
+                  </button>
+                </li>
+                <li class="cl_btn_wrp">
+                  <button class="cl_btn cl_btn_003" [matTooltip]="'scan' | translator"
+                    (click)="loadFolderPageForScan(corrFolderData.AttachCorrAttachmentsID)">
+                    <img src="{{basehref}}assets/images/icons/scanner_white.svg" alt="">
+                  </button>
+                </li>
+                <!-- <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_005" matTooltip="Add folder">
+                    <img src="{{basehref}}assets/images/icons/folder.svg" alt="">
+                  </button>
+              </li> -->
+                <!-- <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_003" matTooltip="Scan">
+                    <img src="{{basehref}}assets/images/icons/scanner_white.svg" alt="">
+                  </button>
+              </li>
+              <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_006" matTooltip="Scan">
+                    <img src="{{basehref}}assets/images/icons/connection.svg" alt="">
+                  </button>
+              </li>
+              <li class="cl_btn_wrp">
+                <button class="cl_btn cl_btn_004" matTooltip="Scan">
+                    <img src="{{basehref}}assets/images/icons/search_icon_004.svg" alt="">
+                  </button>
+              </li> -->
+              </ul>
+              <div *ngIf="ccProgbar" class="spinner_sm_wrappar">
+                <mat-spinner class="spinner_sm"></mat-spinner>
+              </div>
+              <div *ngIf="!ccProgbar" class="corres_table_wrapper">
+                <table class="table_attachments" (mouseleave)="!attachTrigger ? hoveredIndex=null : null">
+                  <thead>
+                    <tr>
+                      <th class="type">{{'type'| translator}}</th>
+                      <th class="name" [ngClass]="expandedAction ? 'unexpanded-name' : 'expanded-name'">{{'name'| translator}}</th>
+                      <th class="size" *ngIf="!expandedAction">{{'size'| translator}}</th>
+                      <th class="modified" *ngIf="!expandedAction">{{'modified'| translator}}</th>
+                      <th class="creator" *ngIf="!expandedAction">{{'creator'| translator}}</th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let corrAttachmentDetails of AttachmentFolderData">
+                    <tr *ngFor="let attachmentData of corrAttachmentDetails.myRows; let index=index"
+                      (mouseover)="hoveredIndex=index" [class]="hoveredIndex===index ? 'hovered-row' : ''">
+                      <td class="type" [innerHtml]="attachmentData.attachmentType">
+                      </td>
+                      <td class="attachment-cover-data-container name"
+                        [ngClass]="expandedAction ? 'unexpanded-name' : 'expanded-name'">
+                        <a class="coverLink"
+                          (click)="getCoverDocumentURL(attachmentData.Dataid)">{{attachmentData.Name}}
+                        </a>
+
+                        <div
+                          [class]="index===hoveredIndex ? 'group_btn_attachments_cover' : 'group_btn_attachments_cover hovered' ">
+                          <div class="group_btn_attachments_cover_background">
+                            <!-- <button matTooltip="Print" class="btn btn_006">
+                              <img src="{{basehref}}assets/images/icons/printer-tool.svg" alt="">
+                            </button> -->
+                            <!-- <a matTooltip="Download" class="btn btn_006" href="{{CSUrl}}{{attachmentData.DownloadURL}}">
+                              <img src="{{basehref}}assets/images/icons/download-to-storage-drive.svg" alt="">
+                            </a> -->
+                            <a [matTooltip]="'properties' | translator" class="btn btn_006"
+                              (click)=showActionProperties(attachmentData.Dataid)>
+                              <img src="{{basehref}}assets/images/icons/info-round-button.svg" alt="">
+                            </a>
+                            <a [matTooltip]="'edit' | translator" class="btn btn_006" *ngIf="attachmentData.editperm=='TRUE'"
+                              (click)="editFile(attachmentData.Dataid, 'ATTACHMENT')">
+                              <img src="{{basehref}}assets/images/icons/toolbar_edit.svg" alt="">
+                            </a>
+                            <!-- <a matTooltip="Translate" class="btn btn_006"
+                              (click)=tranlsateDocument(attachmentData.Dataid)>
+                              <img src="{{basehref}}assets/images/icons/history.svg" alt="">
+                            </a> -->
+                            <a *ngIf="attachmentData.deleteperm=='TRUE'" [matTooltip]="'delete' | translator" class="btn btn_006"
+                              (click)="deleteDocument(attachmentData.Dataid,'ATTACHMENT')">
+                              <img src="{{basehref}}assets/images/icons/remove_icon_001.svg" alt="">
+                            </a>
+                            <a [matMenuTriggerFor]="attachMenu" (menuOpened)="attachTrigger=true"
+                              (menuClosed)="attachTrigger=false" #otrigger="matMenuTrigger" [matTooltip]="'more_options' | translator"
+                              class="btn btn_006">
+                              <img src="{{basehref}}assets/images/icons/menu.svg" alt="">
+                            </a>
+                            <mat-menu #attachMenu="matMenu">
+                              <a mat-menu-item href="{{CSUrl}}{{attachmentData.DownloadURL}}">{{'download'| translator}}</a>
+                              <a mat-menu-item (click)=tranlsateDocument(attachmentData.Dataid)>{{'translate'| translator}}</a>
+                            </mat-menu>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="size" *ngIf="!expandedAction"> {{attachmentData.AttachmentSize}} </td>
+                      <td class="modified" *ngIf="!expandedAction">
+                        {{attachmentData.ModifyDate | date: 'dd/MM/yyyy HH:mm'}} </td>
+                      <td class="creator" *ngIf="!expandedAction"> {{attachmentData.CreatorName_EN}} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- start -->
+              <div class="drop_file_wrp">
+                <ngx-file-drop dropZoneLabel="Drop files here"
+                  (onFileDrop)="dropped($event,corrFolderData.AttachCorrAttachmentsID,'ATTACHMENT')"
+                  (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)"
+                  contentClassName="attachementdraganddrop">
+                  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    {{'you_can_drag_drop_files_here'| translator}}
+                  </ng-template>
+                </ngx-file-drop>
+              </div>
+              <!-- end -->
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <app-linked-correspondences [DataID]="corrFolderData?.AttachCorrID" [Name]="corrFolderData?.AttachCorrIDName"
+          [Modify]="true" (CoverAction)="LinkedCorrAction($event)">
+        </app-linked-correspondences>
+      </mat-accordion>
+    </div>
+    <!-- cc code end -->
+    <div class="corp_dtl_btn_btm_wrapper">
+      <button *ngIf="showGeneratebarcodeButton" class="btn_008" (click)="GenerateBarcode()"
+        prevent-double-submit>{{'generate_barcode'| translator}}</button>
+      <button *ngIf="showSendOnButton" class="btn_008" printTitle="Barcode" printSectionId="print-section"
+        ngxPrint>{{'actbtn_printbcode'| translator}}</button>
+      <button *ngIf="showSendOnButton" class="btn_008" printTitle="Reciept" printSectionId="print-reciept"
+        ngxPrint>{{'print_reciept'| translator}}</button>
+      <button *ngIf="showSendOnButton" class="btn_008" (click)="SendOnWF('SENDON')" prevent-double-submit>{{'send_on'| translator}}
+        </button>
+      <button *ngIf="showSendOnButton" class="btn_008" (click)="SendOnWF('SAVE')" prevent-double-submit>{{'save'| translator}}</button>
+
+      <button class="btn_008" (click)="backNavigation()">{{'cancel'| translator}}</button>
+      <!-- <button class="btn_008" (click)="backNavigation()">Back</button> -->
+      <button (click)="expandeActionLeftButton()" matRipple class="corsp_ext_btn">
+        <img src="{{basehref}}assets/images/icons/full-screen.svg" alt="">
+      </button>
+    </div>
+
+    <div id="print-section" style="display:none">
+      <span style="font-weight:bold;text-align :center;margin-left:15%"></span><br>
+      <span style="font-weight:bold;text-align :center;margin-left:20%">{{barcodeDate}}</span>
+      <ngx-barcode [bc-value]="barcodeNumberToPrint" [bc-format]="CODE128" [bc-display-value]="true" [bc-font-size]="36"
+        [bc-font]="Arial" [bc-text-margin]="5" [bc-height]="55"></ngx-barcode>
+    </div>
+
+    <div id="print-reciept" style="display:none">
+
+      <head>
+        <meta charset="UTF-8">
+      </head>
+
+      <body>
+        <table border="0" cellpadding="0" cellspacing="0" style="left: 0px; top: 0px; width: 100%;">
+          <tbody>
+            <tr>
+              <td width="50"><img border="0" src="{{basehref}}assets/images/headerbar_content_server_pwa.png"
+                  style="width: 100px; height: 66px;" width="48"></td>
+              <td width="150"></td>
+              <td class="data-trn"
+                style="font-weight: bold; font-size: 42px;text-align: left; vertical-align: middle !important;">{{'receipt'| translator}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr>
+        <table border="0" cellpadding="0" cellspacing="0" style="left: 0px; top: 0px; width: 100%;">
+          <tbody>
+            <tr>
+              <td>{{'date_of_receipt'| translator}}</td>
+              <td>{{barcodeDate}}</td>
+            </tr>
+            <tr>
+              <td>{{'correspondence_code'| translator}}</td>
+              <td>{{barcodeNumberToPrint}}</td>
+            </tr>
+        </table><br>
+        <ngx-barcode [bc-value]="barcodeNumberToPrint" [bc-format]="CODE128" [bc-display-value]="true"
+          [bc-font-size]="36" [bc-font]="Arial" [bc-text-margin]="5" [bc-height]="55"></ngx-barcode>
+      </body>
+    </div>
+
+
+  </ng-scrollbar>
+  <ng-scrollbar class="correspondence_deatil_prview_wrappper scroll_wrp_001" thumbClass="scroll_001"
+    [ngClass]="expandedRightAction ? 'unActive' : 'ActiveRight'" *ngIf="expandedAction" compact="true">
+    <button (click)="expandeActionRightButton()" matRipple class="corsp_ext_btn">
+      <img src="{{basehref}}assets/images/icons/full-screen.svg" alt="">
+    </button>
+    <ng-container *ngIf="showPreviewCoverLetter">
+      <div class="documentViewerDiv" *ngFor="let docpreviewData of documentPreviewURL">
+        <iframe class="iframeclass" scrolling="no" frameborder="0"
+          [src]="docpreviewData.CorrespondencedocumentURL|safe"></iframe>
+      </div>
+    </ng-container>
+
+
+    <div *ngIf="showPreviewTreeArea">
+      <div class="spinner_sm_wrappar" *ngIf="dataSource.data.length == 0"
+        style="display: flex;height: calc(100vh - 100px);">
+        <mat-spinner class="spinner_sm"></mat-spinner>
+      </div>
+      <h3 class="org_chrt_head" *ngIf="!dataSource.data.length == 0">{{'select'| translator}} {{selectedCaption}}
+         {{'from_organizational_chart'| translator}}
+      </h3>
+      <div class="org_cht_header" *ngIf="!dataSource.data.length == 0">
+        <div class="search_wrapper">
+          <input class="org_search" type="text" [placeholder]="'search_organization' | translator" #organizationalChartSearch
+            (keyup.enter)="searchTreeValue(organizationalChartSearch.value)" [(ngModel)]="orgSearch">
+          <button (click)="searchTreeValue(organizationalChartSearch.value)" class="search_btn"></button>
+        </div>
+        <div class="right_org_head">
+          <mat-checkbox class="chk_emply" [(ngModel)]="showEmployees">{{'show_employees'| translator}}</mat-checkbox>
+          <button mat-button class="btn_001" (click)="getSelectedIntDepartment()">{{'add'| translator}}</button>
+        </div>
+      </div>
+      <div class="cover_ltr_pre" *ngIf="!dataSource.data.length == 0">
+        <!-- single check box tree strt -->
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree_container"
+          [ngClass]="{'show_employees': showEmployees, 'hide_employess':!showEmployees }">
+          <mat-tree-node *matTreeNodeDef="let node" class="employees_wrapper">
+            <div class="main_tree_wrapper">
+              <div class="mat-tree-node">
+                <div class="tree_icn_wrp flex_empl_wrp">
+                  <button mat-icon-button matTreeNodeToggle class="emp_sho_btn" (click)="getEmplDetail(node)">
+                    <mat-icon class="mat-icon-rtl-mirror show_employees_data_btn"
+                      [ngClass]="{'activeIcon' : treeControl.isExpanded(node)}">
+                      <!--   -->
+                      {{treeControl.isExpanded(node) ? 'fiber_manual_record' : 'fiber_manual_record'}}
+                    </mat-icon>
+                  </button>
+                  <mat-checkbox *ngIf="!multiSelect" (change)="selectSinglCheckboxOrg(node,$event)"
+                    [checked]="currentlyChecked == node">
+                    <!-- (change)="getOrgSelectDetail(node)"  -->
+                    <div class="org_text_wrp">
+                      <div class="org_icon_wrp folder">
+                        <img class="org_img_001" src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      </div>
+                      <p class="org_chart_text">{{node.Name}}</p>
+                    </div>
+                  </mat-checkbox>
+                  <mat-checkbox *ngIf="multiSelect" (change)="selectSinglCheckboxOrg(node,$event)">
+                    <div class="org_text_wrp">
+                      <div class="org_icon_wrp folder">
+                        <img class="org_img_001" src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      </div>
+                      <p class="org_chart_text">{{node.Name}}</p>
+                    </div>
+                  </mat-checkbox>
+                </div>
+              </div>
+              <div *ngIf="showEmployees" class="show_empl_name_wrp">
+                <ul *ngIf="treeControl.isExpanded(node)" class="show_empl_name_ul">
+                  <!-- add the employee List here  -->
+                  <!-- <mat-spinner></mat-spinner>
+                  {{ emplist | json}}
+                  <li *ngFor="let e of emplist">
+                    e.EName
+                  </li> -->
+                  <ng-container *ngIf="showempDetails">
+                    <li class="show_empl_name" *ngFor="let empList of employeeMap |employeemaplist:node.OUID">
+                      <mat-checkbox *ngIf="!multiSelect" (change)="selectSinglCheckboxEmp(empList,$event)"
+                        [checked]="currentlyChecked == empList">
+                        <div class="org_text_wrp">
+                          <div class="org_icon_wrp user">
+                            <img class="org_img_001" src="{{basehref}}assets/images/icons/{{empList.LevelImage}}" alt="">
+                          </div>
+                          <p class="org_chart_text">{{empList?.Coev_Firstname}} {{empList?.Coev_LastName}}</p>
+                        </div>
+                      </mat-checkbox>
+                      <mat-checkbox *ngIf="multiSelect" (change)="selectSinglCheckboxEmp(empList,$event)">
+                        <div class="org_text_wrp">
+                          <div class="org_icon_wrp user">
+                            <img class="org_img_001" src="{{basehref}}assets/images/icons/{{empList.LevelImage}}" alt="">
+                          </div>
+                          <p class="org_chart_text">{{empList?.Coev_Firstname}} {{empList?.Coev_LastName}}</p>
+                        </div>
+                      </mat-checkbox>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+            </div>
+          </mat-tree-node>
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" class="main_tree_wrapper">
+            <!--  -->
+            <div class="full_fil_wrapper">
+              <div class="mat-tree-node">
+                <div class="tree_icn_wrp">
+                  <div class="{{node.employees_status}}">
+                    <button *ngIf="node.children.length > 0" mat-icon-button matTreeNodeToggle
+                      [attr.aria-label]="'toggle ' + node.Name" (click)="getEmplDetail(node)">
+                      <mat-icon class="mat-icon-rtl-mirror" [ngClass]="{'activeIcon' : treeControl.isExpanded(node)}">
+                        <!-- {{treeControl.isExpanded(node) ? 'fiber_manual_record' : 'fiber_manual_record'}} -->
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <mat-checkbox *ngIf="!multiSelect" (change)="selectSinglCheckboxOrg(node,$event)"
+                    [checked]="currentlyChecked == node">
+                    <div class="org_text_wrp">
+                      <div class="org_icon_wrp folder">
+                        <img class="org_img_001" src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      </div>
+                      <p class="org_chart_text">{{node.Name}}</p>
+                    </div>
+                  </mat-checkbox>
+                  <mat-checkbox *ngIf="multiSelect" (change)="selectSinglCheckboxOrg(node,$event)">
+                    <div class="org_text_wrp">
+                      <div class="org_icon_wrp folder">
+                        <img class="org_img_001" src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      </div>
+                      <p class="org_chart_text">{{node.Name}}</p>
+                    </div>
+                  </mat-checkbox>
+                </div>
+              </div>
+
+              <div *ngIf="showEmployees" class="show_empl_name_wrp">
+                <ul *ngIf="treeControl.isExpanded(node)" class="show_empl_name_ul">
+                  <ng-container *ngIf="showempDetails">
+                    <li class="show_empl_name" *ngFor="let empList of employeeMap |employeemaplist:node.OUID">
+                      <mat-checkbox *ngIf="!multiSelect" (change)="selectSinglCheckboxEmp(empList,$event)"
+                        [checked]="currentlyChecked == empList">
+                        <div class="org_text_wrp">
+                          <div class="org_icon_wrp user">
+                            <img class="org_img_001" src="{{basehref}}assets/images/icons/{{empList.LevelImage}}" alt="">
+                          </div>
+                          <p class="org_chart_text">{{empList?.Coev_Firstname}} {{empList?.Coev_LastName}}</p>
+                        </div>
+                      </mat-checkbox>
+                      <mat-checkbox *ngIf="multiSelect" (change)="selectSinglCheckboxEmp(empList,$event)">
+                        <div class="org_text_wrp">
+                          <div class="org_icon_wrp folder">
+                            <img class="org_img_001" src="{{basehref}}assets/images/icons/{{empList.LevelImage}}" alt="">
+                          </div>
+                          <p class="org_chart_text">{{empList?.Coev_Firstname}} {{empList?.Coev_LastName}}</p>
+                        </div>
+                      </mat-checkbox>
+                    </li>
+                  </ng-container>
+                </ul>
+              </div>
+
+              <div [class.node_wrapper_invisible]="!treeControl.isExpanded(node)"
+                class="tree_nested_node_child hide_employess">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </div>
+            </div>
+          </mat-nested-tree-node>
+        </mat-tree>
+      </div>
+    </div>
+    <div *ngIf="showPreviewECMDTreeArea">
+      <h3 class="org_chrt_head">{{'select'| translator}} {{selectedCaption}} {{'from_external_counterparts_chart'| translator}}
+      </h3>
+      <div class="org_cht_header">
+        <div class="search_wrapper">
+          <input class="org_search" type="text" [placeholder]="'search_for_ext_counterpart' | translator" #ECMDChartSearch
+            (keyup.enter)="searchCounterParts(ECMDChartSearch.value)">
+          <button (click)="searchCounterParts(ECMDChartSearch.value)" class="search_btn"></button>
+        </div>
+        <div class="right_org_head">
+          <input class="ecmd_search" type="text" [placeholder]="'type_name' | translator" #ECMDName>
+          <button mat-button class="btn_001" [disabled]="!currentlyChecked"
+            (click)="getSelectedECMD(ECMDName.value)">{{'add'| translator}}</button>
+        </div>
+      </div>
+      <div *ngIf="isLoading" class="spinner_sm_wrappar">
+        <mat-spinner class="spinner_sm"></mat-spinner>
+      </div>
+      <div *ngIf="!isLoading" class="cover_ltr_pre">
+        <mat-tree [dataSource]="dataSourceECMD" [treeControl]="treeControlECMD" class="tree_container">
+          <mat-tree-node *matTreeNodeDef="let node" class="employees_wrapper">
+            <div class="main_tree_wrapper">
+              <div class="mat-tree-node" [class.selected-item]="currentlyChecked == node">
+                <div class="tree_icn_wrp flex_empl_wrp">
+                  <button mat-icon-button matTreeNodeToggle (click)="ECMDTreeOpenAction(node)">
+                    <mat-icon *ngIf="node.hasOwnProperty('children') && !node.isLoading">
+                      {{treeControlECMD.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                    </mat-icon>
+                    <mat-spinner *ngIf="node.isLoading" class="ecmd-tree-spinner"></mat-spinner>
+                  </button>
+                  <div class="org_text_wrp ecmd_text_wrp" (click)="selectECMD(node)">
+                    <div class="ecmd_icon_wrp" [ngClass]="ecmdTreeType(node)">
+                      <img *ngIf="ecmdTreeType(node) === 'folder'" class="ecmd_img_001"
+                        src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      <p *ngIf="ecmdTreeType(node) === 'counterpart'" class="ecmd_initial_001">
+                        {{getInitials(node.Name)}}</p>
+                      <p *ngIf="ecmdTreeType(node) === 'department'" class="ecmd_initial_001">{{getInitials(node.Name)}}
+                      </p>
+                    </div>
+                    <p class="org_chart_text ecmd_char_text">{{node.Name}}<span
+                        *ngIf="ecmdTreeType(node) === 'folder' && !isSearchResult">({{node.CounterParts}})</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </mat-tree-node>
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: ECMDhasChild" class="main_tree_wrapper">
+            <div class="full_fil_wrapper">
+              <div class="mat-tree-node" [class.selected-item]="currentlyChecked == node">
+                <div class="tree_icn_wrp">
+                  <div class="{{node.employees_status}}">
+                    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.Name">
+                      <mat-icon class="mat-icon-rtl-mirror"
+                        [ngClass]="{'activeIcon' : treeControlECMD.isExpanded(node)}">
+                        {{treeControlECMD.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <div class="org_text_wrp ecmd_text_wrp" (click)="selectECMD(node)">
+                    <div class="ecmd_icon_wrp" [ngClass]="ecmdTreeType(node)">
+                      <img *ngIf="ecmdTreeType(node) === 'folder'" class="ecmd_img_001"
+                        src="{{basehref}}assets/images/icons/folder_001.svg" alt="">
+                      <p *ngIf="ecmdTreeType(node) === 'counterpart'" class="ecmd_initial_001">
+                        {{getInitials(node.Name)}}</p>
+                      <p *ngIf="ecmdTreeType(node) === 'department'" class="ecmd_initial_001">{{getInitials(node.Name)}}
+                      </p>
+                    </div>
+                    <p class="org_chart_text">{{node.Name}}<span
+                        *ngIf="ecmdTreeType(node) === 'folder' && !isSearchResult">({{node.CounterParts}})</span></p>
+                  </div>
+                </div>
+              </div>
+              <div [class.node_wrapper_invisible]="!treeControlECMD.isExpanded(node)"
+                class="tree_nested_node_child hide_employess">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </div>
+            </div>
+          </mat-nested-tree-node>
+        </mat-tree>
+      </div>
+    </div>
+  </ng-scrollbar>
+</div>

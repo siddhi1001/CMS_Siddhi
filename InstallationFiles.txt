@@ -1,0 +1,85 @@
+$env:Path = "C:\Applications\nodejs";
+ng build --deploy-url /img/fctsangular/fctsapp/
+ng build --prod --deploy-url /img/fctsangular/fctsapp/
+
+node --max-old-space-size=8192 node_modules/@angular/cli/bin/ng build --prod --deploy-url /img/fctsangular/fctsapp/
+
+set PATH=C:\Applications\nodejs;%PATH%
+
+https://www.diffnow.com/report
+
+
+wmic 
+exit
+node
+
+Pagination
+http://michaelbromley.github.io/ngx-pagination/#/server-paging
+
+https://knowledge.opentext.com/knowledge/cs.dll?func=ll&objId=65826651&objAction=viewincontainer&ShowReplyEntry=66090250#forum_topic_66090250
+
+https://core.opentext.com/pdfjs/web/viewer.html?file=904898407896714239&version=904898414246889473
+
+http://slwcdmsfent01.ashghal.gov.qa/otcs/cs.exe?func=deploy.exportstatus&cacheid=2025494033&sec=30&secRefresh=30
+
+https://developer.opentext.com/webaccess/#url=%2Fawd%2Fforums%2Fquestions%2F22393275%2Flooking%2Bfor%2Bsome%2Bexamples%2Bon%2Busing%2Brest%2Bapi%2Bfor%2Bworkflows
+
+https://sunnyside.vidavee.com/opentext/55C783CC788832F5CBCDE3CB51F2FE59.doc?AF_deliveryChannel=landingpage
+
+https://www.youtube.com/watch?v=Y9XZQO1n_7c
+
+
+1.	Document Preview :NotDone (Check with Christy)
+2.	Bring the Search Filters in the Screen :Completed" Move to all the other Screens (to be done when its created as a common one)
+3.	OnClick of Search the Filters should be passed to the script and results should be populated :Done 
+4.	Open Correspondence : Done
+5.	Include Audit to show old WRs
+6.	Fix errors of the Comment edit and Linked Correspondence
+7.	Change the Icons
+8.	Pick Path from the BaseHref values : Completed
+9.	Change Icons to make them the correct ones
+10. Set URL Parameter as /Internal/volumeid : Done
+11. Load as per the Correspondence Type : Done
+12. Make all Componenet Similar to New Inbound : Done
+13.	Show Progressing in all Dashboard Pages : Done		 
+14.	Make the Full Search Table Same as Inside Tables
+15.	Remove the Item 1,Item 2 things and add the Workflow Audit and Comments
+16.	Side bar Counts :Done
+17.	
+
+
+
+Pending Things
+
+1.	Loading  UI : Completed
+2. 	Table Heading colour : Completed
+3. 	Advanced Search
+4. 	Correspondence Type not required : Completed
+5. 	Open Read only Correspondence 
+6. 	Brava :Completed
+
+
+
+1. Workflow History
+2. Open
+3. Preview
+4. Informationm
+5. Download
+
+
+
+
+Important
+
+CC Addition while Initiating
+Sender and Recipient Drop Down Same as transfer Drop Down
+Search in Org Chart
+Check the Add Document Refresh Rate and Drag and Drop
+
+Second Priority
+Employee Chart
+Employee Search
+
+Low Priotity
+Print Barcode Function
+Comments Tab

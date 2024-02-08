@@ -1,0 +1,125 @@
+<!-- <div class="navigation_cont" malihu-scrollbar [scrollbarOptions]="scrollbarOptions"> -->
+<ng-scrollbar thumbClass="scroll_002" class="navigation_cont scroll_wrp_002" compact="true"
+  viewClass="sidebar-view-scroll">
+  <div routerLinkActive="active" routerLink="../dashboard" class="nav_logo">
+    <img src="{{basehref}}assets/images/cms_logo.jpg" alt="">
+  </div>
+  <ul class="nav_items">
+    <li class="nav_item" [matTooltip]="'new' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+      <div class="side_nav_active_view" routerLinkActive="active"></div>
+      <a  *ngIf="isAdminUser || isExternalIncoming || isExternalOutbound || isInternalOutbound" mat-button [matMenuTriggerFor]="sideNavMenu">
+        <img class="nav_item_img" src="{{basehref}}assets/images/icons/add_icon_001.svg" alt="">
+      </a>
+    </li>
+    <mat-menu #sideNavMenu="matMenu" class="sub_menu_new_drp">
+      <button *ngIf="isAdminUser || isExternalIncoming" routerLink="./create/new-external-incoming" routerLinkActive="active" mat-menu-item>{{'external_incoming' | translator}}
+      </button>
+      <button *ngIf="isAdminUser || isExternalOutbound" routerLink="./create/new-external-outgoing" routerLinkActive="active" mat-menu-item>{{'external_outbound' | translator}}
+      </button>
+      <button *ngIf="isAdminUser || isInternalOutbound" routerLink="./create/new-internal-outgoing" routerLinkActive="active" mat-menu-item>{{'internal_outbound' | translator}}
+      </button>
+    </mat-menu>
+    <li class="nav_item" *ngIf="showMR && globalConstants.general.ProxyUserID===globalConstants.general.UserID"
+      [matTooltip]="'mailroom' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+      <a class="" routerLink="./mailroom" routerLinkActive="active">
+        <img class="nav_item_img_001" src="{{basehref}}assets/images/icons/group_message_icon.svg" alt="">
+      </a>
+    </li>
+    <li class="nav_item" [matTooltip]="'external' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+      <a class="" routerLink="./external" routerLinkActive="active">
+        <img class="nav_item_img_001" src="{{basehref}}assets/images/icons/external_nav_icon.svg" alt="">
+      </a>
+    </li>
+    <li class="nav_item" [matTooltip]="'internal' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+      <a routerLink="./internal" routerLinkActive="active">
+        <img class="nav_item_img_001" src="{{basehref}}assets/images/icons/internal_nav_icon.svg" alt="">
+      </a>
+    </li>
+    <!-- <li class="nav_item">
+            <a routerlink="external/new" routerLinkActive="active" matTooltip="Mail" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+                  <img class="nav_item_img_001" src="{{basehref}}assets/images/icons/group_message_icon.svg" alt="">
+                </a>
+          </li> -->
+  </ul>
+  <ul class="nav_items_001">
+    <li *ngIf="globalConstants.FCTS_Dashboard.AdminGroup" class="nav_item">
+      <a class="nav_icon_002" [matTooltip]="'administration' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right"
+        routerLink="./administration" routerLinkActive="active">
+        <img class="nav_item_img_002" src="{{basehref}}assets/images/icons/administration.svg" alt="">
+      </a>
+    </li>
+    <li class="nav_item">
+      <a class="nav_icon_002" [matTooltip]="'notification' | translator" matTooltipClass="matTooltip_001" matTooltipPosition="right">
+        <span class="notif_icon">23</span>
+        <img class="nav_item_img_002" src="{{basehref}}assets/images/icons/notification.svg" alt="">
+      </a>
+    </li>
+    <li class="nav_item">
+      <a class="nav_icon_002" [matMenuTriggerFor]="profailSettings" #clickMenuTrigger="matMenuTrigger">
+        <img class="nav_item_img_002" src="{{basehref}}assets/images/icons/settings.svg" alt="">
+      </a>
+      <mat-menu class="main_side_menu translator_btn_wrapper" #profailSettings="matMenu" yPosition="above">
+        <div class="my_setg_wrapper" (click)="$event.stopPropagation(); false;">
+          <p class="text_12">{{'my_settings' | translator}}</p>
+          <mat-accordion class="sub_side_menu_accordion mat-elevation-z">
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+              [hideToggle]="hideToggle">
+              <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'"
+                [ngClass]="{'accordion_active' : panelOpenState}">
+                <mat-panel-title>{{'my_preferences' | translator}}</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="sub_sidebar_sub_item_wrapper">
+                <ul class="my_setg_list_items">
+                  <li><span class="sub_list_btn">{{'pagination_preferences' | translator}}</span></li>
+                </ul>
+              </div>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
+              [hideToggle]="hideToggle">
+              <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'"
+                [ngClass]="{'accordion_active' : panelOpenState}">
+                <mat-panel-title>{{'my_delegations' | translator}}</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="sub_sidebar_sub_item_wrapper">
+                <ul class="my_setg_list_items">
+                  <li><button class="sub_list_btn" (click)="openDialogCurrentDelegations()">{{'current_delegations' | translator}}</button>
+                  </li>
+                  <li><button class="sub_list_btn" (click)="openDialogNewDelegation()">{{'new_delegations' | translator}}</button></li>
+                  <li><span class="sub_list_btn">{{'participated_delegations' | translator}}</span></li>
+                  <li><button class="sub_list_btn" (click)="openDialogDelegationReport()">{{'delegation_reports' | translator}}</button>
+                  </li>
+                </ul>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+        <div class="lang_setg_wrapper">
+          <p class="text_12">{{'language_settings' | translator}}</p>
+          <button matRipple (click)="translator.setLanguage(x)" class="translator_btn"
+            *ngFor="let x of ['ar','en']">{{x | translator}}</button>
+        </div>
+      </mat-menu>
+    </li>
+    <li class="nav_item">
+      <a class="nav_icon_002" [matMenuTriggerFor]="profailMenu" [matTooltip]="'profile' | translator" matTooltipClass="matTooltip_001"
+        matTooltipPosition="after">
+        <app-current-user-photo #currentUserPhoto></app-current-user-photo>
+      </a>
+    </li>
+    <mat-menu #profailMenu="matMenu" yPosition="above" class="main_side_menu">
+      <div class="menu_use_user_details">
+        <div *ngFor="let user of userData?.LoggedUser">
+          <app-user-info [userData]="user" (userChanged)="changePhoto()"></app-user-info>
+        </div>
+      </div>
+      <ng-scrollbar compact="true" thumbClass="scroll_001" class="designation_container scroll_wrp_001 scroll_wrp_003">
+        <div class="menu_designation_user_details" *ngFor="let proxy of userData?.ProxyUsers">
+          <app-proxy-info [userData]="proxy" (userChanged)="changePhoto()"></app-proxy-info>
+        </div>
+      </ng-scrollbar>
+      <div class="main_menu_btn_wrp">
+        <a class="sign_btn_stg" href="{{CSUrl}}{{globalConstants.general.logOut}}">{{'sign_out' | translator}}</a>
+      </div>
+    </mat-menu>
+  </ul>
+</ng-scrollbar>

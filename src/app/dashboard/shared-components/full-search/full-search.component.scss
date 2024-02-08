@@ -1,0 +1,20 @@
+.expanded-options{
+    ::ng-deep .mat-expansion-panel-body{
+        padding: 0;
+
+    ::ng-deep .mat-select-value {
+        color: #8f8a8a;
+    }
+    
+    ::ng-deep .mat-select-arrow {
+        color: #8f8a8a;
+    }
+    ::ng-deep mat-label {
+        color: #8f8a8a;
+    }
+    
+    ::ng-deep .mat-form-field-underline {
+        background-color: #c2bfbf !important;
+        } 
+    }
+}

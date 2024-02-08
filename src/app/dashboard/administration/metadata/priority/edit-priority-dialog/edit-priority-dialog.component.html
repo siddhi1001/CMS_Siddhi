@@ -1,0 +1,33 @@
+<div mat-dialog-title class="dialog_header">
+  <h2>
+    {{actionType | translator}}
+  </h2>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'| translator}}</mat-icon>
+</div>
+<form mat-dialog-content [formGroup]="ItemData" class="dialog-body">
+  <div *ngFor="let item of interactionStructure" class="interaction-list" [ngSwitch]="item.name">
+    <h4>{{item.name | translator}}</h4>
+    <div *ngSwitchCase="'number_of_days'" class="input_field_wrp sm_input_wrapper">
+      <mat-form-field>
+        <input [type]="item.type" matInput min="0" oninput="validity.valid||(value='');"
+          [formControlName]="item.controlName" autocomplete="off">
+      </mat-form-field>
+    </div>
+    <div *ngSwitchDefault class="input_field_wrp sm_input_wrapper" [ngSwitch]="item.name">
+      <mat-form-field>
+        <input [type]="item.type" matInput [formControlName]="item.controlName" autocomplete="off"
+          [maxlength]="item.inputLength">
+      </mat-form-field>
+    </div>
+  </div>
+</form>
+<div class="dialog-footer">
+  <button mat-flat-button class="btn_011" (click)="closeDialog()">{{'cancel' | translator}}</button>
+  <button mat-flat-button class="btn_012" (click)="save()" [disabled]="runSpinner">
+    <span *ngIf="!runSpinner; else elseBlock">{{'save' | translator}}</span>
+    <ng-template #elseBlock>
+      <mat-spinner class="button-spinner" diameter="20">
+      </mat-spinner>
+    </ng-template>
+  </button>
+</div>

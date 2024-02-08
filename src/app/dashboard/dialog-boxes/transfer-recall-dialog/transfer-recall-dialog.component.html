@@ -1,0 +1,47 @@
+<div class="transfer_container">
+  <div class="transter_header">
+    <p class="text_16 blt_text"></p>
+    <p class="text_16">{{'recall_transfer'|translator}}</p>
+  </div>
+  <div class="transfer_body inbox_table_002">
+    <div class="transfer_top_row">
+      <div class="transfer_table_row table_wrapper_003">
+        <table class="table table_nrml">
+          <tr class="no_bg">
+            <td></td>
+            <td class="">{{'department'|translator}}</td>
+            <td>{{'from'|translator}}</td>
+            <td>{{'role'|translator}}</td>
+            <td>{{'status'|translator}}</td>
+            <td></td>
+          </tr>
+          <tr *ngFor="let item of allTransferedRows " >
+            <td></td>
+            <!-- Department -->
+            <td>{{item.rDepartment_EN}}</td>
+            <!-- FROM -->
+            <td>{{item.rName_EN}}</td>
+            <!-- ROLE -->
+            <td>{{item.rRoleName_EN}}</td>
+            <!-- Status -->
+            <td>{{item.tStatus}}<span *ngIf="item.ShowOpened" [ngClass]="'openedSpan'">({{'opened'|translator}})</span></td>
+            <!-- Checkbox -->
+            <td>
+              <mat-checkbox *ngIf="item.ShowChb"
+                [(ngModel)]="item.selectedValue" 
+                [checked]="selection.isSelected(item)"
+                (change)="$event ? selection.toggle(item) : null"
+                (click)="$event.stopPropagation()">
+              </mat-checkbox>
+
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="transfer_footer">
+      <button mat-button class="btn_002 mat-button" (click)="recallDialogBoxClose('cancel')">{{'cancel'|translator}}</button>
+      <button mat-button class="btn_001 mat-button"  (click)="sendRecallRequest()">{{'actbtn_recall'|translator}}</button>
+    </div>
+  </div>
+</div>

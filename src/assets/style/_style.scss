@@ -1,0 +1,66 @@
+.workflow_wrapper {
+  width: 100%;
+
+  .work_flow_headding {
+    padding: 15px 24px 11px;
+    background: #00b7c3;
+    color: #fff;
+    display: flex;
+
+    .text_16 {
+      margin-bottom: 0px;
+      color: #fff;
+      padding-right: 35px;
+    }
+  }
+
+  .work_flow_body {
+    padding: 24px;
+    box-sizing: border-box;
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+
+    .inbox_table_002 {
+      padding-top: 10px;
+      margin-bottom: 30px;
+
+      .table_wrapper_003 .table_nrml tr td {
+        width: 10%;
+      }
+    }
+  }
+}
+
+.mat-dialog-container {
+  padding: 0 !important
+}
+
+.print_btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #fff;
+  font-size: 15px;
+  margin-left: auto;
+  outline: none;
+
+  img {
+    max-width: 20px;
+  }
+
+}
+
+.colse_btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #fff;
+  font-size: 15px;
+  margin-left: 10px;
+  outline: none;
+
+  img {
+    max-width: 20px;
+  }
+
+}

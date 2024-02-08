@@ -1,0 +1,97 @@
+<mat-expansion-panel class="mat-elevation-z bgr_dark">
+  <mat-expansion-panel-header (click)="getDistributionData(true);">
+    <div class="icon_wrapper">
+      <div class="icon_typ icon_typ_013">
+        <img src="{{basehref}}assets/images/icons/collaboration_icon.svg" alt="">
+      </div>
+    </div>
+    <p class="title_001">{{'distribution'| translator}}</p>
+  </mat-expansion-panel-header>
+  <div *ngIf="firstLoadSpinner" class="spinner_sm_wrappar">
+    <mat-spinner class="spinner_sm"></mat-spinner>
+  </div>
+  <div #tableContainer (resized)="onResized($event)" class="distribution-table-holder">
+    <table *ngIf="!firstLoadSpinner" mat-table class="distribution-table bgr_dark" [dataSource]="distributionData"
+      multiTemplateDataRows style="width:100%">
+
+      <ng-container *ngFor="let col of distTableStructure" [matColumnDef]="col.columnDef">
+        <th mat-header-cell *matHeaderCellDef style="padding: 0px 5px;">{{col.columnName}}</th>
+        <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" style="padding: 0px 5px;">
+          <div *ngSwitchCase="'Icon'" class="left-icons-holder">
+            <i (click)="expandedElement = expandedElement === element ? null : element" class="material-icons">
+              {{expandedElement === element ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+            <span [matTooltip]="element.CorrespondenceIcon.title" class="icon">
+              <img class="inbox_icon_img" [src]="element.CorrespondenceIcon.icon" alt="">
+            </span>
+          </div>
+          <p class="employee-holder" *ngSwitchCase="'From'">
+            <span class="role" *ngIf="element.sRoleName_EN">
+              {{element.sRoleName_EN}}</span>
+            <span class="name">{{element.sName_EN}}</span>
+          </p>
+          <p class="employee-holder" *ngSwitchCase="'To'">
+            <span class="role" *ngIf="element.rRoleName_EN">{{element.rRoleName_EN}}</span>
+            <span class="name">{{element.rName_EN}}</span>
+          </p>
+          <p *ngSwitchCase="'Role'">{{element.distRole_EN}}</p>
+          <p *ngSwitchCase="'Seq'">{{element.DistSeq}}</p>
+          <p *ngSwitchCase="'Priority'">{{element.Priority_EN}}</p>
+          <p *ngSwitchCase="'TransferDate'">{{element.TransferDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+          <p *ngSwitchCase="'DueDate'">{{element.DueDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+          <p *ngSwitchCase="'Purpose'">{{element.Purpose_EN}}</p>
+          <p *ngSwitchCase="'Notes'">{{element.Notes}}</p>
+          <p *ngSwitchCase="'NotesComplete'">{{element.NotesComplete}}
+          </p>
+          <p *ngSwitchDefault></p>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="distTableStructure.length">
+          <div class="element-detail" [@detailExpand]="element === expandedElement ? 'expanded' : 'collapsed'">
+            <div class="detail-parameters">
+
+              <table class="mat-table" style="width:100%">
+                <tr class="mat-row" *ngFor="let col of distTableStructureDetails">
+                  <th class="mat-header-cell">{{col.columnName}}</th>
+                  <td class="mat-cell" [ngSwitch]="col.columnDef">
+                    <p [style.max-width]="tableWidth/2-10 + 'px'" class="employee-holder" *ngSwitchCase="'From'">
+                      <span class="role" *ngIf="element.sRoleName_EN">
+                        {{element.sRoleName_EN}}</span>
+                      <span class="name">{{element.sName_EN}}</span>
+                    </p>
+                    <p class="employee-holder" *ngSwitchCase="'To'" [style.max-width]="tableWidth + 'px'">
+                      <span class="role" *ngIf="element.rRoleName_EN">{{element.rRoleName_EN}}</span>
+                      <span class="name">{{element.rName_EN}}</span>
+                    </p>
+                    <p *ngSwitchCase="'Role'" [style.max-width]="tableWidth/2-10 + 'px'">{{element.distRole_EN}}</p>
+                    <p *ngSwitchCase="'Seq'" [style.max-width]="tableWidth/2-10 + 'px'">{{element.DistSeq}}</p>
+                    <p *ngSwitchCase="'Priority'" [style.max-width]="tableWidth/2-10 + 'px'">{{element.Priority_EN}}</p>
+                    <p *ngSwitchCase="'TransferDate'" [style.max-width]="tableWidth/2-10 + 'px'">
+                      {{element.TransferDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+                    <p *ngSwitchCase="'DueDate'" [style.max-width]="tableWidth/2-10 + 'px'">
+                      {{element.DueDate | date: 'dd/MM/yyyy HH:mm'}}</p>
+                    <p *ngSwitchCase="'Purpose'" [style.max-width]="tableWidth/2-10 + 'px'">{{element.Purpose_EN}}</p>
+                    <p *ngSwitchCase="'Notes'" [style.max-width]="tableWidth/2-10 + 'px'">{{element.Notes}}</p>
+                    <p *ngSwitchCase="'NotesComplete'" [style.max-width]="tableWidth/2-10 + 'px'">
+                      {{element.NotesComplete}}
+                    </p>
+                    <p *ngSwitchDefault style="max-width: tableWidth - 10px;">{{element[col.columnDef]}}</p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="distDisplayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let element; columns: distDisplayedColumns;" class="element-row"
+        [class.current]="element.ID == correspondenceData.ID" [class.expanded-row]="expandedElement === element"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+    </table>
+    <div class="empty-table-message" *ngIf="!firstLoadSpinner && distributionData.length === 0">{{'no_data_available'| translator}}</div>
+  </div>
+  <button *ngIf="showAddButton()" class="show_preview_btn" (click)="distributionChart()">
+    <img src="{{basehref}}assets/images/icons/plus_green_btn.svg" alt="">
+    <span>{{'select_distribution'| translator}}</span>
+  </button>
+</mat-expansion-panel>

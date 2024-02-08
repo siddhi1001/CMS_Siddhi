@@ -1,0 +1,19 @@
+<div class="action_header">
+  <p class="text_16 blt_text">
+    {{'select_team' | translator}}
+  </p>
+  <mat-icon class="close-button" (click)="closeDialog()">{{'close'|translator}}</mat-icon>
+</div>
+<ng-scrollbar thumbClass="scroll_001">
+  <div class="radio-group-holer" *ngIf="teamsList">
+    <mat-radio-group aria-labelledby="radio-group-label" class="radio-group" [(ngModel)]="userTeam">
+      <mat-radio-button class="radio-button" *ngFor="let team of teamsList" [value]="team">
+        {{team.DepartmentName_EN | translator:team.DepartmentName_AR}}
+        <span *ngIf="team.SenderSection">, {{team.SectionName_EN | translator:team.SectionName_EN}} </span>
+      </mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div class="button-section">
+    <button class="btn_002" (click)="closeDialog()">{{'cancel' | translator}}</button>
+    <button class="btn_002" (click)="showConfirmDialog('changeTeam')">{{'ok'|translator}}</button>
+  </div>

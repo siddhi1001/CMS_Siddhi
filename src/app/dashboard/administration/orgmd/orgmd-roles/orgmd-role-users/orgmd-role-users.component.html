@@ -1,0 +1,105 @@
+<div class="main_admin_wrapper">
+    <div class="header_wapper">
+        <app-breadcrumbs></app-breadcrumbs>
+        <div class="search_wrapper">
+            <div class="search-header">
+                <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass"
+                    (click)="applyMainFilter()">
+                <input type="text" [placeholder]="'search' | translator" #searchString (keyup.enter)="applyMainFilter()"
+                    (focus)="onFocus()">
+                <img src="{{basehref}}assets/images/icons/filter-list.svg" class="search-img filter"
+                    (click)="openFilter()">
+            </div>
+            <div class="action-buttons">
+                <button class="btn_011" mat-stroked-button (click)="addUsersDialogBox()">{{possibleAction |
+                    translator}}</button>
+            </div>
+        </div>
+    </div>
+    <mat-accordion class="filter-wrapper">
+        <mat-expansion-panel class="mat-elevation-z0" [expanded]="filterState">
+            <form [formGroup]="filtersForm" class="filter-form">
+                <div class="input_field_wrp">
+                    <mat-form-field>
+                        <input matInput [placeholder]="'name' | translator" formControlName="Name" autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="input_field_wrp">
+                    <mat-form-field>
+                        <input matInput [placeholder]="'surname' | translator" formControlName="Surname"
+                            autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="input_field_wrp">
+                    <mat-form-field>
+                        <input matInput [placeholder]="'login' | translator" formControlName="Login" autocomplete="off">
+                    </mat-form-field>
+                </div>
+                <div class="input_field_wrp">
+                    <mat-form-field>
+                        <input type="text" aria-label="'number'" matInput [placeholder]="'department' | translator"
+                            formControlName="Department" [matAutocomplete]="departmentFilter">
+                        <mat-autocomplete #departmentFilter="matAutocomplete"
+                            [displayWith]="displayFieldValue.bind(this)">
+                            <mat-option *ngFor="let DepName of (filteredDepartments | async)" [value]="DepName">
+                                {{DepName.Name_EN | translator:DepName.Name_AR}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+                <div class="input_field_wrp">
+                    <button class="btn_001" mat-button (click)="filterObject()">{{'search' | translator}}</button>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <div class="table_wrapper">
+        <div *ngIf="isLoading; else elseBlock" class="spinner-wrappar">
+            <mat-spinner></mat-spinner>
+        </div>
+        <ng-template #elseBlock>
+            <table mat-table
+                [dataSource]="usersList  | paginate: { id: 'server', itemsPerPage: itemsPerPage, currentPage: pagenumber, totalItems: totalCount }"
+                class="mat-elevation-z0 current-users" style="width:100%">
+                <ng-container *ngFor="let col of tableStructure" [matColumnDef]="col.columnDef">
+                    <th mat-header-cell *matHeaderCellDef [ngSwitch]="col.columnDef" [ngClass]="col.className">
+                        <mat-checkbox *ngSwitchCase="'checkBox'" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+                        </mat-checkbox>
+                        <p *ngSwitchCase="'photo'"></p>
+                        <div *ngSwitchCase="'actionButtons'" class="row-action-button-wrapper">
+                            <a *ngIf="selection.selected.length > 0" [matTooltip]="'remove_selected' | translator" class="btn btn_006"
+                                (click)="removeRecords()">
+                                <img src="{{basehref}}assets/images/icons/admin_delete.svg" alt="">
+                            </a>
+                        </div>
+                        <p *ngSwitchDefault>{{col.columnName | translator}}</p>
+                    </th>
+                    <td mat-cell *matCellDef="let element" [ngSwitch]="col.columnDef" [ngClass]="col.className">
+                        <mat-checkbox *ngSwitchCase="'checkBox'" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(element) : null"
+                            [checked]="selection.isSelected(element)" [aria-label]="checkboxLabel(element)">
+                        </mat-checkbox>
+                        <div class="user-icon" *ngSwitchCase="'photo'">
+                            <p>{{getInitials(element.FirstName_EN, element.LastName_EN)}}</p>
+                        </div>
+                        <div *ngSwitchCase="'actionButtons'" class="row-action-button-wrapper">
+                            <a [matTooltip]="'actbtn_delete' | translator" class="btn btn_006"
+                                (click)="removeRecord([element.ID])">
+                                <img src="{{basehref}}assets/images/icons/admin_delete.svg" alt="">
+                            </a>
+                        </div>
+                        <p *ngSwitchDefault>{{element[col.columnDef]}}</p>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div class="empty-search" *ngIf="usersList.length === 0">{{'no_matches_found'|translator}}</div>
+            <div class="pagination_warpper">
+                <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+            </div>
+        </ng-template>
+    </div>
+</div>

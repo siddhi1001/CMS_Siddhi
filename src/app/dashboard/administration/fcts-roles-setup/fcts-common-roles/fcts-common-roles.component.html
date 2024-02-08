@@ -1,0 +1,52 @@
+<div class="main_admin_wrapper">
+  <div class="header_wapper">
+    <app-breadcrumbs></app-breadcrumbs>
+    <div class="search_wrapper">
+      <div class="search-header">
+        <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass" (click)="applyMainFilter()">
+        <input type="text" [placeholder]="'search' | translator" #searchString (keyup.enter)="applyMainFilter()"
+          (focus)="onFocus()">
+        <img src="{{basehref}}assets/images/icons/filter-list.svg" class="search-img filter" (click)="openFilter()">
+      </div>
+    </div>
+  </div>
+  <mat-accordion class="filter-wrapper">
+    <mat-expansion-panel class="mat-elevation-z0" [expanded]="filterState">
+      <form [formGroup]="filtersForm" class="filter-form">
+        <div class="input_field_wrp">
+          <mat-form-field>
+            <input matInput [placeholder]="'definition' | translator" formControlName="Role" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="input_field_wrp">
+          <mat-form-field>
+            <input matInput [placeholder]="'description' | translator" formControlName="Description" autocomplete="off">
+          </mat-form-field>
+        </div>
+        <div class="input_field_wrp">
+          <button class="btn_001" mat-button (click)="filterObject()">{{'search' | translator}}</button>
+        </div>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="table_wrapper">
+    <div *ngIf="!rolesList; else elseBlock" class="spinner-wrappar">
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-template #elseBlock>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z0" style="width:100%">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>{{ 'definition' | translator }}</th>
+          <td mat-cell *matCellDef="let element"> {{element.Name_EN | translator:element.Name_AR}} </td>
+        </ng-container>
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef>{{ 'description' | translator }}</th>
+          <td mat-cell *matCellDef="let element"> {{element.Description_EN | translator:element.Description_AR}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)=employeesActions(row)></tr>
+      </table>
+      <div class="empty-search" *ngIf="dataSource.filteredData.length === 0">{{'no_matches_found'| translator}}</div>
+    </ng-template>
+  </div>
+</div>

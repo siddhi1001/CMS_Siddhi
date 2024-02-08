@@ -1,0 +1,99 @@
+<div class="main_admin_wrapper">
+    <div class="header_wapper">
+      <app-breadcrumbs></app-breadcrumbs>
+      <!-- VineshBhatt: removed as this is not required in the reports -->
+      <!-- <div class="search_wrapper">
+        <div class="search-header">
+          <img src="{{basehref}}assets/images/icons/search.svg" class="search-img glass" (click)="applyMainFilter()">
+          <input type="text" [placeholder]="'search' | translator" [formControl]="fullSearch"
+            (keyup.enter)="applyMainFilter()" (focus)="onFocus()">
+          <img src="{{basehref}}assets/images/icons/filter-list.svg" class="search-img filter" (click)="openFilter()">
+        </div>
+      </div> -->
+    </div>
+	
+      <div class="delegation-form-holder">
+        <form [formGroup]="delegationReportForm" >
+            <div fxLayout="row">
+            <mat-form-field class="delegator_fld"  [ngClass]="{'custom-padding': true}">
+                <input  type="text" [placeholder]="'delegator_user' | translator" formControlName="Delegator" aria-label="Number" matInput [matAutocomplete]="DelegationReportControlEmpNameAuto">
+                <mat-autocomplete #DelegationReportControlEmpNameAuto="matAutocomplete" [displayWith]="displayFieldValue">
+                  <mat-option *ngFor="let empName of (filteredDelNames | async)" [value]="empName" autoActiveFirstOption>
+                      {{ empName?.Val_En }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+          <mat-form-field class="proxy_fld"  [ngClass]="{'custom-padding': true}">
+            <input  type="text" [placeholder]="'proxy_user_delegatee' | translator" formControlName="Delegatee" aria-label="Number" matInput [matAutocomplete]="DelegationReportControlEmpNameAuto">
+            <mat-autocomplete #DelegationReportControlEmpNameAuto="matAutocomplete" [displayWith]="displayFieldValue">
+              <mat-option *ngFor="let empName of (filteredDelNames | async)" [value]="empName" autoActiveFirstOption>
+                  {{ empName?.Val_En }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field  (click)="picker1.open()"  [ngClass]="{'custom-padding': true}">
+            <input matInput [matDatepicker]="picker1" [placeholder]="'start_date' | translator" formControlName="startDate">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1 disabled="false"></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field (click)="picker2.open()"  [ngClass]="{'custom-padding': true}">
+            <input matInput [matDatepicker]="picker2" [placeholder]="'end_date' | translator" formControlName="endDate">
+            <mat-datepicker-toggle matSuffix [for]="picker2" disabled="false"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 disabled="false"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="dialog-footer">
+            <button class="btn_012 mat-flat-button" (click)="getSearchObject()">
+                <span class="mat-button-wrapper">{{'run_report' | translator }}</span>
+            </button>
+            <button class="btn_012 mat-flat-button" style="margin-left: 60px;" (click)="clearFilter()">
+                <span class="mat-button-wrapper">{{'reset' | translator }}</span>
+            </button>
+        </div>      
+        </form>
+      </div>
+    
+      <div class="inbox_table_002">
+      <div *ngIf="progbar">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div class="table_wrapper_003" *ngIf="!progbar">
+        <table class="table_nrml">
+          <thead>
+            <tr class="no_bg">
+              <td></td>
+              <td>{{'delegator' | translator }}</td>
+              <td>{{'proxy_user' | translator }}</td>
+              <td>{{'start_date' | translator }}</td>
+              <td>{{'end_date' | translator }}</td>
+              <td>{{'user_start_date' | translator }}</td>
+              <td>{{'user_end_date' | translator }}</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="mat-row" *ngFor="let item of delegationResponse">
+<td></td>
+              <td>
+                  {{ item.UserID }}
+              </td>
+              <td>
+                  {{item.ProxyUser}}
+              </td>
+              <td> 
+                {{item.StartDate | date: "dd/MM/yyyy"}}
+              </td>
+              <td>
+                {{ item.FinishDate | date: "dd/MM/yyyy"}}
+              </td>
+              <td>
+                {{ item.StartDate | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+              <td>
+                {{ item.FinishDate | date: "dd/MM/yyyy HH:mm" }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div> 
+    
+    </div>
