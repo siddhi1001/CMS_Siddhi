@@ -103,7 +103,7 @@ export class BaseDashboardFullComponent extends BaseDashboardComponent implement
     super.ngOnInit();
     debugger;
     this.internalInboundRequestsWidth = Math.floor(this.internalInboundRequests / this.totalInternalInboundRequests * 100);
-    this.internalOutboundRequestsWidth = 10/100*100;
+    this.internalOutboundRequestsWidth = Math.floor(this.internalOutboundRequests / this.totalInternalOutboundRequests * 100);
     this.externalInboundRequestsWidth = Math.floor(this.externalInboundRequests / this.totalExternalInboundRequests * 100);
     this.externalOutboundRequestsWidth = Math.floor(this.externalOutboundRequests / this.totalExternalOutboundRequests * 100);
     // this.dataSource.paginator = this.overviewitem;

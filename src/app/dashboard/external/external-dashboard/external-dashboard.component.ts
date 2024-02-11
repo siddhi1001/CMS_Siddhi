@@ -43,7 +43,9 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
   ngOnInit(): void {
     super.ngOnInit();
     if (this.globalConstants.general.ProxyUserID === this.globalConstants.general.UserID) {
-      this.correspondenceService.getUserData().subscribe(
+      this.correspondenceService
+      .getUserData()
+      .subscribe(
         response => {
           this.userData = response;
         },
@@ -52,7 +54,9 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
         }
       );
    
-      this.correspondenceService.getDoughnutChartData().subscribe(
+      this.correspondenceService
+      .getPriorityCounts()
+      .subscribe(
         response => {
           // Assuming response[0] contains an object with keys representing chart data values
           this.doughnutChartData = Object.values(response[0]).map(value => +value);
@@ -63,9 +67,10 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
         }
       );
    
-      this.correspondenceService.getFlowType().subscribe(
+      this.correspondenceService
+      .getCorrespondanceFlowType()
+      .subscribe(
         response => {
-         console.log('line no correspondenceService');
           this.totalInternalInboundRequests = response["TIIB"];
           this.totalInternalOutboundRequests = response["TIOB"];
           this.totalExternalInboundRequests = response["TEIB"];
@@ -73,7 +78,6 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
           this.internalOutboundRequests = response["IOB"];
           this.externalInboundRequests = response["EIB"];
           this.externalOutboundRequests = response["EOB"];
-          console.log(this.externalInboundRequests);
         },
         error => {
           console.error('Error fetching flow type:', error);
@@ -83,13 +87,6 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
   }
  
 
-  private calculateWidths(): void {
-    this.internalInboundRequestsWidth = Math.floor(this.internalInboundRequests / this.totalInternalInboundRequests * 100);
-    this.internalOutboundRequestsWidth = this.internalOutboundRequests;
-    this.externalInboundRequestsWidth = Math.floor(this.externalInboundRequests / this.totalExternalInboundRequests * 100);
-    this.externalOutboundRequestsWidth = Math.floor(this.externalOutboundRequests / this.totalExternalOutboundRequests * 100);
-    console.log(this.externalInboundRequestsWidth);
-  }
 
  // covert json data into an array here and use def tag to set ? as value
   // showDiv() {

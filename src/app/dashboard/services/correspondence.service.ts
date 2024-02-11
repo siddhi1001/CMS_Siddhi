@@ -54,7 +54,7 @@ export class CorrespondenceService {
     );
   }
 
-  getDoughnutChartData(): Observable<any[]> {
+  getPriorityCounts(): Observable<any[]> {
    
     return this.httpServices.get<any[]>(
       this._CSUrl +
@@ -67,7 +67,7 @@ export class CorrespondenceService {
     );
   }
 
-  getFlowType(): Observable<any[]> {
+  getCorrespondanceFlowType(): Observable<any[]> {
     console.log("line no 69")
     return this.httpServices.get<any[]>(
       this._CSUrl +
