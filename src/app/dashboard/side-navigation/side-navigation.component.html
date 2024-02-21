@@ -71,9 +71,17 @@
               <div class="sub_sidebar_sub_item_wrapper">
                 <ul class="my_setg_list_items">
                   <li><span class="sub_list_btn">{{'pagination_preferences' | translator}}</span></li>
-                </ul>
+                </ul> 
+              </div>
+
+              <div class="sub_sidebar_sub_item_wrapper">
+                <ul class="my_setg_list_items">
+                  <li><span class="sub_list_btn" (click)="openDialogReportPreference()">{{'report_preferences' | translator}}</span></li>
+                </ul> 
               </div>
             </mat-expansion-panel>
+
+            
             <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
               [hideToggle]="hideToggle">
               <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'"

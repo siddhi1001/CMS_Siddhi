@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError, EMPTY } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { FCTSDashBoard } from '../../../environments/environment';
 import { OrgNameAutoFillModel, OrgNameAutoFillModelSimpleUser } from '../models/CorrespondenenceDetails.model';
 import { DelegationReportRequest } from 'src/app/dashboard/side-navigation/sidebar-info.model';
+
+
+
 
 
 @Injectable({
@@ -240,4 +243,75 @@ export class SidebarInfoService {
         })
       );
   }
+//Siddhi changes
+  getReportpreferences(): Observable<any> {
+    const params = new HttpParams()
+    return this.httpServices
+      .get(
+         this.CSUrl + `${FCTSDashBoard.WRApiV1}${FCTSDashBoard.GetReportPreferences}?Format=webreport`,
+        { headers:
+          { OTCSTICKET: CSConfig.AuthToken },
+          params: params
+        }   
+      )
+      .pipe (
+        map (data => {
+          return data;
+        }),
+        catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
+
+  UserReportpreferences(preferenceJSONString: string): Observable<any> {
+    // Construct the request parameters
+    const params = new HttpParams()
+      .set('Format', 'webreport')
+      .set('PreferenceJSON', preferenceJSONString);
+
+
+      console.log('Making API call to get user report preferences...');
+
+    // Make the HTTP GET request with the constructed parameters
+    return this.httpServices
+      .get(this.CSUrl + FCTSDashBoard.WRApiV1 + FCTSDashBoard.UserReportPreferences, {
+        headers: { OTCSTICKET: CSConfig.AuthToken },
+       
+        params: params
+      })
+      .pipe(
+        map(data => {
+          console.log('User report preferences received:', data);
+          return data;
+        }),
+        catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
+
+ 
+  getUserReportpreferences(): Observable<any> {
+    const params = new HttpParams()
+    return this.httpServices
+      .get(
+         this.CSUrl + `${FCTSDashBoard.WRApiV1}${FCTSDashBoard.GetUserReportPreferences}?Format=webreport`,
+        { headers:
+          { OTCSTICKET: CSConfig.AuthToken },
+          params: params
+        }   
+      )
+      .pipe (
+        map (data => {
+          console.log('GetUserreportpreferences  received output:', data);
+          return data;
+
+        }),
+        catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
+  
 }

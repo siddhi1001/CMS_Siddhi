@@ -13,8 +13,7 @@ import { MatDialog } from '@angular/material';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { CurrentDelegationsComponent } from '../side-navigation/current-delegations/current-delegations.component';
 import { DelegationReportComponent } from '../side-navigation/delegation-report/delegation-report.component';
-
-
+import { ReportPreferencesComponent } from '../side-navigation/report-preference/report-preferences.component';
 @Component({
   selector: 'app-side-navigation',
   templateUrl: './side-navigation.component.html'
@@ -138,6 +137,15 @@ export class SideNavigationComponent implements OnInit {
       panelClass: 'delegationReportDialogBoxClass',
       maxWidth: '90vw',
       data: { section: 'userSection' }
+    });
+  }
+
+  openDialogReportPreference(): void {
+    this.clickMenuTrigger.closeMenu();
+    const dialogRef = this.dialogU.open(ReportPreferencesComponent, {
+      width: '90vw', 
+      panelClass: 'reportpreferencesDialogBoxClass',
+      data: {section: 'userSection'} 
     });
   }
 }

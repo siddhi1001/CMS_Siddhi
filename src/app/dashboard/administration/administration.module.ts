@@ -62,6 +62,7 @@ import { RejectReasonsDialogComponent } from "./metadata/reject-reasons/reject-r
 import { ArchiveReportMainComponent } from "./archivereports/archive-reports-main.component";
 import { GeneralInboundCorrReport } from "./archivereports/general-inbound-corr-report/general-inbound-corr-report.component";
 
+
 @NgModule({
   imports: [
     AdministrationRoutingModule,
@@ -128,6 +129,7 @@ import { GeneralInboundCorrReport } from "./archivereports/general-inbound-corr-
     RejectReasonsDialogComponent,
     ArchiveReportMainComponent,
     GeneralInboundCorrReport,
+    
   ],
   entryComponents: [
     AddUsersDialogComponent,

@@ -84,11 +84,11 @@ import { UserInfoComponent } from './side-navigation/user-info/user-info.compone
 import { ProxyInfoComponent } from './side-navigation/proxy-info/proxy-info.component';
 import { CurrentUserPhotoComponent } from './side-navigation/current-user-photo/current-user-photo.component';
 import { PerformerInfoDialogComponent } from './dialog-boxes/performer-info-dialog/performer-info-dialog.component';
-
 import { ProfileComponent } from './side-navigation/profile/profile.component';
 import { NewDelegationComponent } from './side-navigation/new-delegation/new-delegation.component';
 import { CurrentDelegationsComponent } from './side-navigation/current-delegations/current-delegations.component';
 import { DelegationReportComponent } from './side-navigation/delegation-report/delegation-report.component';
+import { ReportPreferencesComponent } from './side-navigation/report-preference/report-preferences.component';
 import { LinkedCorrDialogComponent } from './dialog-boxes/linked-corr-dialog/linked-corr-dialog.component';
 import { FilesSelectComponent } from './shared-components/files-select/files-select.component';
 import { LinkedCorrespondencesComponent } from './shared-components/linked-correspondences/linked-correspondences.component';
@@ -193,6 +193,7 @@ import { SharedImportsModule } from './shared-imports.module';
     NewDelegationComponent,
     CurrentDelegationsComponent,
     DelegationReportComponent,
+    ReportPreferencesComponent,
     LinkedCorrDialogComponent,
     FilesSelectComponent,
     LinkedCorrespondencesComponent,
@@ -223,6 +224,7 @@ import { SharedImportsModule } from './shared-imports.module';
     NewDelegationComponent,
     CurrentDelegationsComponent,
     DelegationReportComponent,
+    ReportPreferencesComponent,
     LinkedCorrDialogComponent,
     DownloadAttachtmentsDialogComponent,
     AddApproverDialogComponent,

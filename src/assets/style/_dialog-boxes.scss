@@ -781,6 +781,52 @@
   }
 }
 
+.reportpreferencesDialogBoxClass{
+  height: 25vw;
+  form{
+    display: flex;
+    .mat-form-field, button{
+      margin: 0px 20px 0px 20px;
+    }
+  }
+  table{
+    width:100%;
+    th{
+      padding-right: 5px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    box-sizing: border-box;
+
+    }
+    
+    td{
+      padding-right: 5px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    box-sizing: border-box;
+    }
+  }
+  .mat-expansion-panel{
+    box-shadow: none;
+    background: white !important;
+  }
+
+  .spinner_sm_wrappar{
+    height: 10vw;
+    display: flex;
+    align-content: center;
+    align-items: center;
+  }
+  .delegation-form-holder{
+    .mat-form-field-flex{
+      border-bottom: 1px solid #5b5959;
+      box-shadow: 0px 1px grey;
+    }
+  }
+}
+
 .owl-dt-timer-input:disabled{
   background-color: white !important;
 }
@@ -1583,5 +1629,6 @@
       padding:20px;
     }
   }
+
 
 }

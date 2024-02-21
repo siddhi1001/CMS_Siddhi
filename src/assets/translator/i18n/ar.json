@@ -488,6 +488,7 @@
   "pagination_preferences": "تفضيلات الترقيم",
   "my_settings": "إعداداتي",
   "my_preferences": "تفضيلاتي",
+  "report_preferences":"تفضيلات التقارير",
   "delegation_reports": "تقارير التفويض",
   "my_delegations": "تفويضاتي",
   "participated_delegations": "التفويضات التي شاركت فيها",
@@ -514,5 +515,6 @@
   "date": "التاريخ",
   "connection": "الاتصال",
   "connected_by": "تم الاتصال بواسطة",
-  "connection_date": "تاريخ الاتصال"
+  "connection_date": "تاريخ الاتصال",
+  "Report_Prefrences":"تفضيلات التقرير"
 }

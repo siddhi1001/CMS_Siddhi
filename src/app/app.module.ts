@@ -14,6 +14,8 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { multiLanguageTranslatorModule } from '../assets/translator/index';
 import { AngularResizedEventModule } from 'angular-resize-event';
+
+
 export function initApp(appInitService: AppLoadConstService) {
   return (): Promise<any> => {
     return appInitService.Init();
@@ -48,6 +50,6 @@ export function initApp(appInitService: AppLoadConstService) {
     }
   ],
   bootstrap: [AppComponent]
-  // schemas:[ CUSTOM_ELEMENTS_SCHEMA ]
-})
+
+ })
 export class AppModule { }

@@ -16,6 +16,7 @@ export const FCTSDashBoard = {
   getDashboardInbox: "35872",
   getUserOverallData: "CTAUserDataDashboard",
   getPriorityCount:"CTA_PriorityCount",
+  getCorrFlowType:"CTA_GetCorrFlowType",
   ExternalInbNew: "CTA_Dash_ExtInbNew",
   ExternalFullSearch: "CTA_ExtFullSearch",
   DashboardReportMain: "CTA_DashboardWR",
@@ -103,7 +104,10 @@ export const FCTSDashBoard = {
   CurrentDelegations: 'CTA_CurrentDelegations',
   DelegationsInactivator: 'CAT_SingleDelegationsInactivator',
   DelegationsReport: 'CTA_DelegationsReport',
-  
+  GetReportPreferences : 'CTA_GetReportPreferences',
+  UserReportPreferences :'CTA_UserReportPreferences',
+  GetUserReportPreferences:'CTA_GetUserReportPreferences',
+
   CorrespondenceRelated: 'CTA_CorrespondenceRelated',
   DeleteConnection: 'CTA_DeleteConnection',
   DocumentsRelated: 'CTA_DocumentsRelated',

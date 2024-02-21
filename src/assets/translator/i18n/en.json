@@ -488,6 +488,7 @@
   "pagination_preferences":"Pagination Preferences",
   "my_settings":"MY SETTINGS",
   "my_preferences":"My Preferences",
+  "report_preferences":"Report Preferences",
   "delegation_reports":"Delegation Reports",
   "my_delegations":"My Delegations",
   "participated_delegations":"Participated Delegations",
@@ -514,7 +515,8 @@
   "date":"Date",
   "connection":"Connection",
   "connected_by":"Connected By",
-  "connection_date":"Connection Date"
+  "connection_date":"Connection Date",
+  "Report_Prefrences":"Report Prefrences"
 
 
 }

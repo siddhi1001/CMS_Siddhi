@@ -68,7 +68,6 @@ export class CorrespondenceService {
   }
 
   getCorrespondanceFlowType(): Observable<any[]> {
-    console.log("line no 69")
     return this.httpServices.get<any[]>(
       this._CSUrl +
       `${FCTSDashBoard.WRApiV1}CTA_GetCorrFlowType?Format=webreport&ProxyUserID=${CSConfig.globaluserid}`,
