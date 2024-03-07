@@ -36,11 +36,12 @@
   </div>
  
 </div>
-<!-- <button type="button"><img alt="" class="menu_arow_icon_001 mCS_img_loaded" src="/img/fctsangular/fctsapp/assets/images/icons/arrow_point_icon_001.svg"></button>
-<button type="button" (click)="hideDiv()" style=" margin-left:1050px;">Close Here</button> -->
 
-<button (click)="toggleDiv()">{{ showNoOfContract ? '-' : '+' }}
-</button>
+<div (click)="toggleDiv()" class="Add-Minus-Icon" >
+  <img *ngIf="showNoOfContract" src="{{basehref}}assets/images/icons/minus_green_btn.svg" class="Minus-Icon" alt="Minus Icon">
+  <img *ngIf="!showNoOfContract" src="{{basehref}}assets/images/icons/plus_green_btn.svg" class="Add-Icon" alt="Add Icon">
+</div>
+
 <div [@slideInOut]="chartsOpen" class="cust_row_001_wrapper" *ngIf="showNoOfContract">
   <div class="col_50_cust col_2_cust_wrp">
     <div class="col_2_cust_50">

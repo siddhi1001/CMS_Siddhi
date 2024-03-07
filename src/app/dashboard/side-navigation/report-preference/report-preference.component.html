@@ -1,7 +1,6 @@
 <div class="sm_popup_wrapper" style="height: auto;">
   <div class="delegation-form-holder">
-    <form [formGroup]="delegationReportForm">
-    </form>
+  
   </div>
  
   <p class="text_23">Report Preferences</p>
@@ -23,18 +22,19 @@
             <th>{{ 'Report Name' }}</th>
             <th>{{ 'Description' }}</th>
             <th>{{ 'Active' }}</th>
+          
           </tr>
         </thead>
         <tbody>
           <tr class="mat-row" *ngFor="let item of reportPreferences">
-            <td><input type="checkbox" (change)="updateSelectedReportIDs(item.ReportID, $event.target.checked)"></td>
+            <td><input type="checkbox" [checked]="isReportSelected(item.ReportID)" (change)="updateSelectedReportIDs(item.ReportID, $event.target.checked)"></td>
             <td>{{ item.ReportName }}</td>
             <td>{{ item.ReportDescription }}</td>
             <td>
-              {{ item.Active == 1 ? 'Yes' : 'No' }}
-              <img *ngIf="item.Active === 1" src="{{ basehref }}assets/images/icons/check-mark.svg" alt="Check Mark Icon">
-              <img *ngIf="item.Active === 0" src="{{ basehref }}assets/images/icons/close_btn_icon.svg" alt="Close Button Icon">
-            </td>
+              <!-- {{ item.Active}} -->
+              <img *ngIf="item.Active == 1" src="{{basehref}}assets/images/icons/check-mark.svg" alt="Check Mark Icon" class="check-mark">
+               <img *ngIf="item.Active != 1" src="{{basehref}}assets/images/icons/close_btn_icon.svg" alt="Close Button Icon" class="close-btn">
+             </td>
             
           </tr>
         </tbody>
@@ -42,20 +42,7 @@
     </div>
   </div>
   <div class="deleg_btn_wrapper">
-    <button class=".button.btn_save.mat-flat-button" style="border-style: solid;
-    border-width: 1px;
-    border-color: #23c3cd;
-    border-radius: 22px;
-    background-color: rgba(35, 195, 205, 0);
-    font-size: 14px;
-    color: #23c3cd;
-    font-weight: bold;
-    text-align: center;
-    padding: 5px 20px;
-    margin-right: 10px;
-    margin-top: 20px;
-    outline: none;
-    float: right;" (click)="saveUserReportPreferences()">{{'save' | translator}}</button>
+    <button class="report-preferences-button" (click)="saveUserReportPreferences()">{{'save' | translator}}</button>
   </div>
 
 </div>

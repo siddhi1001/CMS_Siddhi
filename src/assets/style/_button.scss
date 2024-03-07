@@ -349,3 +349,68 @@
     width: 18px;
   }
 }
+
+// Siddhi changes 
+.report-preferences-button{
+  border-style: solid;
+    border-width: 1px;
+    border-color: #23c3cd;
+    border-radius: 22px;
+    background-color: rgba(35, 195, 205, 0);
+    font-size: 14px;
+    color: #23c3cd;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+    outline: none;
+    float: right;
+}
+
+//Siddhi changes
+.check-mark {
+  width: 20px; 
+  height: 20px; 
+}
+ 
+.close-btn {
+  width: 20px; 
+  height: 20px; 
+}
+
+.Minus-Icon {
+  width: auto;
+  height: 30px;
+  background-color: rgba(35, 195, 205, 0);
+  font-size: 14px;
+  color: #23c3cd;
+  padding: 5px 0;
+  margin-right: 10px;
+  margin-top: 0px;
+  outline: none;
+  border: none;
+  background: none;
+}
+ 
+.Add-Icon {
+  width: auto;
+  height: 30px;
+  background-color: rgba(35, 195, 205, 0);
+  font-size: 14px;
+  color: #23c3cd;
+  padding: 5px 0;
+  margin-right: 10px;
+  margin-top: 0px;
+  outline: none;
+  border: none;
+  background: none;
+}
+ 
+.Add-Minus-Icon
+{
+  border: transparent;
+    background: none;
+    margin: 20px;
+    padding: 0;
+}

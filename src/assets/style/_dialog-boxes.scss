@@ -1627,8 +1627,25 @@
     margin: 0 20px;
     button{
       padding:20px;
-    }
+    } 
   }
 
 
+}
+
+.report-preferences-button{
+  border-style: solid;
+    border-width: 1px;
+    border-color: #23c3cd;
+    border-radius: 22px;
+    background-color: rgba(35, 195, 205, 0);
+    font-size: 14px;
+    color: #23c3cd;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 20px;
+    margin-right: 10px;
+    margin-top: 20px;
+    outline: none;
+    float: right;
 }

@@ -377,6 +377,7 @@
   "more_actions":"More Actions",
   "message":"Message",
   "delegation_form_message":"Delegation form message",
+  "report_preferences_Messages":"report preferences Messages",
   "error_with_assigning_transfer":"DEV: ERROR with assigning transfer",
   "corr_initiated_before_recall":"The Correspondence was initiated before Recall functionality has been created",
   "cannot_recall_correspondence":"You can not recall this Correspondence",
@@ -516,7 +517,9 @@
   "connection":"Connection",
   "connected_by":"Connected By",
   "connection_date":"Connection Date",
-  "Report_Prefrences":"Report Prefrences"
+  "Report_Prefrences":"Report Prefrences",
+  "report_preferences_save":"YOU HAVE SUCCESSFULLY SAVE YOUR REPORT PREFERENCES!!",
+  "report_preferences_error":"SORRY !!! You cannot select more than three report preferences"
 
 
 }

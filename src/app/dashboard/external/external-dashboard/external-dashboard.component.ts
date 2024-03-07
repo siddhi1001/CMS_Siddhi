@@ -58,9 +58,9 @@ export class ExternalDashboardComponent extends BaseDashboardFullComponent imple
       .getPriorityCounts()
       .subscribe(
         response => {
-          // Assuming response[0] contains an object with keys representing chart data values
+          
           this.doughnutChartData = Object.values(response[0]).map(value => +value);
-          console.log('Error fetching doughnut chart data: Line no 59');
+          console.log('fetching doughnut chart data: Line no 59');
         },
         error => {
           console.error('Error fetching doughnut chart data:', error);

@@ -291,7 +291,8 @@ export class SidebarInfoService {
       );
   }
 
- 
+  
+
   getUserReportpreferences(): Observable<any> {
     const params = new HttpParams()
     return this.httpServices
